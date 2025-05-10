@@ -2,14 +2,14 @@
 /* if you are using any Google fonts change the font names below to your fonts. 
 Any spaces in your font name should be replaced with a +. 
 Fonts are separated by a & */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Rock+Salt&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Rock+Salt&display=swap;')
 
 :root {
   /* change the values below to your colors from your palette */
-  --primary-color: #9a9394   ;
-  --secondary-color: #1f487e ;
-  --accent1-color: #009b72;
-  --accent2-color: #1098f7;
+  --primary-color: #9a9394   
+  --secondary-color: #1f487e 
+  --accent1-color: #009b72
+  --accent2-color: #1098f7
 
   /* change the values below to your chosen font(s) */
   --heading-font: "Rock salt";
@@ -20,7 +20,7 @@ Fonts are separated by a & */
   --headline-color-on-color: white; /* headlines on a colored background */ 
   --paragraph-color-on-white: black; /* paragraph text on a white background */ 
   --paragraph-color-on-color: white; /* paragraph text on a colored background */ 
-  --paragraph-background-color: #000000  ;
+  --paragraph-background-color: #000000;
   --nav-link-color: #396E94;
   --nav-background-color: #010305;
   --nav-hover-link-color: white;
