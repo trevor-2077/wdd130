@@ -28,11 +28,11 @@ main section {
 
 #background {
     height: 725px;
-    background-color: #9a9394;
+    background-color: #009b72;
 }
 
 body {
-    background-color: #fcfbfb; 
+    background-color: #1f487e; 
 }
 
 header {
@@ -55,7 +55,7 @@ header {
 }
 
 .msg {
-    background-color: #9a9394;
+    background-color: #009b72;
 }
 
 footer {
