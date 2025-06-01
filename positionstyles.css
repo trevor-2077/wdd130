@@ -142,6 +142,7 @@
   /* This is the parent of the activity 5 boxes. */
   height: 400px;
   position: relative;
+  min-width: 250px;
 }
 .red5 { 
   width: 100%; 
@@ -156,6 +157,7 @@
   margin-right: 10px;
 } 
 .yellow5 {
+  width: 110px;
   height: 200px; 
   background-color: gold; 
   box-sizing: border-box;
