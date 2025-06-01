@@ -86,10 +86,12 @@
 .green3 {
   height: 200px; 
   background-color: green;
+  grid-column: 1/2;
 } 
 .yellow3 {
   height: 200px; 
   background-color: gold;
+  grid-column: 2/3;
 } 
 .blue3 {
   height: 100px; 
