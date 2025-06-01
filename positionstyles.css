@@ -73,8 +73,7 @@
   /* This is the parent of the activity 3 boxes. */
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto auto;
-  column-gap: 60px;
+  grid-column-gap: 60px;
   margin: 0 auto;
   padding-bottom: 10px;
 }
