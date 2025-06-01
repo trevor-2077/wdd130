@@ -151,10 +151,10 @@
 } 
 .green5 { 
   width: 160px; 
-  height: 150px; 
+  height: 160px; 
   background-color: green;
   float: left;
-  margin-right: 10px;
+  margin-right: 0;
 } 
 .yellow5 {
   height: 200px; 
