@@ -32,32 +32,41 @@
 /* Activity 2 styles */ 
 .content2 {
   /* This is the parent of the activity 2 boxes. */
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  position: relative
+  width: 400px;
+  height: 400px;
 }
 .red2 {
   width: 100px; 
   height: 100px; 
   background-color: red;
-  grid-column: 1, 2;
+  position: absolute;
+  top: 0;
+  left: 0;
 } 
 .green2 { 
   width: 100px; 
   height: 100px; 
   background-color: green;
-  grid-column: 1.5, 2.5; 
+  position: absolute;
+  top: 50px;
+  left: 50px;
 } 
 .yellow2 {
   width: 100px; 
   height: 100px; 
   background-color: gold;
-  grid-column: 2.5, 3.5; 
+  position: absolute;
+  top: 100px;
+  left: 100px;
 } 
 .blue2 {
   width: 100px; 
   height: 100px; 
   background-color: blue;
-  grid-column: 3.5, 4.5; 
+  position: absolute;
+  top: 150px;
+  left: 150px; 
 } 
 /* Activity 3 styles */ 
 .content3 {
