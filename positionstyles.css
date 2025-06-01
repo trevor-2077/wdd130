@@ -72,10 +72,10 @@
 .content3 {
   /* This is the parent of the activity 3 boxes. */
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 70px 70px;
   grid-column-gap: 60px;
-  margin: 0 auto;
-  padding-bottom: 10px;
+  justify-content: center;
+  padding-bottom: 20px;
 }
 .red3 {
   width: 100%; 
