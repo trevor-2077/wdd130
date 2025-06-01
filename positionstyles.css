@@ -32,26 +32,32 @@
 /* Activity 2 styles */ 
 .content2 {
   /* This is the parent of the activity 2 boxes. */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 .red2 {
   width: 100px; 
   height: 100px; 
-  background-color: red; 
+  background-color: red;
+  grid-column: 1 1/2, 2 1/2;
 } 
 .green2 { 
   width: 100px; 
   height: 100px; 
-  background-color: green; 
+  background-color: green;
+  grid-column: 2 1/2, 3 1/2; 
 } 
 .yellow2 {
   width: 100px; 
   height: 100px; 
-  background-color: gold; 
+  background-color: gold;
+  grid-column: 3 1/2, 4 1/2; 
 } 
 .blue2 {
   width: 100px; 
   height: 100px; 
-  background-color: blue; 
+  background-color: blue;
+  grid-column: 4 1/2, 5 1/2; 
 } 
 /* Activity 3 styles */ 
 .content3 {
