@@ -162,10 +162,9 @@
   background-color: gold; 
   padding-left: 25%;
   box-sizing: border-box;
-  padding: 10px;
   font-family: sans-serif;
-  font-size: 10px;
-  line-height: 1;
+  font-size: 14px;
+  line-height: 1.4;
   overflow: auto;
 } 
 .blue5 {
