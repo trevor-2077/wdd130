@@ -31,8 +31,8 @@
 } 
 /* Activity 2 styles */ 
 .content2 {
-  /* This is the parent of the activity 2 boxes. */
-  position: relative
+  /* This is the paren;t of the activity 2 boxes. */
+  position: relative;
   width: 400px;
   height: 400px;
 }
