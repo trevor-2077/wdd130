@@ -110,25 +110,25 @@
 }
 .red4 {
   width: 100px; 
-  height: 100px; 
+  height: 100%; 
   background-color: red;
   grid-column: 1/2;
 } 
 .green4 {
   width: 100px; 
-  height: 100px; 
+  height: 33%; 
   background-color: green;
   grid-column: 2/3; 
 } 
 .yellow4 {
   width: 100px; 
-  height: 100px; 
+  height: 33%; 
   background-color: gold; 
   grid-column: 2/3;
 } 
 .blue4 {
   width: 100px; 
-  height: 100px; 
+  height: 33%; 
   background-color: blue; 
   grid-column: 2/3;
 } 
