@@ -39,25 +39,25 @@
   width: 100px; 
   height: 100px; 
   background-color: red;
-  grid-column: 1 1/2, 2 1/2;
+  grid-column: 1, 2;
 } 
 .green2 { 
   width: 100px; 
   height: 100px; 
   background-color: green;
-  grid-column: 2 1/2, 3 1/2; 
+  grid-column: 1.5, 2.5; 
 } 
 .yellow2 {
   width: 100px; 
   height: 100px; 
   background-color: gold;
-  grid-column: 3 1/2, 4 1/2; 
+  grid-column: 2.5, 3.5; 
 } 
 .blue2 {
   width: 100px; 
   height: 100px; 
   background-color: blue;
-  grid-column: 4 1/2, 5 1/2; 
+  grid-column: 3.5, 4.5; 
 } 
 /* Activity 3 styles */ 
 .content3 {
