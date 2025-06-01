@@ -75,7 +75,7 @@
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto;
   margin: 0 auto;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 }
 .red3 {
   width: 100%; 
@@ -88,6 +88,7 @@
   height: 200px; 
   background-color: green;
   grid-column: 1/2;
+  margin-right: 20px;
 } 
 .yellow3 {
   width: 100%; 
