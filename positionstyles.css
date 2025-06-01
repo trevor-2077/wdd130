@@ -74,12 +74,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto;
+  column-gap: 20px;
   margin: 0 auto;
   padding-bottom: 10px;
 }
 .red3 {
   width: 100%; 
-  height: 100px; 
+  height: 100px; sss
   background-color: red;
   grid-column: 1/3; 
 } 
@@ -95,13 +96,13 @@
   height: 200px; 
   background-color: gold;
   grid-column: 2/3;
-  margin-left: 20px; 
+  
 } 
 .blue3 {
   width: 100%;
   height: 100px; 
   background-color: blue; 
-  grid-column: 1/3;
+  
 } 
 /* Activity 4 styles */ 
 .content4 {
