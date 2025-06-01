@@ -74,7 +74,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 40px;
-  width: fit-content;
+  width: 100%
   margin: 0 auto;
   padding-bottom: 20px;
 }
@@ -94,7 +94,7 @@
   grid-column: 2/3;
 } 
 .blue3 {
-  height: 100px; 
+  height: 90px; 
   background-color: blue;
   grid-column: 1/3;
 } 
