@@ -156,7 +156,7 @@
   float: left;
 } 
 .yellow5 {
-  width: 100%;
+  width: calc(200px-160)
   height: 200px; 
   background-color: gold; 
   box-sizing: border-box;
