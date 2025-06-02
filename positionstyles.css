@@ -154,9 +154,9 @@
   height: 160px; 
   background-color: green;
   float: left;
-  margin-right: 0;
 } 
 .yellow5 {
+  width: 40px;
   height: 200px; 
   background-color: gold; 
   box-sizing: border-box;
