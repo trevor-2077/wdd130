@@ -175,7 +175,6 @@
   width: 600px;
   height: 600px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
 }
 .red6 {
   width: 400px; 
