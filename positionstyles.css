@@ -153,10 +153,12 @@
   width: 160px; 
   height: 160px; 
   background-color: green;
-  float: left;
+  position: absolute;
+  top: 100px;
+  left: 0;
 } 
 .yellow5 {
-  width: calc(200px-160)
+  margin-left: 160px;
   height: 200px; 
   background-color: gold; 
   box-sizing: border-box;
