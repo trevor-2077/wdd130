@@ -6,7 +6,7 @@ header {
   top: 0;
   width: 100%;
   grid-template-columns: 150px auto;
-  background-color: transparent;
+  background-color: #009b72;
   height: 75px;
   z-index: 100;
   padding: 0 40px;
