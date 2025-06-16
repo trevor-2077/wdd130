@@ -20,42 +20,40 @@ div {
 
 /* Header */
 header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 150px auto;
   align-items: center;
   background-color: #009b72;
-  padding: 0 40px;
   height: 80px;
-  position: relative;
-  z-index: 100;
+  padding: 0 20px;
+}
+
+#logo_link {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 nav {
   display: flex;
-  flex-grow: 1;
   justify-content: space-evenly;
   align-items: center;
+  height: 100%;
 }
 
 nav a {
-  text-align: center;
   color: black;
   text-decoration: none;
   padding: 20px 30px;
   display: inline-block;
   height: 100%;
   box-sizing: border-box;
+  line-height: 40px;
 }
 
 nav a:hover {
   background-color: #9a9394;
   color: black;
-}
-
-#logo_link {
-  display: flex;
-  align-items: center;
-  height: 100%;
 }
 
 .logo {
@@ -83,9 +81,9 @@ nav a:hover {
 
 #hero-msg {
   position: absolute;
-  top: 35%;
+  top: 30%;
   left: 50%;
-  transform: translate(-50%, -38%);
+  transform: translate(-50%, -30%);
   text-align: center;
   color: black;
   background-color: rgba(255, 255, 255, 0.3);
@@ -133,15 +131,14 @@ nav a:hover {
 .rivers-card,
 .camping-card,
 .rapids-card {
-  grid-column: auto;
   padding-bottom: 20px;
 }
 
-.card-img, .icon {
+.card-img {
   width: 100%;
   box-shadow: 5px 5px 10px #6f7364;
   border: 10px solid #d9c2a3;
-  transition: transform 0.3 s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .card-img:hover {
@@ -167,23 +164,22 @@ nav a:hover {
 }
 
 /* Scenic Section */
-#scenery-row {
+#scenery-overlay {
+  background-color: #1f487e;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #1f487e;
-  padding: 60px 40px;
   gap: 40px;
-  flex-wrap: wrap;
+  padding: 60px 20px;
 }
 
 .scenery-img {
-  max-width: 500px;
-  width: 100%;
+  width: 50%;
+  max-width: 600px;
   box-shadow: 5px 5px 10px #6f7364;
 }
 
-.scenery-msg {
+.overlay-msg {
   background-color: #6d7c6d;
   color: white;
   padding: 40px;
@@ -193,17 +189,17 @@ nav a:hover {
   text-align: center;
 }
 
-.scenery-msg h2 {
+.overlay-msg h2 {
   font-size: 1.8em;
   margin-bottom: 15px;
 }
 
-.scenery-msg p {
+.overlay-msg p {
   font-size: 1em;
   margin-bottom: 25px;
 }
 
-.scenery-msg .join {
+.overlay-msg .join {
   background-color: #dbcbbd;
   color: black;
   text-decoration: none;
@@ -212,7 +208,7 @@ nav a:hover {
   display: inline-block;
 }
 
-.scenery-msg .join:hover {
+.overlay-msg .join:hover {
   background-color: #c1b3a3;
 }
 
@@ -247,17 +243,13 @@ footer a:hover {
   height: 30px;
 }
 
-
-
+/* Responsive */
 @media screen and (max-width: 768px) {
-  #scenery-row {
+  header {
+    grid-template-columns: 1fr;
     flex-direction: column;
-    padding: 30px 20px;
-  }
-
-  .scenery-img,
-  .scenery-msg {
-    max-width: 90%;
+    height: auto;
+    padding: 10px 20px;
   }
 
   nav, footer {
@@ -291,5 +283,16 @@ footer a:hover {
 
   #hero-msg {
     margin-top: 0;
+  }
+
+  #scenery-overlay {
+    flex-direction: column;
+    padding: 30px 20px;
+  }
+
+  .scenery-img,
+  .overlay-msg {
+    max-width: 90%;
+    width: 100%;
   }
 }
