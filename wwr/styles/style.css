@@ -20,12 +20,14 @@ div {
 
 /* Header */
 header {
-  display: grid;
-  grid-template-columns: 150px auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   background-color: #009b72;
+  padding: 0 40px;
   height: 80px;
-  padding: 0 20px;
+  position: relative;
+  z-index: 100;
 }
 
 #logo_link {
@@ -38,6 +40,7 @@ nav {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  flex-grow: 1;
   height: 100%;
 }
 
@@ -166,24 +169,24 @@ nav a:hover {
 /* Scenic Section */
 #scenery-overlay {
   background-color: #1f487e;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
   align-items: center;
-  gap: 40px;
-  padding: 60px 20px;
+  padding: 60px 40px;
 }
 
 .scenery-img {
-  width: 50%;
-  max-width: 600px;
+  grid-column: 2 / span 5;
+  width: 100%;
   box-shadow: 5px 5px 10px #6f7364;
 }
 
 .overlay-msg {
+  grid-column: 7 / span 4;
   background-color: #6d7c6d;
   color: white;
   padding: 40px;
-  max-width: 400px;
   box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4);
   border-radius: 6px;
   text-align: center;
@@ -246,7 +249,6 @@ footer a:hover {
 /* Responsive */
 @media screen and (max-width: 768px) {
   header {
-    grid-template-columns: 1fr;
     flex-direction: column;
     height: auto;
     padding: 10px 20px;
@@ -286,13 +288,15 @@ footer a:hover {
   }
 
   #scenery-overlay {
-    flex-direction: column;
-    padding: 30px 20px;
+    grid-template-columns: 1fr;
+    text-align: center;
   }
 
   .scenery-img,
   .overlay-msg {
+    grid-column: auto;
     max-width: 90%;
     width: 100%;
+    margin: 0 auto;
   }
 }
