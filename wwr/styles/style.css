@@ -155,6 +155,8 @@ nav a:hover {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border: none;
+  box-shadow: none;
 }
 
 #home-grid h2 {
