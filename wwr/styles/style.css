@@ -1,6 +1,6 @@
 header {
   display: grid;
-  grid-template-columns: 150 px auto;
+  grid-template-columns: 150px auto;
 }
 
 nav {
@@ -70,7 +70,7 @@ nav {
 }
 
 .mountains {
-  width: 100%
+  width: 100%;
   grid-column: 2/7;
   grid-row: 5/8;
   box-shadow: 5px 5px 10px #6f7364;
@@ -154,7 +154,7 @@ header {
   color: black;
   text-decoration: none;
   padding: 15px 30px;
-  margin-top: 50px
+  margin-top: 50px;
   border-radius: 5px;
 }
 
