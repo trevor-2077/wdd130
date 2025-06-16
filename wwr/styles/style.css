@@ -133,6 +133,7 @@ nav a:hover {
 .camping-card,
 .rapids-card {
   grid-column: auto;
+  padding-bottom: 20px;
 }
 
 .card-img, .icon {
@@ -148,7 +149,18 @@ nav a:hover {
 }
 
 .icon {
-  margin-top: 15px;
+  margin-top: 10px;
+  width: 50px;
+  height: auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#home-grid h2 {
+  font-family: 'Rock Salt', cursive;
+  font-size: 1.2rem;
+  margin-top: 10px;
 }
 
 /* Scenic Section */
