@@ -80,9 +80,9 @@ nav a:hover {
 
 #hero-msg {
   position: absolute;
-  top: 40%;
+  top: 35%;
   left: 50%;
-  transform: translate(-50%, -40%);
+  transform: translate(-50%, -38%);
   text-align: center;
   color: black;
   background-color: rgba(255, 255, 255, 0.3);
