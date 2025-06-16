@@ -24,7 +24,7 @@ header {
   align-items: center;
   background-color: #009b72;
   padding: 0 40px;
-  height: 75px;
+  height: 80px;
   position: relative;
   z-index: 100;
 }
@@ -46,6 +46,7 @@ nav a {
 nav a:hover {
   background-color: #9a9394;
   color: black;
+  height: 80px;
 }
 
 #logo_link {
