@@ -5,13 +5,14 @@ header {
 
 nav {
   display: flex;
+  align-items: center;
   justify-content: space-around;
 }
 
 #logo_link {
-  padding-top: 50px;
-  justify-self: center;
-  align-self: center;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
 }
 
 #hero {
@@ -197,7 +198,7 @@ footer p a:hover {
 }
 
 .logo {
-  width: 80px;
+  width: 100px;
 }
 
 #hero-img {
