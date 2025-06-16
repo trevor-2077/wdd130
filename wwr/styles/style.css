@@ -1,5 +1,6 @@
+/* Base Styles */
 body {
-  background-color: #1f487e; 
+  background-color: #1f487e;
   font-family: 'Roboto', sans-serif, 'Trebuchet MS';
   font-size: 22px;
   margin: 0;
@@ -17,6 +18,7 @@ div {
   margin: 0 auto;
 }
 
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
@@ -57,6 +59,7 @@ nav a:hover {
   width: auto;
 }
 
+/* Hero Section */
 #hero {
   position: relative;
   height: 100vh;
@@ -114,6 +117,7 @@ nav a:hover {
   color: black;
 }
 
+/* Feature Grid */
 #home-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -128,7 +132,7 @@ nav a:hover {
   grid-column: auto;
 }
 
-.card-img, .mountains {
+.card-img, .icon {
   width: 100%;
   box-shadow: 5px 5px 10px #6f7364;
   border: 10px solid #d9c2a3;
@@ -145,48 +149,75 @@ nav a:hover {
 }
 
 /* Scenic Section */
-.mountains {
-  grid-column: span 3;
-  margin-top: 40px;
+#scenery-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1f487e;
+  padding: 60px 40px;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
-.msg {
-  background-color: #009b72;
-  line-height: 1.5em;
-  padding: 35px;
-  grid-column: span 3;
-  margin-top: 20px;
+.scenery-img {
+  max-width: 500px;
+  width: 100%;
   box-shadow: 5px 5px 10px #6f7364;
 }
 
-.home-title, h4, .msg h2, .msg p {
+.scenery-msg {
+  background-color: #6d7c6d;
   color: white;
+  padding: 40px;
+  max-width: 400px;
+  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.scenery-msg h2 {
+  font-size: 1.8em;
+  margin-bottom: 15px;
+}
+
+.scenery-msg p {
+  font-size: 1em;
+  margin-bottom: 25px;
+}
+
+.scenery-msg .join {
+  background-color: #dbcbbd;
+  color: black;
+  text-decoration: none;
+  padding: 12px 25px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.scenery-msg .join:hover {
+  background-color: #c1b3a3;
 }
 
 /* Footer */
 footer {
-  background-color: #009b72;
-  color: black;
+  background-color: #6d7c6d;
+  color: white;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 30px 60px;
-  gap: 10px;
-  margin-top: 50px;
+  padding: 25px 60px;
+  flex-wrap: wrap;
+  font-size: 1em;
 }
 
 footer p, footer a {
-  margin: 5px 10px;
-  font-size: 1.1em;
-  color: black;
+  color: white;
   text-decoration: none;
+  margin: 5px 15px;
 }
 
-footer p a:hover,
 footer a:hover {
   text-decoration: underline;
-  color: black;
 }
 
 .social {
@@ -198,40 +229,26 @@ footer a:hover {
   height: 30px;
 }
 
-/* Responsive Styles */
-@media screen and (max-width: 900px) {
-  #hero, .home-grid {
-    display: block;
-    height: auto;
+/* Responsive */
+@media screen and (max-width: 768px) {
+  #scenery-row {
+    flex-direction: column;
+    padding: 30px 20px;
+  }
+
+  .scenery-img,
+  .scenery-msg {
+    max-width: 90%;
   }
 
   nav, footer {
     flex-direction: column;
+    align-items: center;
   }
 
   nav a {
     display: block;
     padding: 15px;
-  }
-
-  #hero {
-    margin-top: 0;
-  }
-
-  #hero-msg {
-    margin-top: 0;
-  }
-
-  #hero-msg h4 {
-    display: none;
-  }
-
-  #hero-msg h1 {
-    color: #6f7364;
-  }
-
-  .home-title {
-    font-size: 25px;
   }
 
   .rivers-card,
@@ -241,12 +258,19 @@ footer a:hover {
     width: 60%;
   }
 
-  .mountains, .msg {
-    width: 80%;
-    margin: 0 auto;
+  .home-title {
+    font-size: 25px;
   }
 
-  footer {
-    margin-top: 25px;
+  #hero-msg h4 {
+    display: none;
+  }
+
+  #hero {
+    margin-top: 0;
+  }
+
+  #hero-msg {
+    margin-top: 0;
   }
 }
