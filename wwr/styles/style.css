@@ -216,8 +216,8 @@ nav a:hover {
 
 /* Footer */
 footer {
-  background-color: #6d7c6d;
-  color: white;
+  background-color: #009b72;
+  color: black;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -227,7 +227,7 @@ footer {
 }
 
 footer p, footer a {
-  color: white;
+  color: black;
   text-decoration: none;
   margin: 5px 15px;
 }
@@ -245,7 +245,8 @@ footer a:hover {
   height: 30px;
 }
 
-/* Responsive */
+
+
 @media screen and (max-width: 768px) {
   #scenery-row {
     flex-direction: column;
