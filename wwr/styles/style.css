@@ -179,20 +179,24 @@ nav a:hover {
 }
 
 .scenery-img {
-  grid-column: 2/8;
-  width: 100%;
-  box-shadow: 5px 5px 10px #6f7364;
+  grid-column: auto;
+  width: 90%;
+  margin: 0 auto;
 }
 
 .overlay-msg {
-  grid-column: 8/12;
+  grid-column: auto;
   background-color: #6d7c6d;
   color: white;
-  padding: 40px;
+  padding: 30px;
   box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4);
   border-radius: 6px;
   text-align: center;
   align-self: center;
+  max-width: 45ch;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0 auto;
 }
 
 .overlay-msg h2 {
@@ -254,65 +258,46 @@ footer a:hover {
   display: block;
 }
 
-/* Responsive */
-@media screen and (max-width: 768px) {
-  header {
-    flex-direction: column;
-    height: auto;
-    padding: 10px 20px;
-  }
-
-  nav, footer {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  nav a {
+@media screen and (max-width: 900px) {
+  #hero, .home-grid {
     display: block;
-    padding: 15px;
+    height: auto;
   }
-
-  .rivers-card,
-  .camping-card,
-  .rapids-card {
-    margin: 50px auto;
-    width: 60%;
+    nav, footer {
+      flex-direction: column;
   }
-
-  .home-title {
-    font-size: 25px;
+    nav a {
+      display: block;
+      padding: 15px;
   }
-
-  #hero-msg h4 {
-    display: none;
+    #hero {
+      margin-top: 0;
   }
-
-  #hero {
-    margin-top: 0;
+    #hero-msg {
+      margin-top: 0;
   }
-
-  #hero-msg {
-    margin-top: 0;
+    #hero-msg h4 {
+      display: none;
   }
-
-  #scenery-overlay {
-    grid-template-columns: 1fr;
-    text-align: center;
+    #hero-msg h1 {
+      color: #6f7364;
   }
-
-  .scenery-img,
-  .overlay-msg {
-  grid-column: 8 / 13;
-  background-color: #6d7c6d;
-  color: white;
-  padding: 30px;
-  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4);
-  border-radius: 6px;
-  text-align: center;
-  align-self: center;
-  max-width: 45ch;
-  font-size: 1.1rem;
-  line-height: 1.5;
-  margin: 0 auto;
+    .home-title {
+      font-size: 25px;
+  }
+    .rivers-card, .camping-card, .rapids-card { 
+      margin: 50px auto;
+      width: 60%;
+  }
+    #background {
+      display: none;
+  }
+    .mountains, .msg {
+      width: 80%;
+      display: block;
+      margin: 0 auto;
+  }
+    footer {
+      margin-top: 25px;
   }
 }
