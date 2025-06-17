@@ -174,27 +174,31 @@ nav a:hover {
   gap: 20px;
   align-items: center;
   padding: 60px 40px;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 .scenery-img {
-  grid-column: 2 / span 5;
+  grid-column: 2/8;
   width: 100%;
   box-shadow: 5px 5px 10px #6f7364;
 }
 
 .overlay-msg {
-  grid-column: 7 / span 4;
+  grid-column: 8/12;
   background-color: #6d7c6d;
   color: white;
   padding: 40px;
   box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4);
   border-radius: 6px;
   text-align: center;
+  align-self: center;
 }
 
 .overlay-msg h2 {
   font-size: 1.8em;
   margin-bottom: 15px;
+  font-family: 'Rock Salt', cursive;
 }
 
 .overlay-msg p {
@@ -209,6 +213,7 @@ nav a:hover {
   padding: 12px 25px;
   border-radius: 4px;
   display: inline-block;
+  font-size: 1rem;
 }
 
 .overlay-msg .join:hover {
