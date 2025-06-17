@@ -186,8 +186,8 @@ nav a:hover {
 
 .overlay-msg {
   grid-column: 8/13;
-  background-color: #6d7c6d;
-  color: white;
+  background-color: #d9c2a3;
+  color: black;
   padding: 40px;
   box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4);
   border-radius: 6px;
@@ -211,7 +211,7 @@ nav a:hover {
 }
 
 .overlay-msg .join {
-  background-color: #dbcbbd;
+  background-color: #009b72;
   color: black;
   text-decoration: none;
   padding: 12px 25px;
@@ -221,7 +221,7 @@ nav a:hover {
 }
 
 .overlay-msg .join:hover {
-  background-color: #c1b3a3;
+  background-color: #9a9394;
 }
 
 /* Footer */
@@ -248,7 +248,6 @@ footer a:hover {
 
 .social {
   display: flex;
-  gap: 15px;
   align-items: center;
 }
 
