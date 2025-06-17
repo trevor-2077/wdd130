@@ -197,8 +197,8 @@ nav a:hover {
   font-size: 1.1rem;
   line-height: 1.5;
   position: relative;
-  left: -40px;
-  line-height: -300px;
+  left: -100px;
+  line-height: -40px;
 }
 
 .overlay-msg h2 {
