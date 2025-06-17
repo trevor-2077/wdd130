@@ -186,7 +186,7 @@ nav a:hover {
 
 .overlay-msg {
   grid-column: 8/13;
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: #6d7c6d;
   color: black;
   padding: 40px;
   box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4);
@@ -198,7 +198,7 @@ nav a:hover {
   line-height: 1.5;
   position: relative;
   left: -40px;
-  line-height: -40px;
+  line-height: -100px;
 }
 
 .overlay-msg h2 {
