@@ -179,21 +179,21 @@ nav a:hover {
 }
 
 .scenery-img {
-  grid-column: auto;
-  width: 90%;
+  grid-column: 2/8;
+  width: 100%;
   margin: 0 auto;
 }
 
 .overlay-msg {
-  grid-column: auto;
+  grid-column: 8/13;
   background-color: #6d7c6d;
   color: white;
-  padding: 30px;
+  padding: 40px;
   box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4);
   border-radius: 6px;
   text-align: center;
   align-self: center;
-  max-width: 45ch;
+  max-width: 100%;
   font-size: 1.1rem;
   line-height: 1.5;
   margin: 0 auto;
@@ -263,8 +263,15 @@ footer a:hover {
     display: block;
     height: auto;
   }
-    nav, footer {
+    nav {
       flex-direction: column;
+      align-items: center;
+  }
+
+  footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
     nav a {
       display: block;
