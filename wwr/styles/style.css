@@ -302,9 +302,16 @@ footer a:hover {
 
   .scenery-img,
   .overlay-msg {
-    grid-column: auto;
-    max-width: 90%;
-    width: 100%;
-    margin: 0 auto;
+    grid-column: 8 / 13;
+  background-color: #6d7c6d;
+  color: white;
+  padding: 30px;
+  box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  text-align: center;
+  align-self: center;
+  max-width: 100%;
+  font-size: 1.1rem;
+  line-height: 1.5;
   }
 }
