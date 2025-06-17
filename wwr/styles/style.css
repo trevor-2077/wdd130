@@ -245,10 +245,13 @@ footer a:hover {
 .social {
   display: flex;
   gap: 15px;
+  align-items: center;
 }
 
-.social img {
+.social a img {
   height: 30px;
+  width: 30px;
+  display: block;
 }
 
 /* Responsive */
