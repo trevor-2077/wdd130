@@ -312,7 +312,7 @@ footer a:hover {
 
 
 /* Rivers Page Styling */
-.page-title {
+.rpage-title {
   text-align: center;
   font-family: 'Rock Salt', cursive;
   background-color: #1f487e;
@@ -323,7 +323,7 @@ footer a:hover {
   max-width: 90%;
 }
 
-.card-img {
+.rcard-img {
 display:flex;
 justify-content: space-around;
 flex-wrap: wrap;
@@ -332,7 +332,7 @@ padding: 2rem;
 text-align: center;
 }
 
-.card {
+.rcard {
   background-color: white;
   border: 2px solid #444;
   border-radius: 15px;
@@ -342,11 +342,11 @@ text-align: center;
   box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
 }
 
-.card:hover {
+.rcard:hover {
   transform: scale(1.05);
 }
 
-.card img {
+.rcard img {
   width: 100%;
   height: auto;
   border-radius: 10px;
@@ -354,13 +354,13 @@ text-align: center;
   box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
 }
 
-.card h2 {
+.rcard h2 {
   font-size: 1.1rem;
   font-family: 'Rock Salt', cursive;
   margin: 10px 0;
 }
 
-.hover-note {
+.rhover-note {
   font-size: 0.85em;
   color: #555;
   font-family: italic;
