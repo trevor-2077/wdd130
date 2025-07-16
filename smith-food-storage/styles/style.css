@@ -83,16 +83,24 @@ header {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Scenic Image */
+/* Image */
 .scenery-img {
     float: right;
     width: 300px;
     margin: 0 0 1em 1em;
     border-radius: 8px;
 }
+
+.overlay-msg h2 {
+  text-align: center;
+}
+
 .overlay-msg {
     font-family: 'Roboto', sans-serif;
     text-align: left;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 /* Footer */
@@ -100,11 +108,12 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 15px;
   background-color: #FFE07C;
   border: 2px solid #A42212;
   padding: 10px 20px;
   font-family: 'Rock Salt', cursive;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .footer-left,
