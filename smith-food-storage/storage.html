@@ -14,21 +14,28 @@
 <div id="content">
     <!-- Header -->
     <header>
-        <a id="home_logo_link" href="index.html">
-            <img class="logo" src="images/updated_smith_food_storage_logo.jpg" alt="Smith Food Storage">
-        </a>
-        <a id="add_logo_link" href="add.html">
-            <img class="logo" src="images/addfoodlogo.jpg" alt ="Add Food">
-        </a>
-        <a id="storage_logo_link" href="storage.html">
-            <img class="logo" src="images/mystoragelogo.jpg" alt ="My Storage">
-        </a>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="add.html">Add Food</a>
-            <a href="storage.html">My Storage</a>
-        </nav>
+        <div class="nav-icons">
+            <a href="index.html">
+                <img class="logo" src="images/updated_smith_food_storage_logo.jpg" alt="Smith Food Storage">
+            </a>
+            <a href="add.html">
+                <img class="logo" src="images/addfoodlogo.jpg" alt="Add Food">
+            </a>
+            <a href="storage.html">
+                <img class="logo" src="images/mystoragelogo.jpg" alt="My Storage">
+            </a>
+        </div>
     </header>
+
+    <!-- Scenic Section with Image and Message Box -->
+    <h2>My Storage</h2>
+    <section id="scenery-overlay">
+        <div class="overlay-msg">
+            <p>
+                This is a place where you can see all of the food you added from Add Food page. There is a search bar to make it simpler, so that when an item is used up you can take it from the list. You can also order the items by which expiration dates are coming up sooner so that the food can be used up and swapped out. One huge key that helps this website to make it so simple to use is the icons in the top left corner. The logo will take you to the home page, the plus logo to the Add Food page, and the Pantry icon to My Storage page.
+            </p>
+        </div>
+    </section>
 
     <!-- Hero Section -->
     <div id="hero">
@@ -43,21 +50,11 @@
         </section>
     </div>
 
-    <!-- Scenic Section with Image and Message Box -->
-    <h2>Explanation</h2>
-    <section id="scenery-overlay">
-        <div class="overlay-msg">
-            <p>
-                This is a place where you can see all of the food you added from Add Food page. There is a search bar to make it simpler, so that when an item is used up you can take it from the list. You can also order the items by which expiration dates are coming up sooner so that the food can be used up and swapped out. One huge key that helps this website to make it so simple to use is the icons in the top left corner. The logo will take you to the home page, the plus logo to the Add Food page, and the Pantry icon to My Storage page.
-            </p>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
-        <p>Smith Food Storage &copy; 2025 - Trevor Smith</p>
-        <p><a href="site-plan.html">Site Plan</a></p>
-        <p><a href="contactus.html">Contact Us</a></p>
+        <div class="footer-left">Smith Food Storage &copy; 2025 - Trevor Smith</div>
+        <div class="footer-center"><a href="site-plan.html">Site Plan</a></div>
+        <div class="footer-right"><a href="contactus.html">Contact Us</a></div>
         <div class="social">
             <a href="https://facebook.com" target="_blank">
                 <img src="images/facebook.png" alt="Facebook icon">
@@ -69,7 +66,7 @@
                 <img src="images/instagram.png" alt="Instagram icon">
             </a>
         </div>
-    </footer>
+    </footer> 
 </div>
 </body>
 </html>
