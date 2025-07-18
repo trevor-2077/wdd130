@@ -38,11 +38,11 @@ header {
 }
 
 .nav-icons {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    max-width: 800px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
 }
 
 .logo {
@@ -56,39 +56,39 @@ header {
 }
 
 .logo:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Hero Section */
 #hero {
-    position: relative;
-    text-align: center;
-    color: #333;
+  position: relative;
+  text-align: center;
+  color: #333;
 }
 #hero-box img {
-    width: 100%;
-    height: auto;
-    display: block;
+  width: 100%;
+  height: auto;
+  display: block;
 }
 #hero-msg {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    padding: 15px;
-    border-radius: 10px;
-    font-family: 'Rock Salt', cursive;
-    font-size: 1.5em;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  font-family: 'Rock Salt', cursive;
+  font-size: 1.5em;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Image */
 .scenery-img {
-    float: right;
-    width: 300px;
-    margin: 0 0 1em 1em;
-    border-radius: 8px;
+  float: right;
+  width: 300px;
+  margin: 0 0 1em 1em;
+  border-radius: 8px;
 }
 
 .overlay-msg h2 {
@@ -96,11 +96,11 @@ header {
 }
 
 .overlay-msg {
-    font-family: 'Roboto', sans-serif;
-    text-align: left;
-    padding: 20px;
-    max-width: 900px;
-    margin: 0 auto;
+  font-family: 'Roboto', sans-serif;
+  text-align: left;
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* Footer */
