@@ -2,15 +2,8 @@
 <html lang="en">
 <head>
   <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
-    rel="stylesheet"
-  >
-  <!-- your own styles -->
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/style.css') }}"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,102 +11,66 @@
   <title>Smith Food Storage | Home</title>
 </head>
 <body>
-  <div id="content">
-
-    <!-- Header -->
-    <header>
-      <div class="nav-icons">
-        <a href="{{ url_for('home') }}">
-          Home
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
-            alt="Smith Food Storage"
-          >
-        </a>
-        <a href="{{ url_for('add_food') }}">
-          Add Food
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
-            alt="Add Food"
-          >
-        </a>
-        <a href="{{ url_for('storage') }}">
-          My Storage
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
-            alt="My Storage"
-          >
-        </a>
-      </div>
-    </header>
-
-    <!-- Hero Section -->
-    <div id="hero">
-      <div id="hero-box">
-        <img
-          id="hero-img"
-          src="{{ url_for('static', filename='images/home-pagekitchen.jpg') }}"
-          alt="Kitchen"
-        >
-      </div>
-      <section id="hero-msg">
-        <h1 class="home-title">Kickstart Your Food Storage</h1>
-        <div class="button-box">
-          <a class="book" href="{{ url_for('add_food') }}">Add Food</a>
-        </div>
-      </section>
+<div id="content">
+  <!-- Header -->
+  <header>
+    <div class="nav-icons">
+      <a href="{{ url_for('home') }}">Home
+        <img class="logo"src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"alt="Smith Food Storage">
+      </a>
+      <a href="{{ url_for('add_food') }}">Add Food
+        <img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food">
+      </a>
+      <a href="{{ url_for('storage') }}">My Storage
+        <img class="logo" src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}" alt="My Storage">
+      </a>
     </div>
+  </header>
 
-    <!-- Overview Section -->
-    <section id="scenery-overlay">
-      <div class="overlay-msg">
-        <h2>Overview</h2>
-        <p>
-          Smith Food Storage is a simple website split into 3 parts:
-          <ul>
-            <li><strong>Add Food</strong> – log your items, quantities, expiration, price, etc.</li>
-            <li><strong>My Storage</strong> – review and remove used‑up items.</li>
-            <li><strong>Analysis</strong> – run mini‑programs to see expiring items or inventory value.</li>
-          </ul>
-        </p>
+  <!-- Hero Section -->
+  <div id="hero">
+    <div id="hero-box">
+      <img id="hero-img" src="{{ url_for('static', filename='images/home-pagekitchen.jpg') }}" alt="Kitchen">
+    </div>
+    <section id="hero-msg">
+      <h1 class="home-title">Kickstart Your Food Storage</h1>
+      <div class="button-box">
+        <a class="book" href="{{ url_for('add_food') }}">Add Food</a>
       </div>
     </section>
+  </div>
 
+  <section id="scenery-overlay">
+    <div class="overlay-msg">
+      <h2>Overview</h2>
+        <p>
+          Smith Food Storage is a simple website split into 3 key parts. The purpose is to help you keep track of the food that you buy with a special focus on food storage and being prepared. The first: Add Food is a place where you can enter in the food you buy, along with other important details. The second page: My Storage will be a place where you can see a list of the items that you have added which can easily be updated and adjusted. Third: Tools is a place where you can put in an amount of days and it will tell you what expires in that range. 
+        </p>
+      <h2>Inspiration</h2>
+        <p>
+          A couple weeks ago, I got a notification on my phone that a water main had broken and, in an attempt, to repair it the water was contaminated. As a college student I realized that I was completely unprepared for this. Thankfully the problem was resolved quickly, but in that moment, I realized that food storage is not about waiting until you have enough money because disasters often occur when we least expect them. The key to food storage is incorporating it into your weekly shopping in simple ways. This website is designed to help you work smarter and not harder, so that when something comes your way, as rare as we hope that is, you are ready!
+        </p>
+      <h2>Getting Started</h2>
+        <p>
+          To begin, it is crucial that you come up with a disaster response plan and are aware of the disasters that are most likely to impact you. You do not need to go out and break the bank to feel secure, but we recommend that you start off by making a 3-day pack for you and anyone else in your family with essentials that will not go bad for a very long time. Every family is different so their food storage will reflect that. But at the top of the list of things to get should include water bottles, canned goods, and items with a long shelf life kept in a place when they can be accessed quickly.
+        </p>
+    </div>
+</section>
+  
     <!-- Footer -->
     <footer>
-      <div class="footer-left">
-        Smith Food Storage &copy; 2025 – Trevor Smith
-      </div>
-      <div class="footer-center">
-        <a href="{{ url_for('site_plan') }}">Site Plan</a>
-      </div>
-      <div class="footer-right">
-        <a href="{{ url_for('contact_us') }}">Contact Us</a>
-      </div>
-      <div class="footer-right">
-        <a href="{{ url_for('run_program') }}">Analysis</a>
-      </div>
+      <div class="footer-left">Smith Food Storage &copy; 2025 - Trevor Smith</div>
+      <div class="footer-center"><a href="{{ url_for('site_plan') }}">Site Plan</a></div>
+      <div class="footer-right"><a href="{{ url_for('contact_us') }}">Contact Us</a></div>
+      <div class="footer-right"><a href="{{ url_for('run_program') }}">Analysis</a></div>
+      
       <div class="social">
         <a href="https://facebook.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/facebook.png') }}"
-            alt="Facebook icon"
-          >
+          <img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook icon">
         </a>
-        <a href="https://twitter.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/twitter.png') }}"
-            alt="Twitter icon"
-          >
+        <a href="https://twitter.com" target="_blank"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter icon">
         </a>
-        <a href="https://instagram.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/instagram.png') }}"
-            alt="Instagram icon"
-          >
+        <a href="https://instagram.com" target="_blank"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram icon">
         </a>
       </div>
     </footer>
