@@ -2,15 +2,8 @@
 <html lang="en">
 <head>
   <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
-    rel="stylesheet"
-  >
-  <!-- your own styles -->
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/style.css') }}"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,34 +11,21 @@
   <title>Smith Food Storage | Add Food</title>
 </head>
 <body>
-  <div id="content">
-
-    <!-- Header -->
-    <header>
-      <div class="nav-icons">
-        <a href="{{ url_for('home') }}">
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
-            alt="Home"
-          >
-        </a>
-        <a href="{{ url_for('add_food') }}">
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
-            alt="Add Food"
-          >
-        </a>
-        <a href="{{ url_for('storage') }}">
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
-            alt="My Storage"
-          >
-        </a>
-      </div>
-    </header>
+<div id="content">
+  <!-- Header -->
+<header>
+  <div class="nav-icons">
+    <a href="{{ url_for('home') }}">
+      <img class="logo"src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"alt="Smith Food Storage">
+    </a>
+    <a href="{{ url_for('add_food') }}">
+      <img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food">
+    </a>
+    <a href="{{ url_for('storage') }}">
+      <img class="logo" src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}" alt="My Storage">
+    </a>
+  </div>
+</header>
 
     <main>
       <h2>Add Food</h2>
