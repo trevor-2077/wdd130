@@ -14,26 +14,26 @@ db.init_app(app)
 
 # -- Startup: create tables & seed defaults --
 with app.app_context():
-    # 1) Create all tables
     db.create_all()
 
-    # 2) Seed a default user so user_id=1 exists
+    # 1) Seed a default user so user_id=1 exists
     if not User.query.first():
-        default_user = User(
-            username='trevor',
-            email='trevor@example.com',
-            pw_hash='password-placeholder'
+        db.session.add(
+            User(
+                username='trevor',
+                email='trevor@example.com',
+                pw_hash='password-placeholder'
+            )
         )
-        db.session.add(default_user)
 
-    # 3) Seed Store
+    # 2) Seed Store
     if not Store.query.first():
         db.session.add_all([
             Store(name='Walmart'),
             Store(name="Sam's Club"),
         ])
 
-    # 4) Seed Category
+    # 3) Seed Category
     if not Category.query.first():
         db.session.add_all([
             Category(name='Cereal'),
@@ -41,7 +41,7 @@ with app.app_context():
             Category(name='Cans'),
         ])
 
-    # 5) Seed Location for user_id=1
+    # 4) Seed Location for user_id=1
     if not Location.query.filter_by(user_id=1).first():
         db.session.add_all([
             Location(user_id=1, name='Pantry'),
@@ -51,11 +51,13 @@ with app.app_context():
 
     db.session.commit()
 
-# -- Routes --
+
+# -- Routes ----------------------------------------------------
 
 @app.route('/')
 def home():
     return redirect(url_for('add_food'))
+
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_food():
@@ -84,10 +86,12 @@ def add_food():
         locations=locations
     )
 
+
 @app.route('/storage')
 def storage():
     items = Item.query.filter_by(user_id=1).order_by(Item.expires).all()
     return render_template('storage.html', items=items)
+
 
 @app.route('/program', methods=['GET', 'POST'])
 def run_program():
@@ -103,6 +107,17 @@ def run_program():
         db.session.commit()
 
     return render_template('program.html', result=result)
+
+
+@app.route('/site-plan')
+def site_plan():
+    return render_template('site-plan.html')
+
+
+@app.route('/contact-us')
+def contact_us():
+    return render_template('contactus.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
