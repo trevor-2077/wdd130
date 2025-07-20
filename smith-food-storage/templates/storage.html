@@ -18,14 +18,15 @@
 
   <style>
     /* quick inline tweaks for the table */
-    table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+    table { width: 100%; border-collapse: collapse; margin: 1em 0; }
     th, td { border: 1px solid #ddd; padding: 0.5em; text-align: left; }
     th { background: #f4f4f4; }
     .btn-delete {
       background: transparent;
       border: none;
-      color: red;
-      font-size: 1.1em;
+      color: #c00;
+      font-size: 1.2em;
+      line-height: 1;
       cursor: pointer;
     }
   </style>
@@ -61,7 +62,7 @@
         <p>
           Below is everything you’ve added. Use the “×” button to remove items
           when you’ve used them up. You can also sort by expiration date
-          or quantity via your browser’s table controls.
+          via your browser’s table controls, or adjust quantities inline if you like.
         </p>
       </div>
     </section>
@@ -89,7 +90,7 @@
             <td>{{ i.quantity }}</td>
             <td>{{ i.expires or '—' }}</td>
             <td>
-              {% if i.purchase_price %}
+              {% if i.purchase_price is not none %}
                 ${{ '%.2f'|format(i.purchase_price) }}
               {% else %}
                 —
@@ -112,7 +113,7 @@
         </tbody>
       </table>
       {% else %}
-        <p>No items in storage yet. <a href="{{ url_for('add_food') }}">Add some.</a></p>
+        <p>No items in storage yet. <a href="{{ url_for('add_food') }}">Add some now.</a></p>
       {% endif %}
     </main>
 
@@ -141,10 +142,9 @@
           <img
             src="{{ url_for('static', filename='images/instagram.png') }}"
             alt="Instagram">
-        </a>
+          </a>
       </div>
     </footer>
-
   </div>
 </body>
 </html>

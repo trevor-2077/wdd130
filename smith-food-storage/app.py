@@ -56,7 +56,8 @@ with app.app_context():
 
 @app.route('/')
 def home():
-    return redirect(url_for('add_food'))
+    # render the index.html landing page
+    return render_template('index.html')
 
 
 @app.route('/add', methods=['GET', 'POST'])
