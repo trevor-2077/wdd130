@@ -13,7 +13,6 @@
   >
 
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smith Food Storage | Add Food</title>
 </head>
@@ -24,95 +23,110 @@
     <header>
       <div class="nav-icons">
         <a href="{{ url_for('home') }}">
-          Home
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
-            alt="Smith Food Storage"
-          >
+          <img class="logo"
+               src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
+               alt="Home">
         </a>
         <a href="{{ url_for('add_food') }}">
-          Add Food
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
-            alt="Add Food"
-          >
+          <img class="logo"
+               src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
+               alt="Add Food">
         </a>
         <a href="{{ url_for('storage') }}">
-          My Storage
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
-            alt="My Storage"
-          >
+          <img class="logo"
+               src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
+               alt="My Storage">
         </a>
       </div>
     </header>
 
-    <!-- Scenic Section with Image and Message Box -->
-    <h2>Add Food</h2>
+    <!-- Intro -->
     <section id="scenery-overlay">
+      <h2>Add Food</h2>
       <div class="overlay-msg">
         <p>
           Welcome to the Add Food page. As the name suggests, this is where you can
-          add the food, quantity, location, price, and expiration date (if applicable)
-          of the food/items that you buy. It is designed to be quick and easy. From
-          here the food you add will be stored in a page titled: My Storage. There
-          you can see all of this information organized in an easy‑to‑read format.
+          add the food, quantity, location, price, and expiration date (if applicable).
         </p>
       </div>
     </section>
 
-    <!-- Hero Section -->
-    <div id="hero">
-      <div id="hero-box">
-        <img
-          id="hero-img"
-          src="{{ url_for('static', filename='images/addfoodshelf.jpg') }}"
-          alt="food on shelf"
-        >
-      </div>
-      <section id="hero-msg">
-        <h1 class="home-title">Add Food Here</h1>
-        <div class="button-box">
-          <a class="book" href="{{ url_for('storage') }}">View My Storage</a>
+    <!-- Form -->
+    <main>
+      <form action="{{ url_for('add_food') }}" method="post" class="add-form">
+        <div class="form-group">
+          <label for="name">Item Name</label>
+          <input type="text" id="name" name="name" required>
         </div>
-      </section>
-    </div>
+
+        <div class="form-group">
+          <label for="quantity">Quantity</label>
+          <input type="number" id="quantity" name="quantity" min="1" required>
+        </div>
+
+        <div class="form-group">
+          <label for="expires">Expires (optional)</label>
+          <input type="date" id="expires" name="expires">
+        </div>
+
+        <div class="form-group">
+          <label for="purchase_price">Price (optional)</label>
+          <input type="number" id="purchase_price" name="purchase_price" step="0.01">
+        </div>
+
+        <div class="form-group">
+          <label for="store_id">Store</label>
+          <select id="store_id" name="store_id">
+            <option value="">— select —</option>
+            {% for store in stores %}
+              <option value="{{ store.store_id }}">{{ store.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="category_id">Category</label>
+          <select id="category_id" name="category_id">
+            <option value="">— select —</option>
+            {% for cat in categories %}
+              <option value="{{ cat.category_id }}">{{ cat.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="location_id">Location</label>
+          <select id="location_id" name="location_id">
+            <option value="">— select —</option>
+            {% for loc in locations %}
+              <option value="{{ loc.location_id }}">{{ loc.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button type="submit">Add to Storage</button>
+      </form>
+    </main>
 
     <!-- Footer -->
     <footer>
       <div class="footer-left">
         Smith Food Storage &copy; 2025 – Trevor Smith
       </div>
-      <div class="footer-center">
+      <div class="footer-links">
         <a href="{{ url_for('site_plan') }}">Site Plan</a>
-      </div>
-      <div class="footer-right">
         <a href="{{ url_for('contact_us') }}">Contact Us</a>
-      </div>
-      <div class="footer-right">
         <a href="{{ url_for('run_program') }}">Analysis</a>
       </div>
       <div class="social">
         <a href="https://facebook.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/facebook.png') }}"
-            alt="Facebook icon"
-          >
+          <img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook">
         </a>
         <a href="https://twitter.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/twitter.png') }}"
-            alt="Twitter icon"
-          >
+          <img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter">
         </a>
         <a href="https://instagram.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/instagram.png') }}"
-            alt="Instagram icon"
-          >
+          <img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram">
         </a>
       </div>
     </footer>

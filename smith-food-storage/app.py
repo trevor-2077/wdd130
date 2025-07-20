@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, abort
 from config import Config
 from models import db, User, Store, Category, Location, Item, ProgramRun
 from student_program.core import (
@@ -93,6 +93,14 @@ def storage():
     return render_template('storage.html', items=items)
 
 
+@app.route('/delete/<int:item_id>', methods=['POST'])
+def delete_item(item_id):
+    item = Item.query.get_or_404(item_id)
+    db.session.delete(item)
+    db.session.commit()
+    return redirect(url_for('storage'))
+
+
 @app.route('/program', methods=['GET', 'POST'])
 def run_program():
     result = None
@@ -114,7 +122,7 @@ def site_plan():
     return render_template('site-plan.html')
 
 
-@app.route('/contactus')
+@app.route('/contact-us')
 def contact_us():
     return render_template('contactus.html')
 

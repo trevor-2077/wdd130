@@ -13,9 +13,22 @@
   >
 
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smith Food Storage | My Storage</title>
+
+  <style>
+    /* quick inline tweaks for the table */
+    table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+    th, td { border: 1px solid #ddd; padding: 0.5em; text-align: left; }
+    th { background: #f4f4f4; }
+    .btn-delete {
+      background: transparent;
+      border: none;
+      color: red;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <div id="content">
@@ -24,94 +37,110 @@
     <header>
       <div class="nav-icons">
         <a href="{{ url_for('home') }}">
-          Home
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
-            alt="Smith Food Storage"
-          >
+          <img class="logo"
+               src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
+               alt="Home">
         </a>
         <a href="{{ url_for('add_food') }}">
-          Add Food
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
-            alt="Add Food"
-          >
+          <img class="logo"
+               src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
+               alt="Add Food">
         </a>
         <a href="{{ url_for('storage') }}">
-          My Storage
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
-            alt="My Storage"
-          >
+          <img class="logo"
+               src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
+               alt="My Storage">
         </a>
       </div>
     </header>
 
-    <!-- Scenic Section with Message Box -->
-    <h2>My Storage</h2>
+    <!-- Page Intro -->
     <section id="scenery-overlay">
+      <h2>My Storage</h2>
       <div class="overlay-msg">
         <p>
-          This is a place where you can see all of the food you added from Add Food page.
-          There is a search bar to simplify finding an item to remove when it’s used up.
-          You can also sort by expiration date so you’re always using up the soonest‐expiring items.
-          Remember, the icons at the top let you jump between Home, Add Food, and My Storage.
+          Below is everything you’ve added. Use the “×” button to remove items
+          when you’ve used them up. You can also sort by expiration date
+          or quantity via your browser’s table controls.
         </p>
       </div>
     </section>
 
-    <!-- Hero Section -->
-    <div id="hero">
-      <div id="hero-box">
-        <img
-          id="hero-img"
-          src="{{ url_for('static', filename='images/mystoragecan.jpg') }}"
-          alt="cans"
-        >
-      </div>
-      <section id="hero-msg">
-        <h1 class="home-title">My Storage</h1>
-        <div class="button-box">
-          <a class="book" href="{{ url_for('storage') }}">See My Storage</a>
-        </div>
-      </section>
-    </div>
+    <!-- Storage Table -->
+    <main>
+      {% if items %}
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Expires</th>
+            <th>Price</th>
+            <th>Store</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Del</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in items %}
+          <tr>
+            <td>{{ i.name }}</td>
+            <td>{{ i.quantity }}</td>
+            <td>{{ i.expires or '—' }}</td>
+            <td>
+              {% if i.purchase_price %}
+                ${{ '%.2f'|format(i.purchase_price) }}
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <td>{{ i.store.name if i.store else '—' }}</td>
+            <td>{{ i.category.name if i.category else '—' }}</td>
+            <td>{{ i.location.name if i.location else '—' }}</td>
+            <td>
+              <form action="{{ url_for('delete_item', item_id=i.item_id) }}"
+                    method="post"
+                    style="display:inline">
+                <button type="submit" class="btn-delete" title="Delete">
+                  &times;
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <p>No items in storage yet. <a href="{{ url_for('add_food') }}">Add some.</a></p>
+      {% endif %}
+    </main>
 
     <!-- Footer -->
     <footer>
       <div class="footer-left">
         Smith Food Storage &copy; 2025 – Trevor Smith
       </div>
-      <div class="footer-center">
+      <div class="footer-links">
         <a href="{{ url_for('site_plan') }}">Site Plan</a>
-      </div>
-      <div class="footer-right">
         <a href="{{ url_for('contact_us') }}">Contact Us</a>
-      </div>
-      <div class="footer-right">
         <a href="{{ url_for('run_program') }}">Analysis</a>
       </div>
       <div class="social">
         <a href="https://facebook.com" target="_blank">
           <img
             src="{{ url_for('static', filename='images/facebook.png') }}"
-            alt="Facebook icon"
-          >
+            alt="Facebook">
         </a>
         <a href="https://twitter.com" target="_blank">
           <img
             src="{{ url_for('static', filename='images/twitter.png') }}"
-            alt="Twitter icon"
-          >
+            alt="Twitter">
         </a>
         <a href="https://instagram.com" target="_blank">
           <img
             src="{{ url_for('static', filename='images/instagram.png') }}"
-            alt="Instagram icon"
-          >
+            alt="Instagram">
         </a>
       </div>
     </footer>
