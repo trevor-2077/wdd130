@@ -1,72 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/style.css">
-    
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smith Food Storage | My Storage</title>
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
+    rel="stylesheet"
+  >
+  <!-- your own styles -->
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/style.css') }}"
+  >
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smith Food Storage | My Storage</title>
 </head>
 <body>
-<div id="content">
+  <div id="content">
+
     <!-- Header -->
     <header>
-        <div class="nav-icons">
-            <a href="index.html">
-                <img class="logo" src="images/updated_smith_food_storage_logo.jpg" alt="Smith Food Storage">
-            </a>
-            <a href="add.html">
-                <img class="logo" src="images/addfoodlogo.jpg" alt="Add Food">
-            </a>
-            <a href="storage.html">
-                <img class="logo" src="images/mystoragelogo.jpg" alt="My Storage">
-            </a>
-        </div>
+      <div class="nav-icons">
+        <a href="{{ url_for('home') }}">
+          Home
+          <img
+            class="logo"
+            src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
+            alt="Smith Food Storage"
+          >
+        </a>
+        <a href="{{ url_for('add_food') }}">
+          Add Food
+          <img
+            class="logo"
+            src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
+            alt="Add Food"
+          >
+        </a>
+        <a href="{{ url_for('storage') }}">
+          My Storage
+          <img
+            class="logo"
+            src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
+            alt="My Storage"
+          >
+        </a>
+      </div>
     </header>
 
-    <!-- Scenic Section with Image and Message Box -->
+    <!-- Scenic Section with Message Box -->
     <h2>My Storage</h2>
     <section id="scenery-overlay">
-        <div class="overlay-msg">
-            <p>
-                This is a place where you can see all of the food you added from Add Food page. There is a search bar to make it simpler, so that when an item is used up you can take it from the list. You can also order the items by which expiration dates are coming up sooner so that the food can be used up and swapped out. One huge key that helps this website to make it so simple to use is the icons in the top left corner. The logo will take you to the home page, the plus logo to the Add Food page, and the Pantry icon to My Storage page.
-            </p>
-        </div>
+      <div class="overlay-msg">
+        <p>
+          This is a place where you can see all of the food you added from Add Food page.
+          There is a search bar to simplify finding an item to remove when it’s used up.
+          You can also sort by expiration date so you’re always using up the soonest‐expiring items.
+          Remember, the icons at the top let you jump between Home, Add Food, and My Storage.
+        </p>
+      </div>
     </section>
 
     <!-- Hero Section -->
     <div id="hero">
-        <div id="hero-box">
-            <img id="hero-img" src="images/mystoragecan.jpg" alt="cans">
+      <div id="hero-box">
+        <img
+          id="hero-img"
+          src="{{ url_for('static', filename='images/mystoragecan.jpg') }}"
+          alt="cans"
+        >
+      </div>
+      <section id="hero-msg">
+        <h1 class="home-title">My Storage</h1>
+        <div class="button-box">
+          <a class="book" href="{{ url_for('storage') }}">See My Storage</a>
         </div>
-        <section id="hero-msg">
-            <h1 class="home-title">My Storage</h1>
-            <div class="button-box">
-                <a class="book" href="storage.html">See My Storage</a>
-            </div>
-        </section>
+      </section>
     </div>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-left">Smith Food Storage &copy; 2025 - Trevor Smith</div>
-        <div class="footer-center"><a href="site-plan.html">Site Plan</a></div>
-        <div class="footer-right"><a href="contactus.html">Contact Us</a></div>
-        <div class="social">
-            <a href="https://facebook.com" target="_blank">
-                <img src="images/facebook.png" alt="Facebook icon">
-            </a>
-            <a href="https://twitter.com" target="_blank">
-                <img src="images/twitter.png" alt="Twitter icon">
-            </a>
-            <a href="https://instagram.com" target="_blank">
-                <img src="images/instagram.png" alt="Instagram icon">
-            </a>
-        </div>
-    </footer> 
-</div>
+      <div class="footer-left">
+        Smith Food Storage &copy; 2025 – Trevor Smith
+      </div>
+      <div class="footer-center">
+        <a href="{{ url_for('site_plan') }}">Site Plan</a>
+      </div>
+      <div class="footer-right">
+        <a href="{{ url_for('contact_us') }}">Contact Us</a>
+      </div>
+      <div class="footer-right">
+        <a href="{{ url_for('run_program') }}">Analysis</a>
+      </div>
+      <div class="social">
+        <a href="https://facebook.com" target="_blank">
+          <img
+            src="{{ url_for('static', filename='images/facebook.png') }}"
+            alt="Facebook icon"
+          >
+        </a>
+        <a href="https://twitter.com" target="_blank">
+          <img
+            src="{{ url_for('static', filename='images/twitter.png') }}"
+            alt="Twitter icon"
+          >
+        </a>
+        <a href="https://instagram.com" target="_blank">
+          <img
+            src="{{ url_for('static', filename='images/instagram.png') }}"
+            alt="Instagram icon"
+          >
+        </a>
+      </div>
+    </footer>
+
+  </div>
 </body>
 </html>

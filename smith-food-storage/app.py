@@ -114,7 +114,7 @@ def site_plan():
     return render_template('site-plan.html')
 
 
-@app.route('/contact-us')
+@app.route('/contactus')
 def contact_us():
     return render_template('contactus.html')
 

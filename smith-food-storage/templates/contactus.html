@@ -1,168 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0>
-    <title>Contact Us | Smith Food Storage</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/style.css">
-     
-    <style> 
-        body {
-            /* Center the form on the page */
-            text-align: center;
-        }
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Smith Food Storage</title>
 
-        form {
-            display: inline-block;
-            /* Form outline */
-            padding: 1em;
-            border: 1px solid #ccc;
-            border-radius: 1em;
-        }
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
+    rel="stylesheet"
+  >
+  <!-- your own styles -->
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/style.css') }}"
+  >
 
-        p + p {
-            margin-top: 1em;
-        }
-
-        label {
-            /* Uniform size & alignment */
-            display: inline-block;
-            min-width: 90px;
-            text-align: right;
-        }
-
-        input,
-        textarea {
-            /* To make sure that all text fields have the same font settings
-            By default, text areas have a monospace font */
-            font: 1em sans-serif;
-            /* Uniform text field size */
-            width: 300px;
-            box-sizing: border-box;
-            /* Match form field borders */
-            border: 1px solid #999;
-        }
-
-        input:focus,
-        textarea:focus {
-            /* Set the outline width and style */
-            outline-style: solid;
-            /* To give a little highlight on active elements */
-            outline-color: #000;
-        }
-
-        textarea {
-            /* Align multiline text fields with their labels */
-            vertical-align: top;
-            /* Provide space to type some text */
-            height: 5em;
-        }
-
-        .button {
-            /* Align buttons with the text fields */
-            padding-left: 90px; /* same size as the label elements */
-        }
-
-        button {
-            /* This extra margin represent roughly the same space as the space
-            between the labels and their text fields */
-            margin-left: 0.5em;
-        }
-        #feedback {
-            background-color: antiquewhite;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: .5em;
-            /* make this element invisible until we are ready for it */
-            display: none;      
-        }
-        .moveDown {
-            margin-top: 3em;
-        }
-    </style>
+  <style>
+    body {
+      /* Center the form on the page */
+      text-align: center;
+    }
+    form {
+      display: inline-block;
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 1em;
+    }
+    p + p {
+      margin-top: 1em;
+    }
+    label {
+      display: inline-block;
+      min-width: 90px;
+      text-align: right;
+    }
+    input,
+    textarea {
+      font: 1em sans-serif;
+      width: 300px;
+      box-sizing: border-box;
+      border: 1px solid #999;
+    }
+    input:focus,
+    textarea:focus {
+      outline-style: solid;
+      outline-color: #000;
+    }
+    textarea {
+      vertical-align: top;
+      height: 5em;
+    }
+    .button {
+      padding-left: 90px;
+    }
+    button {
+      margin-left: 0.5em;
+    }
+    #feedback {
+      background-color: antiquewhite;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 0.5em;
+      display: none;
+    }
+    .moveDown {
+      margin-top: 3em;
+    }
+  </style>
 </head>
 
 <body>
-<div id="content">
+  <div id="content">
     <!-- Header -->
     <header>
-        <div class="nav-icons">
-            <a href="index.html">
-                <img class="logo" src="images/updated_smith_food_storage_logo.jpg" alt="Smith Food Storage">
-            </a>
-            <a href="add.html">
-                <img class="logo" src="images/addfoodlogo.jpg" alt="Add Food">
-            </a>
-            <a href="storage.html">
-                <img class="logo" src="images/mystoragelogo.jpg" alt="My Storage">
-            </a>
-        </div>
+      <div class="nav-icons">
+        <a href="{{ url_for('home') }}">
+          Home
+          <img
+            class="logo"
+            src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
+            alt="Smith Food Storage"
+          >
+        </a>
+        <a href="{{ url_for('add_food') }}">
+          Add Food
+          <img
+            class="logo"
+            src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
+            alt="Add Food"
+          >
+        </a>
+        <a href="{{ url_for('storage') }}">
+          My Storage
+          <img
+            class="logo"
+            src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
+            alt="My Storage"
+          >
+        </a>
+      </div>
     </header>
-
 
     <!-- Main -->
     <main>
-        <div id="feedback"></div>
-        <form action="/my-handling-form-page" method="post">
-            <p>
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="user_name">
-            </p>
-            <p>
-                <label for="mail">Email:</label>
-                <input type="email" id="mail" name="user_email">
-            </p>
-            <p>
-                <label for="msg">Message:</label>
-                <textarea id="msg" name="user_message"></textarea>
-            </p>
-            <p class="button">
-            <button type="submit">Send your message</button>
-            </p>
-        </form>
+      <div id="feedback"></div>
+      <form action="/my-handling-form-page" method="post">
+        <p>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="user_name">
+        </p>
+        <p>
+          <label for="mail">Email:</label>
+          <input type="email" id="mail" name="user_email">
+        </p>
+        <p>
+          <label for="msg">Message:</label>
+          <textarea id="msg" name="user_message"></textarea>
+        </p>
+        <p class="button">
+          <button type="submit">Send your message</button>
+        </p>
+      </form>
     </main>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-left">Smith Food Storage &copy; 2025 - Trevor Smith</div>
-        <div class="footer-center"><a href="site-plan.html">Site Plan</a></div>
-        <div class="footer-right"><a href="contactus.html">Contact Us</a></div>
-        <div class="social">
-            <a href="https://facebook.com" target="_blank">
-                <img src="images/facebook.png" alt="Facebook icon">
-            </a>
-            <a href="https://twitter.com" target="_blank">
-                <img src="images/twitter.png" alt="Twitter icon">
-            </a>
-            <a href="https://instagram.com" target="_blank">
-                <img src="images/instagram.png" alt="Instagram icon">
-            </a>
-        </div>
-    </footer> 
-</div>
-<script>
-    // get the feedback div element so we can do something with it.
+      <div class="footer-left">
+        Smith Food Storage &copy; 2025 – Trevor Smith
+      </div>
+      <div class="footer-center">
+        <a href="{{ url_for('site_plan') }}">Site Plan</a>
+      </div>
+      <div class="footer-right">
+        <a href="{{ url_for('contact_us') }}">Contact Us</a>
+      </div>
+      <div class="footer-right">
+        <a href="{{ url_for('run_program') }}">Analysis</a>
+      </div>
+      <div class="social">
+        <a href="https://facebook.com" target="_blank">
+          <img
+            src="{{ url_for('static', filename='images/facebook.png') }}"
+            alt="Facebook icon"
+          >
+        </a>
+        <a href="https://twitter.com" target="_blank">
+          <img
+            src="{{ url_for('static', filename='images/twitter.png') }}"
+            alt="Twitter icon"
+          >
+        </a>
+        <a href="https://instagram.com" target="_blank">
+          <img
+            src="{{ url_for('static', filename='images/instagram.png') }}"
+            alt="Instagram icon"
+          >
+        </a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
     const feedbackElement = document.getElementById('feedback');
-    // get the form so we can read what was entered in it.
     const formElement = document.forms[0];
-    // add a 'listener' to wait for a submission of our form. When that happens run the code below.
     formElement.addEventListener('submit', function(e) {
-        // stop the form from doing the default action.
-        e.preventDefault();
-        // set the contents of our feedback element to a message letting the user know the form was submitted successfully. Notice that we pull the name that was entered in the form to personalize the message!
-        feedbackElement.innerHTML = 'Hello '+ formElement.user_name.value +'! Thank you for your message. We will get back with you as soon as possible!';
-        // make the feedback element visible.
-        feedbackElement.style.display = "block";
-        // add a class to move everything down so our message doesn't cover it.
-        document.body.classList.toggle('moveDown');
+      e.preventDefault();
+      feedbackElement.innerHTML =
+        'Hello ' + formElement.user_name.value +
+        '! Thank you for your message. We will get back with you as soon as possible!';
+      feedbackElement.style.display = "block";
+      document.body.classList.toggle('moveDown');
     });
-</script>
+  </script>
 </body>
 </html>
-

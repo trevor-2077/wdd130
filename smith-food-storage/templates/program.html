@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Fonts & your CSS -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
+    rel="stylesheet"
+  >
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/style.css') }}"
+  >
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analysis | Smith Food Storage</title>
+</head>
+<body>
+  <div id="content">
+
+    <!-- Header/nav same as other templates -->
+    <header>
+      <div class="nav-icons">
+        <a href="{{ url_for('home') }}">Home
+          <img
+            class="logo"
+            src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
+            alt="Home"
+          >
+        </a>
+        <a href="{{ url_for('add_food') }}">Add Food
+          <img class="logo"
+               src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
+               alt="Add Food">
+        </a>
+        <a href="{{ url_for('storage') }}">My Storage
+          <img class="logo"
+               src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
+               alt="My Storage">
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <h2>Analysis</h2>
+
+      <!-- form to collect input (e.g. days) -->
+      <form method="post" action="{{ url_for('run_program') }}">
+        <label for="x">Show items expiring in how many days?</label>
+        <input type="number" id="x" name="x" min="0" required>
+        <button type="submit">Run</button>
+      </form>
+
+      <!-- display the result returned by your view -->
+      {% if result is not none %}
+        <section id="analysis-result">
+          <h3>Result:</h3>
+          <pre>{{ result }}</pre>
+        </section>
+      {% endif %}
+    </main>
+
+    <!-- footer (optional) -->
+    <footer>
+      <div class="footer-left">Smith Food Storage &copy; 2025 – Trevor Smith</div>
+      <div class="footer-center">
+        <a href="{{ url_for('site_plan') }}">Site Plan</a>
+      </div>
+      <div class="footer-right">
+        <a href="{{ url_for('contact_us') }}">Contact Us</a>
+      </div>
+      <div class="footer-right">
+        <a href="{{ url_for('run_program') }}">Analysis</a>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>
