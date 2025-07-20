@@ -1,53 +1,108 @@
 from flask import Flask, render_template, request, redirect, url_for
 from config import Config
-from models import db, FoodItem, ProgramRun
-from datetime import datetime
-from student_program.core import compute_something, format_result
+from models import db, User, Store, Category, Location, Item, ProgramRun
+from student_program.core import (
+    get_expiring_items,
+    total_inventory_value,
+    count_by_location,
+    format_report
+)
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 
-@app.before_first_request
-def init_db():
+# -- Startup: create tables & seed defaults --
+with app.app_context():
+    # 1) Create all tables
     db.create_all()
+
+    # 2) Seed a default user so user_id=1 exists
+    if not User.query.first():
+        default_user = User(
+            username='trevor',
+            email='trevor@example.com',
+            pw_hash='password-placeholder'
+        )
+        db.session.add(default_user)
+
+    # 3) Seed Store
+    if not Store.query.first():
+        db.session.add_all([
+            Store(name='Walmart'),
+            Store(name="Sam's Club"),
+        ])
+
+    # 4) Seed Category
+    if not Category.query.first():
+        db.session.add_all([
+            Category(name='Cereal'),
+            Category(name='Drinks'),
+            Category(name='Cans'),
+        ])
+
+    # 5) Seed Location for user_id=1
+    if not Location.query.filter_by(user_id=1).first():
+        db.session.add_all([
+            Location(user_id=1, name='Pantry'),
+            Location(user_id=1, name='Storage Room'),
+            Location(user_id=1, name='Cabinet'),
+        ])
+
+    db.session.commit()
+
+# -- Routes --
 
 @app.route('/')
 def home():
     return redirect(url_for('add_food'))
 
-@app.route('/add', methods=['GET','POST'])
+@app.route('/add', methods=['GET', 'POST'])
 def add_food():
     if request.method == 'POST':
-        item = FoodItem(
-            name=request.form['name'],
-            quantity=int(request.form['quantity']),
-            expires=datetime.strptime(request.form['expires'], '%Y-%m-%d'),
-            location=request.form.get('location','')
+        item = Item(
+            user_id        = 1,
+            name           = request.form['name'],
+            quantity       = int(request.form['quantity']),
+            expires        = request.form.get('expires') or None,
+            purchase_price = request.form.get('purchase_price') or None,
+            store_id       = request.form.get('store_id') or None,
+            category_id    = request.form.get('category_id') or None,
+            location_id    = request.form.get('location_id') or None
         )
         db.session.add(item)
         db.session.commit()
         return redirect(url_for('storage'))
-    return render_template('add.html')
+
+    stores     = Store.query.all()
+    categories = Category.query.all()
+    locations  = Location.query.filter_by(user_id=1).all()
+    return render_template(
+        'add.html',
+        stores=stores,
+        categories=categories,
+        locations=locations
+    )
 
 @app.route('/storage')
 def storage():
-    items = FoodItem.query.order_by(FoodItem.expires).all()
+    items = Item.query.filter_by(user_id=1).order_by(Item.expires).all()
     return render_template('storage.html', items=items)
 
-@app.route('/program', methods=['GET','POST'])
+@app.route('/program', methods=['GET', 'POST'])
 def run_program():
     result = None
     if request.method == 'POST':
-        x = int(request.form['x'])
-        y = int(request.form['y'])
-        raw = compute_something(x, y)
-        result = format_result(raw)
-        # Optional: save run
-        rec = ProgramRun(input=f"{x},{y}", output=result)
-        db.session.add(rec)
+        days = int(request.form['x'])
+        data = get_expiring_items(days)
+        result = format_report(data)
+
+        # Log each run
+        run = ProgramRun(input=str(days), output=result)
+        db.session.add(run)
         db.session.commit()
+
     return render_template('program.html', result=result)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
