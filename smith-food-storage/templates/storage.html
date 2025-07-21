@@ -25,13 +25,19 @@
     <header>
       <div class="nav-icons">
         <a href="{{ url_for('home') }}">
-          <img class="logo" src="{{ url_for('static','images/updated_smith_food_storage_logo.jpg') }}" alt="Home">
+          <img class="logo"
+               src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
+               alt="Home">
         </a>
         <a href="{{ url_for('add_food') }}">
-          <img class="logo" src="{{ url_for('static','images/addfoodlogo.jpg') }}" alt="Add">
+          <img class="logo"
+               src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
+               alt="Add Food">
         </a>
         <a href="{{ url_for('storage') }}">
-          <img class="logo" src="{{ url_for('static','images/mystoragelogo.jpg') }}" alt="Storage">
+          <img class="logo"
+               src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
+               alt="My Storage">
         </a>
       </div>
     </header>
@@ -67,69 +73,38 @@
         <tbody>
           {% for i in items %}
           <tr data-item-id="{{ i.item_id }}">
-            <!-- Name -->
+            <td><input type="text" class="inline-edit" data-field="name" value="{{ i.name }}"></td>
+            <td><input type="number" class="inline-edit" data-field="quantity" value="{{ i.quantity }}"></td>
+            <td><input type="date" class="inline-edit" data-field="expires" value="{{ i.expires or '' }}"></td>
             <td>
-              <input type="text" class="inline-edit" data-field="name"
-                     value="{{ i.name }}">
+              {% if i.purchase_price %}${{ '%.2f'|format(i.purchase_price) }}{% else %}—{% endif %}
             </td>
-            <!-- Quantity -->
-            <td>
-              <input type="number" class="inline-edit" data-field="quantity"
-                     value="{{ i.quantity }}">
-            </td>
-            <!-- Expires -->
-            <td>
-              <input type="date" class="inline-edit" data-field="expires"
-                     value="{{ i.expires or '' }}">
-            </td>
-            <!-- Price (not editable inline for now) -->
-            <td>
-              {% if i.purchase_price %}
-                ${{ '%.2f'|format(i.purchase_price) }}
-              {% else %}
-                —
-              {% endif %}
-            </td>
-            <!-- Store -->
             <td>
               <select class="inline-edit" data-field="store_id">
                 <option value="">—</option>
                 {% for id,name in stores.items() %}
-                <option value="{{ id }}"
-                  {% if id == i.store_id %}selected{% endif %}>
-                  {{ name }}
-                </option>
+                <option value="{{ id }}" {% if id==i.store_id %}selected{% endif %}>{{ name }}</option>
                 {% endfor %}
               </select>
             </td>
-            <!-- Category -->
             <td>
               <select class="inline-edit" data-field="category_id">
                 <option value="">—</option>
                 {% for id,name in categories.items() %}
-                <option value="{{ id }}"
-                  {% if id == i.category_id %}selected{% endif %}>
-                  {{ name }}
-                </option>
+                <option value="{{ id }}" {% if id==i.category_id %}selected{% endif %}>{{ name }}</option>
                 {% endfor %}
               </select>
             </td>
-            <!-- Location -->
             <td>
               <select class="inline-edit" data-field="location_id">
                 <option value="">—</option>
                 {% for id,name in locations.items() %}
-                <option value="{{ id }}"
-                  {% if id == i.location_id %}selected{% endif %}>
-                  {{ name }}
-                </option>
+                <option value="{{ id }}" {% if id==i.location_id %}selected{% endif %}>{{ name }}</option>
                 {% endfor %}
               </select>
             </td>
-            <!-- Delete -->
             <td>
-              <form action="{{ url_for('delete_item', item_id=i.item_id) }}"
-                    method="post" style="display:inline">
+              <form action="{{ url_for('delete_item', item_id=i.item_id) }}" method="post" style="display:inline">
                 <button type="submit" class="btn-delete">&times;</button>
               </form>
             </td>
@@ -144,44 +119,36 @@
   </div>
 
   <script>
-    // helper: POST form-encoded
-    function postForm(url, data, cb) {
-      fetch(url, {
-        method: 'POST',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: new URLSearchParams(data)
-      })
-      .then(r=>r.json()).then(cb)
-      .catch(e=>alert('Error:'+e));
+    function postForm(u,d,cb){
+      fetch(u,{
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body:new URLSearchParams(d)
+      }).then(r=>r.json()).then(cb).catch(e=>alert('Error:'+e));
     }
-
-    // inline edits
     document.querySelectorAll('.inline-edit').forEach(el=>{
-      el.addEventListener('change', e=>{
-        const fld = e.target.dataset.field;
-        const val = e.target.value;
-        const row = e.target.closest('tr');
-        const id  = row.dataset.itemId;
-        postForm(`/edit-item/${id}`, {field:fld, value:val}, resp=>{
+      el.addEventListener('change',e=>{
+        let fld=e.target.dataset.field,
+            val=e.target.value,
+            row=e.target.closest('tr'),
+            id = row.dataset.itemId;
+        postForm(`/edit-item/${id}`,{field:fld,value:val},resp=>{
           if(!resp.success) alert(resp.error);
         });
       });
     });
-
-    // simple client sort
-    document.getElementById('sortBy').addEventListener('change', e=>{
-      const colMap = {name:0, quantity:1, expires:2, price:3, store:4, category:5, location:6};
-      const col = colMap[e.target.value];
-      const tbody = document.querySelector('#storageTable tbody');
-      Array.from(tbody.rows)
-        .sort((a,b)=>{
-          let A = a.cells[col].innerText.trim(),
-              B = b.cells[col].innerText.trim();
-          if (col===1) { A=+A; B=+B }            // qty numeric
-          if (col===2) { A=new Date(A); B=new Date(B) } // date
-          return A > B ? 1 : (A < B ? -1 : 0);
-        })
-        .forEach(row=>tbody.appendChild(row));
+    document.getElementById('sortBy').addEventListener('change',e=>{
+      const map={name:0,quantity:1,expires:2,price:3,store:4,category:5,location:6},
+            col=map[e.target.value],
+            tbody=document.querySelector('#storageTable tbody'),
+            rows=Array.from(tbody.rows);
+      rows.sort((a,b)=>{
+        let A=a.cells[col].innerText.trim(),
+            B=b.cells[col].innerText.trim();
+        if(col===1){A=+A;B=+B;}
+        if(col===2){A=new Date(A);B=new Date(B);}
+        return A>B?1:(A<B?-1:0);
+      }).forEach(r=>tbody.appendChild(r));
     });
   </script>
 </body>
