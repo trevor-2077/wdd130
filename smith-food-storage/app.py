@@ -12,41 +12,26 @@ app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
 
-# -- Startup: create tables & seed defaults --
 with app.app_context():
     db.create_all()
-
     if not User.query.first():
         db.session.add(User(
             username='trevor',
             email='trevor@example.com',
             pw_hash='password-placeholder'
         ))
-
     if not Store.query.first():
-        db.session.add_all([
-            Store(name='Walmart'),
-            Store(name="Sam's Club"),
-        ])
-
+        db.session.add_all([Store(name='Walmart'), Store(name="Sam's Club")])
     if not Category.query.first():
-        db.session.add_all([
-            Category(name='Cereal'),
-            Category(name='Drinks'),
-            Category(name='Cans'),
-        ])
-
+        db.session.add_all([Category(name='Cereal'), Category(name='Drinks'), Category(name='Cans')])
     if not Location.query.filter_by(user_id=1).first():
         db.session.add_all([
             Location(user_id=1, name='Pantry'),
             Location(user_id=1, name='Storage Room'),
             Location(user_id=1, name='Cabinet'),
         ])
-
     db.session.commit()
 
-
-# -- Routes ----------------------------------------------------
 
 @app.route('/')
 def home():
@@ -58,7 +43,6 @@ def add_food():
     stores     = Store.query.all()
     categories = Category.query.all()
     locations  = Location.query.filter_by(user_id=1).all()
-
     if request.method == 'POST':
         item = Item(
             user_id        = 1,
@@ -74,22 +58,16 @@ def add_food():
         db.session.commit()
         return redirect(url_for('storage'))
 
-    return render_template(
-        'add.html',
-        stores=stores,
-        categories=categories,
-        locations=locations
-    )
+    return render_template('add.html', stores=stores, categories=categories, locations=locations)
 
 
 @app.route('/storage')
 def storage():
     items      = Item.query.filter_by(user_id=1).order_by(Item.expires).all()
-    stores     = { s.store_id: s.name     for s in Store.query.all() }
-    categories = { c.category_id: c.name  for c in Category.query.all() }
-    locations  = { l.location_id: l.name  for l in Location.query.filter_by(user_id=1) }
-    return render_template(
-        'storage.html',
+    stores     = {s.store_id: s.name for s in Store.query.all()}
+    categories = {c.category_id: c.name for c in Category.query.all()}
+    locations  = {l.location_id: l.name for l in Location.query.filter_by(user_id=1)}
+    return render_template('storage.html',
         items=items,
         stores=stores,
         categories=categories,
@@ -111,7 +89,7 @@ def edit_item(item_id):
     field = request.form.get('field')
     val   = request.form.get('value', '').strip()
     try:
-        # Cast numeric fields
+        # cast types
         if field in ('quantity', 'store_id', 'category_id', 'location_id'):
             val = int(val) if val else None
         setattr(item, field, val)
