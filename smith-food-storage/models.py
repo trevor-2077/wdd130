@@ -46,6 +46,9 @@ class Item(db.Model):
     purchase_price = db.Column(db.Numeric(8,2))
     expires        = db.Column(db.Date)
     purchased_at   = db.Column(db.DateTime, server_default=db.func.now())
+    store    = db.relationship('Store',    backref='items')
+    category = db.relationship('Category', backref='items')
+    location = db.relationship('Location', backref='items')
 
 class ProgramRun(db.Model):
     __tablename__ = 'program_runs'

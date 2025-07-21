@@ -1,33 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <title>Smith Food Storage | My Storage</title>
+
   <!-- Google Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
     rel="stylesheet"
   >
+
   <!-- your own styles -->
   <link
     rel="stylesheet"
     href="{{ url_for('static', filename='styles/style.css') }}"
   >
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smith Food Storage | My Storage</title>
+  <!-- jQuery (for inline editing AJAX) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+          integrity="sha256-/xUj+3OJ+Y3GkrKjb+6ymAti8od0OqpmLp+YQ5nZ+KA="
+          crossorigin="anonymous"></script>
 
   <style>
-    /* quick inline tweaks for the table */
-    table { width: 100%; border-collapse: collapse; margin: 1em 0; }
-    th, td { border: 1px solid #ddd; padding: 0.5em; text-align: left; }
-    th { background: #f4f4f4; }
+    /* Quick inline tweaks */
+    #storage-table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+    #storage-table th, #storage-table td {
+      border: 1px solid #ddd; padding: 0.5em; text-align: left;
+    }
+    #storage-table th { background: #fff; cursor: pointer; }
     .btn-delete {
-      background: transparent;
-      border: none;
-      color: #c00;
-      font-size: 1.2em;
-      line-height: 1;
-      cursor: pointer;
+      background: transparent; border: none; color: red;
+      font-size: 1.2em; cursor: pointer;
+    }
+    .sort-select { margin-bottom: 1em; }
+    .editable, .editable-date {
+      display: inline-block; min-width: 2ch;
+      padding: 2px 4px; border-radius: 3px;
+    }
+    .editable:hover, .editable-date:hover {
+      background: rgba(255,255,255,0.2);
     }
   </style>
 </head>
@@ -55,22 +66,28 @@
       </div>
     </header>
 
-    <!-- Page Intro -->
+    <!-- Intro & Sort Control -->
     <section id="scenery-overlay">
       <h2>My Storage</h2>
-      <div class="overlay-msg">
-        <p>
-          Below is everything you’ve added. Use the “×” button to remove items
-          when you’ve used them up. You can also sort by expiration date
-          via your browser’s table controls, or adjust quantities inline if you like.
-        </p>
-      </div>
+      <p>
+        Below is everything you’ve added. Use “×” to delete, click a cell to edit inline,
+        or pick a sort order:
+      </p>
+      <select class="sort-select" id="sort-by">
+        <option value="">-- Sort by --</option>
+        <option value="0">Name</option>
+        <option value="1">Qty</option>
+        <option value="2">Expires</option>
+        <option value="4">Store</option>
+        <option value="5">Category</option>
+        <option value="6">Location</option>
+      </select>
     </section>
 
     <!-- Storage Table -->
     <main>
       {% if items %}
-      <table>
+      <table id="storage-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -86,23 +103,42 @@
         <tbody>
           {% for i in items %}
           <tr>
-            <td>{{ i.name }}</td>
-            <td>{{ i.quantity }}</td>
-            <td>{{ i.expires or '—' }}</td>
+            <!-- inline editable name -->
             <td>
-              {% if i.purchase_price is not none %}
-                ${{ '%.2f'|format(i.purchase_price) }}
-              {% else %}
-                —
-              {% endif %}
+              <span class="editable"
+                    data-id="{{ i.item_id }}"
+                    data-field="name">{{ i.name }}</span>
             </td>
+
+            <!-- inline editable quantity -->
+            <td>
+              <span class="editable"
+                    data-id="{{ i.item_id }}"
+                    data-field="quantity">{{ i.quantity }}</span>
+            </td>
+
+            <!-- inline editable expires -->
+            <td>
+              <span class="editable-date"
+                    data-id="{{ i.item_id }}"
+                    data-field="expires">{{ i.expires or '' }}</span>
+            </td>
+
+            <!-- price (non‑editable for now) -->
+            <td>
+              {% if i.purchase_price %}${{ '%.2f'|format(i.purchase_price) }}
+              {% else %}—{% endif %}
+            </td>
+
+            <!-- store, category, location (static) -->
             <td>{{ i.store.name if i.store else '—' }}</td>
             <td>{{ i.category.name if i.category else '—' }}</td>
             <td>{{ i.location.name if i.location else '—' }}</td>
+
+            <!-- delete button -->
             <td>
               <form action="{{ url_for('delete_item', item_id=i.item_id) }}"
-                    method="post"
-                    style="display:inline">
+                    method="post">
                 <button type="submit" class="btn-delete" title="Delete">
                   &times;
                 </button>
@@ -113,7 +149,7 @@
         </tbody>
       </table>
       {% else %}
-        <p>No items in storage yet. <a href="{{ url_for('add_food') }}">Add some now.</a></p>
+        <p>No items in storage yet. <a href="{{ url_for('add_food') }}">Add some.</a></p>
       {% endif %}
     </main>
 
@@ -142,9 +178,70 @@
           <img
             src="{{ url_for('static', filename='images/instagram.png') }}"
             alt="Instagram">
-          </a>
+        </a>
       </div>
     </footer>
   </div>
+
+  <script>
+    // -- Inline‐edit handler for text/number fields --
+    $('#storage-table').on('click', '.editable', function(){
+      const $span = $(this);
+      const fld   = $span.data('field');
+      const id    = $span.data('id');
+      const old   = $span.text().trim();
+
+      // create an input
+      const $inp = $('<input>')
+        .val(old)
+        .css({ width: fld==='name'? '6em':'3em' })
+        .on('blur keydown', function(e){
+          if (e.type==='blur' || e.key==='Enter') {
+            let val = $(this).val().trim();
+            if (fld==='quantity') val = parseInt(val) || 0;
+            // send update
+            $.post(`/edit-item/${id}`, { field: fld, value: val })
+              .fail(()=> alert('Update failed'));
+            // restore span
+            $span.text(val).show();
+            $inp.remove();
+          }
+        });
+      $span.hide().after($inp);
+      $inp.focus();
+    });
+
+    // -- Inline‐edit handler for date fields --
+    $('#storage-table').on('click', '.editable-date', function(){
+      const $span = $(this);
+      const id    = $span.data('id');
+      const old   = $span.text().trim();
+      const $inp  = $('<input type="date">')
+        .val(old)
+        .css({ width: '8em' })
+        .on('blur change', function(){
+          const val = $(this).val();
+          $.post(`/edit-item/${id}`, { field: 'expires', value: val })
+            .fail(()=> alert('Date update failed'));
+          $span.text(val).show();
+          $inp.remove();
+        });
+      $span.hide().after($inp);
+      $inp.focus();
+    });
+
+    // -- Simple client‐side sort by column index --
+    $('#sort-by').on('change', function(){
+      const col = +this.value;
+      if (isNaN(col)) return;
+      const $rows = $('#storage-table tbody tr').get();
+      $rows.sort((a,b)=>{
+        const A = $(a).children('td').eq(col).text().trim(),
+              B = $(b).children('td').eq(col).text().trim();
+        return isNaN(A)? A.localeCompare(B) : ( +A - +B );
+      });
+      $.each($rows, (_,r)=> $('#storage-table tbody').append(r) );
+    });
+  </script>
 </body>
 </html>
