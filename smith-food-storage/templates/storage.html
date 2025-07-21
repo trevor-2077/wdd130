@@ -2,41 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Smith Food Storage | Add Food</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Smith Food Storage | My Storage</title>
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts & your CSS -->
   <link
     href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
     rel="stylesheet"
   >
-  <!-- Your CSS -->
   <link
     rel="stylesheet"
     href="{{ url_for('static', filename='styles/style.css') }}"
   >
 
   <style>
-    /* Quick inline tweaks for the table form */
-    table { width: 100%; border-collapse: collapse; margin: 1em 0; }
-    th, td { border: 1px solid #444; padding: 0.5em; }
-    th { background: #f4e042; }
-    .btn { padding: 0.5em 1em; margin: 0.5em; }
-    .remove-row { color: red; cursor: pointer; font-weight: bold; }
-    .small-input { width: 4em; }
-    .full-width { width: 100%; box-sizing: border-box; }
-    .sub-input { margin-top: 0.25em; font-size: 0.9em; }
+    table { width:100%; border-collapse: collapse; margin-top:1em; }
+    th, td { border:1px solid #ddd; padding:0.5em; }
+    th { background:#f4f4f4; }
+    .btn-delete { background:transparent; border:none; color:red; font-size:1.2em; cursor:pointer; }
+    .sort-select { margin-top:0.5em; }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      width:100%; box-sizing:border-box;
+      border:1px solid transparent;
+      transition: border-color .2s;
+    }
+    input.inline-edit:hover,
+    select.inline-edit:hover {
+      border-color:#aaa;
+    }
+    input.inline-edit:focus,
+    select.inline-edit:focus {
+      border-color:#333;
+      outline:none;
+    }
   </style>
 </head>
 <body>
   <div id="content">
     <header>
-      <h1>Add Food</h1>
-      <p>Use this form to record new items. You can pick an existing Store/Category/Location or enter a new one below.</p>
+      <div class="nav-icons">
+        <a href="{{ url_for('home') }}">
+          <img class="logo"
+               src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
+               alt="Home">
+        </a>
+        <a href="{{ url_for('add_food') }}">
+          <img class="logo"
+               src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
+               alt="Add Food">
+        </a>
+        <a href="{{ url_for('storage') }}">
+          <img class="logo"
+               src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
+               alt="My Storage">
+        </a>
+      </div>
     </header>
 
-    <form method="post" action="{{ url_for('add_food') }}">
-      <table id="items-table">
+    <section id="scenery-overlay">
+      <h2>My Storage</h2>
+      <p>
+        Below is everything you’ve added.  
+        Use “×” to delete, click a cell to edit inline, or pick a sort order:
+      </p>
+      <select id="sortBy" class="sort-select">
+        <option value="expires">Expires</option>
+        <option value="quantity">Qty</option>
+        <option value="name">Name</option>
+        <option value="store">Store</option>
+        <option value="category">Category</option>
+        <option value="location">Location</option>
+      </select>
+    </section>
+
+    <main>
+      {% if items %}
+      <table id="storageTable">
         <thead>
           <tr>
             <th>Name</th>
@@ -44,120 +88,132 @@
             <th>Expires</th>
             <th>Price</th>
             <th>Store</th>
-            <th>New Store</th>
             <th>Category</th>
-            <th>New Category</th>
             <th>Location</th>
-            <th>New Location</th>
-            <th>Shelf/Bin</th>
             <th>Del</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="item-row">
-            <!-- NAME -->
+          {% for i in items %}
+          <tr data-item-id="{{ i.item_id }}">
+            <!-- Name -->
             <td>
-              <input type="text" name="name[]" class="full-width" required>
+              <input type="text"
+                     class="inline-edit"
+                     data-field="name"
+                     value="{{ i.name }}">
             </td>
-            <!-- QUANTITY -->
+            <!-- Quantity -->
             <td>
-              <input type="number" name="quantity[]" class="small-input" min="1" value="1" required>
+              <input type="number"
+                     class="inline-edit"
+                     data-field="quantity"
+                     value="{{ i.quantity }}">
             </td>
-            <!-- EXPIRES -->
+            <!-- Expires -->
             <td>
-              <input type="date" name="expires[]" class="full-width">
+              <input type="date"
+                     class="inline-edit"
+                     data-field="expires"
+                     value="{{ i.expires or '' }}">
             </td>
-            <!-- PRICE -->
+            <!-- Price (read‑only) -->
             <td>
-              <input type="number" step="0.01" name="purchase_price[]" class="small-input">
+              {% if i.purchase_price %}
+                ${{ '%.2f'|format(i.purchase_price) }}
+              {% else %}
+                &ndash;
+              {% endif %}
             </td>
-            <!-- STORE SELECT -->
+            <!-- Store -->
             <td>
-              <select name="store_id[]">
-                <option value="">— pick —</option>
-                {% for s in stores %}
-                  <option value="{{ s.store_id }}">{{ s.name }}</option>
+              <select class="inline-edit" data-field="store_id">
+                <option value="">—</option>
+                {% for id,name in stores.items() %}
+                <option value="{{ id }}" {% if id==i.store_id %}selected{% endif %}>
+                  {{ name }}
+                </option>
                 {% endfor %}
               </select>
             </td>
-            <!-- NEW STORE -->
+            <!-- Category -->
             <td>
-              <input
-                type="text"
-                name="new_store[]"
-                class="full-width sub-input"
-                placeholder="Or new…">
-            </td>
-            <!-- CATEGORY SELECT -->
-            <td>
-              <select name="category_id[]">
-                <option value="">— pick —</option>
-                {% for c in categories %}
-                  <option value="{{ c.category_id }}">{{ c.name }}</option>
+              <select class="inline-edit" data-field="category_id">
+                <option value="">—</option>
+                {% for id,name in categories.items() %}
+                <option value="{{ id }}" {% if id==i.category_id %}selected{% endif %}>
+                  {{ name }}
+                </option>
                 {% endfor %}
               </select>
             </td>
-            <!-- NEW CATEGORY -->
+            <!-- Location -->
             <td>
-              <input
-                type="text"
-                name="new_category[]"
-                class="full-width sub-input"
-                placeholder="Or new…">
-            </td>
-            <!-- LOCATION SELECT -->
-            <td>
-              <select name="location_id[]">
-                <option value="">— pick —</option>
-                {% for l in locations %}
-                  <option value="{{ l.location_id }}">{{ l.name }}</option>
+              <select class="inline-edit" data-field="location_id">
+                <option value="">—</option>
+                {% for id,name in locations.items() %}
+                <option value="{{ id }}" {% if id==i.location_id %}selected{% endif %}>
+                  {{ name }}
+                </option>
                 {% endfor %}
               </select>
             </td>
-            <!-- NEW LOCATION -->
+            <!-- Delete -->
             <td>
-              <input
-                type="text"
-                name="new_location[]"
-                class="full-width sub-input"
-                placeholder="Or new…">
+              <form action="{{ url_for('delete_item', item_id=i.item_id) }}"
+                    method="post" style="display:inline">
+                <button type="submit" class="btn-delete">&times;</button>
+              </form>
             </td>
-            <!-- SHELF/BIN DETAIL -->
-            <td>
-              <input
-                type="text"
-                name="location_detail[]"
-                class="full-width sub-input"
-                placeholder="Shelf/bin…">
-            </td>
-            <!-- DELETE ROW -->
-            <td class="remove-row">&times;</td>
           </tr>
+          {% endfor %}
         </tbody>
       </table>
-
-      <button type="button" class="btn" id="add-row">+ Add Row</button>
-      <button type="submit" class="btn">Submit All Items</button>
-    </form>
+      {% else %}
+        <p>No items yet. <a href="{{ url_for('add_food') }}">Add some.</a></p>
+      {% endif %}
+    </main>
   </div>
 
   <script>
-    // Clone & remove rows
-    const tbody = document.querySelector('#items-table tbody');
-    document.getElementById('add-row').addEventListener('click', () => {
-      const newRow = tbody.querySelector('.item-row').cloneNode(true);
-      // clear inputs
-      newRow.querySelectorAll('input').forEach(i => i.value = '');
-      newRow.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
-      tbody.appendChild(newRow);
+    // helper: send form-encoded POST, return JSON
+    function postForm(url, data, cb) {
+      fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: new URLSearchParams(data)
+      })
+      .then(r=>r.json())
+      .then(cb)
+      .catch(e=>alert('Error: '+e));
+    }
+
+    // Inline-edit listeners
+    document.querySelectorAll('.inline-edit').forEach(el=>{
+      el.addEventListener('change', e=>{
+        const field = e.target.dataset.field;
+        const value = e.target.value;
+        const row   = e.target.closest('tr');
+        const id    = row.dataset.itemId;
+        postForm(`/edit-item/${id}`, { field, value }, resp=>{
+          if(!resp.success) alert(resp.error);
+        });
+      });
     });
-    tbody.addEventListener('click', e => {
-      if (e.target.classList.contains('remove-row')) {
-        const rows = tbody.querySelectorAll('.item-row');
-        if (rows.length > 1) {
-          e.target.closest('.item-row').remove();
-        }
-      }
+
+    // Client‑side sort
+    document.getElementById('sortBy').addEventListener('change', e=>{
+      const map = {name:0, quantity:1, expires:2, price:3, store:4, category:5, location:6};
+      const col = map[e.target.value];
+      const tbody = document.querySelector('#storageTable tbody');
+      Array.from(tbody.rows)
+        .sort((a,b)=>{
+          let A=a.cells[col].innerText.trim(), B=b.cells[col].innerText.trim();
+          if(col===1){A=+A;B=+B;}
+          if(col===2){A=new Date(A);B=new Date(B);}
+          return A>B?1:(A<B?-1:0);
+        })
+        .forEach(r=>tbody.appendChild(r));
     });
   </script>
 </body>
