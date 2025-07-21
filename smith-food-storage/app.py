@@ -63,7 +63,6 @@ def add_food():
         new_categories  = request.form.getlist('new_category[]')
         location_ids    = request.form.getlist('location_id[]')
         new_locations   = request.form.getlist('new_location[]')
-        location_details= request.form.getlist('location_detail[]')
 
         for i, name in enumerate(names):
             # 1) determine or create Store
@@ -107,7 +106,6 @@ def add_food():
                 store_id       = sid,
                 category_id    = cid,
                 location_id    = lid,
-                location_detail= location_details[i].strip() or None
             )
             db.session.add(item)
 
