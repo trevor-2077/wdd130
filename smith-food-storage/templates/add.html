@@ -6,15 +6,8 @@
   <title>Smith Food Storage | Add Food</title>
 
   <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
-    rel="stylesheet"
-  >
-  <!-- Your CSS -->
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/style.css') }}"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
 
   <style>
     /* Quick inline tweaks for the table form */
@@ -29,11 +22,42 @@
   </style>
 </head>
 <body>
-  <div id="content">
-    <header>
+<div id="content">
+
+  <!-- Header -->
+  <header>
+    <div class="nav-icons">
+      <a href="{{ url_for('home') }}">
+        <img class="logo"src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"alt="Smith Food Storage">
+      </a>
+      <a href="{{ url_for('add_food') }}">
+        <img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food">
+      </a>
+      <a href="{{ url_for('storage') }}">
+        <img class="logo" src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}" alt="My Storage">
+      </a>
+    </div>
+  </header>
+
+  <section id="scenery-overlay">
+    <div class="overlay-msg">
       <h1>Add Food</h1>
-      <p>Use this form to record new items. You can pick an existing Store/Category/Location or enter a new one below.</p>
-    </header>
+      <p>Welcome to the Add Food page. As the name suggests, this is where you can add the food, category, quantity, location, price, and expiration date (if applicable) of the food/items that you buy. It is designed to be quick and easy. From here the food you add will be stored in a page titled: My Storage. There you can see all this information organized in an easy-to-read format.</p>
+    </div>
+  </section>
+
+  <!-- Hero Section-->
+  <div id="hero">
+    <div id="hero-box">
+      <img id="hero-img" src="{{ url_for('static', filename='images/addfoodshelf.jpg') }}" alt="Add Food">
+    </div>
+    <section id="hero-msg">
+      <h1 class="home-title">View My Storage</h1>
+      <div class="button-box">
+        <a class="book" href="{{ url_for('storage') }}">My Storage</a>
+      </div>
+    </section>
+  </div>
 
     <form method="post" action="{{ url_for('add_food') }}">
       <table id="items-table">
@@ -160,5 +184,23 @@
       }
     });
   </script>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-left">Smith Food Storage &copy; 2025 - Trevor Smith</div>
+    <div class="footer-center"><a href="{{ url_for('site_plan') }}">Site Plan</a></div>
+    <div class="footer-right"><a href="{{ url_for('contact_us') }}">Contact Us</a></div>
+    <div class="footer-right"><a href="{{ url_for('run_program') }}">Storage Tools</a></div>
+  
+    <div class="social">
+      <a href="https://facebook.com" target="_blank">
+        <img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook icon">
+      </a>
+      <a href="https://twitter.com" target="_blank"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter icon">
+      </a>
+      <a href="https://instagram.com" target="_blank"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram icon">
+      </a>
+    </div>
+  </footer>
 </body>
 </html>
