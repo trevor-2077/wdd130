@@ -1,70 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google Fonts -->
+  <!-- Google Fonts + your CSS -->
   <link
     href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
-    rel="stylesheet"
-  >
-  <!-- your own styles -->
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/style.css') }}"
-  >
-
+    rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Smith Food Storage | My Storage</title>
-
   <style>
-    table { width: 100%; border-collapse: collapse; margin-top: 1em; }
-    th, td { border: 1px solid #ddd; padding: 0.5em; text-align: left; }
-    th { background: #E7C24F; }
-    .btn-delete {
-      background: transparent;
-      border: none;
-      color: red;
-      font-size: 1.2em;
-      cursor: pointer;
+    table { width:100%; border-collapse: collapse; margin-top:1em; }
+    th, td { border:1px solid #ddd; padding:0.5em; }
+    th { background:#f4f4f4; }
+    .btn-delete { background:transparent; border:none; color:red; font-size:1.2em; cursor:pointer; }
+    .sort-select { margin-top:0.5em; }
+    input[type="text"], input[type="number"], input[type="date"], select {
+      width:100%; box-sizing:border-box;
     }
-    .editable { cursor: pointer; }
-    .editable:hover { background: #eef; }
-    #sortSelect { margin-top: 1em; padding: 0.25em; }
   </style>
 </head>
 <body>
   <div id="content">
-
-    <!-- Header -->
     <header>
       <div class="nav-icons">
-        <a href="{{ url_for('home') }}"><img class="logo" src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}" alt="Home"></a>
-        <a href="{{ url_for('add_food') }}"><img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food"></a>
-        <a href="{{ url_for('storage') }}"><img class="logo" src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}" alt="My Storage"></a>
+        <a href="{{ url_for('home') }}">
+          <img class="logo" src="{{ url_for('static','images/updated_smith_food_storage_logo.jpg') }}" alt="Home">
+        </a>
+        <a href="{{ url_for('add_food') }}">
+          <img class="logo" src="{{ url_for('static','images/addfoodlogo.jpg') }}" alt="Add">
+        </a>
+        <a href="{{ url_for('storage') }}">
+          <img class="logo" src="{{ url_for('static','images/mystoragelogo.jpg') }}" alt="Storage">
+        </a>
       </div>
     </header>
 
-    <!-- Page Intro -->
     <section id="scenery-overlay">
       <h2>My Storage</h2>
-      <div class="overlay-msg">
-        <p>
-          Below is everything you’ve added. Use “×” to delete, click a Name / Qty / Expires cell to edit inline, or pick a sort order below:
-        </p>
-      </div>
-      <label for="sortSelect">Sort by:</label>
-      <select id="sortSelect">
-        <option value="0">Name</option>
-        <option value="1">Qty</option>
-        <option value="2">Expires</option>
-        <option value="3">Price</option>
-        <option value="4">Store</option>
-        <option value="5">Category</option>
-        <option value="6">Location</option>
+      <p>Below is everything you’ve added. Use “×” to delete, click a cell to edit inline, or pick a sort order:</p>
+      <select id="sortBy" class="sort-select">
+        <option value="expires">Expires</option>
+        <option value="quantity">Qty</option>
+        <option value="name">Name</option>
+        <option value="store">Store</option>
+        <option value="category">Category</option>
+        <option value="location">Location</option>
       </select>
     </section>
 
-    <!-- Storage Table -->
     <main>
       {% if items %}
       <table id="storageTable">
@@ -83,16 +67,70 @@
         <tbody>
           {% for i in items %}
           <tr data-item-id="{{ i.item_id }}">
-            <td class="editable" data-field="name">{{ i.name }}</td>
-            <td class="editable" data-field="quantity">{{ i.quantity }}</td>
-            <td class="editable" data-field="expires">{{ i.expires or '—' }}</td>
-            <td>${{ '%.2f'|format(i.purchase_price) if i.purchase_price else '—' }}</td>
-            <td>{{ i.store.name if i.store else '—' }}</td>
-            <td>{{ i.category.name if i.category else '—' }}</td>
-            <td>{{ i.location.name if i.location else '—' }}</td>
+            <!-- Name -->
             <td>
-              <form action="{{ url_for('delete_item', item_id=i.item_id) }}" method="post">
-                <button type="submit" class="btn-delete" title="Delete">&times;</button>
+              <input type="text" class="inline-edit" data-field="name"
+                     value="{{ i.name }}">
+            </td>
+            <!-- Quantity -->
+            <td>
+              <input type="number" class="inline-edit" data-field="quantity"
+                     value="{{ i.quantity }}">
+            </td>
+            <!-- Expires -->
+            <td>
+              <input type="date" class="inline-edit" data-field="expires"
+                     value="{{ i.expires or '' }}">
+            </td>
+            <!-- Price (not editable inline for now) -->
+            <td>
+              {% if i.purchase_price %}
+                ${{ '%.2f'|format(i.purchase_price) }}
+              {% else %}
+                —
+              {% endif %}
+            </td>
+            <!-- Store -->
+            <td>
+              <select class="inline-edit" data-field="store_id">
+                <option value="">—</option>
+                {% for id,name in stores.items() %}
+                <option value="{{ id }}"
+                  {% if id == i.store_id %}selected{% endif %}>
+                  {{ name }}
+                </option>
+                {% endfor %}
+              </select>
+            </td>
+            <!-- Category -->
+            <td>
+              <select class="inline-edit" data-field="category_id">
+                <option value="">—</option>
+                {% for id,name in categories.items() %}
+                <option value="{{ id }}"
+                  {% if id == i.category_id %}selected{% endif %}>
+                  {{ name }}
+                </option>
+                {% endfor %}
+              </select>
+            </td>
+            <!-- Location -->
+            <td>
+              <select class="inline-edit" data-field="location_id">
+                <option value="">—</option>
+                {% for id,name in locations.items() %}
+                <option value="{{ id }}"
+                  {% if id == i.location_id %}selected{% endif %}>
+                  {{ name }}
+                </option>
+                {% endfor %}
+              </select>
+            </td>
+            <!-- Delete -->
+            <td>
+              <form action="{{ url_for('delete_item', item_id=i.item_id) }}"
+                    method="post" style="display:inline">
+                <button type="submit" class="btn-delete">&times;</button>
               </form>
             </td>
           </tr>
@@ -100,111 +138,50 @@
         </tbody>
       </table>
       {% else %}
-        <p>No items in storage yet. <a href="{{ url_for('add_food') }}">Add some.</a></p>
+        <p>No items yet. <a href="{{ url_for('add_food') }}">Add some.</a></p>
       {% endif %}
     </main>
-
-    <!-- Footer -->
-    <footer>
-      <div class="footer-left">Smith Food Storage &copy; 2025 – Trevor Smith</div>
-      <div class="footer-links">
-        <a href="{{ url_for('site_plan') }}">Site Plan</a>
-        <a href="{{ url_for('contact_us') }}">Contact Us</a>
-        <a href="{{ url_for('run_program') }}">Analysis</a>
-      </div>
-      <div class="social">
-        <a href="https://facebook.com"><img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook"></a>
-        <a href="https://twitter.com"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter"></a>
-        <a href="https://instagram.com"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram"></a>
-      </div>
-    </footer>
-
   </div>
 
   <script>
-    // — Inline‐edit handler —
-    document.querySelectorAll('td.editable').forEach(cell => {
-      cell.addEventListener('click', () => {
-        if (cell.querySelector('input')) return;  // already editing
+    // helper: POST form-encoded
+    function postForm(url, data, cb) {
+      fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: new URLSearchParams(data)
+      })
+      .then(r=>r.json()).then(cb)
+      .catch(e=>alert('Error:'+e));
+    }
 
-        const field = cell.dataset.field;
-        const tr    = cell.closest('tr');
-        const id    = tr.dataset.itemId;
-        const old   = cell.textContent.trim();
-        let inp;
-
-        if (field === 'expires') {
-          inp = document.createElement('input');
-          inp.type = 'date';
-          inp.value = (old === '—' ? '' : old);
-        } else {
-          inp = document.createElement('input');
-          inp.type = field === 'quantity' ? 'number' : 'text';
-          inp.value = old;
-        }
-
-        inp.style.width = '100%';
-        cell.textContent = '';
-        cell.appendChild(inp);
-        inp.focus();
-
-        function save() {
-          const val = inp.value.trim();
-          fetch(`/edit-item/${id}`, {
-            method: 'POST',
-            headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-            body: `field=${field}&value=${encodeURIComponent(val)}`
-          })
-          .then(r => {
-            if (!r.ok) return r.json().then(j=>Promise.reject(j.error));
-            return r.json();
-          })
-          .then(_ => {
-            cell.textContent = val || '—';
-          })
-          .catch(err => {
-            alert('Error: ' + err);
-            cell.textContent = old;
-          });
-        }
-
-        inp.addEventListener('blur', save);
-        inp.addEventListener('keydown', e => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            inp.blur();
-          }
-          if (e.key === 'Escape') {
-            cell.textContent = old;
-          }
+    // inline edits
+    document.querySelectorAll('.inline-edit').forEach(el=>{
+      el.addEventListener('change', e=>{
+        const fld = e.target.dataset.field;
+        const val = e.target.value;
+        const row = e.target.closest('tr');
+        const id  = row.dataset.itemId;
+        postForm(`/edit-item/${id}`, {field:fld, value:val}, resp=>{
+          if(!resp.success) alert(resp.error);
         });
       });
     });
 
-    // — Sort functionality —
-    const table = document.getElementById('storageTable');
-    const tbody = table.querySelector('tbody');
-    document.getElementById('sortSelect').addEventListener('change', e => {
-      const col = +e.target.value;
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-
-      rows.sort((a, b) => {
-        const t1 = a.children[col].textContent.trim();
-        const t2 = b.children[col].textContent.trim();
-
-        // numeric?
-        if (col === 1) return (+t1) - (+t2);
-        // date?
-        if (col === 2) {
-          const d1 = t1==='—'?0:Date.parse(t1);
-          const d2 = t2==='—'?0:Date.parse(t2);
-          return d1 - d2;
-        }
-        // fallback string
-        return t1.localeCompare(t2, undefined, { numeric:true });
-      });
-
-      rows.forEach(r => tbody.appendChild(r));
+    // simple client sort
+    document.getElementById('sortBy').addEventListener('change', e=>{
+      const colMap = {name:0, quantity:1, expires:2, price:3, store:4, category:5, location:6};
+      const col = colMap[e.target.value];
+      const tbody = document.querySelector('#storageTable tbody');
+      Array.from(tbody.rows)
+        .sort((a,b)=>{
+          let A = a.cells[col].innerText.trim(),
+              B = b.cells[col].innerText.trim();
+          if (col===1) { A=+A; B=+B }            // qty numeric
+          if (col===2) { A=new Date(A); B=new Date(B) } // date
+          return A > B ? 1 : (A < B ? -1 : 0);
+        })
+        .forEach(row=>tbody.appendChild(row));
     });
   </script>
 </body>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from config import Config
 from models import db, User, Store, Category, Location, Item, ProgramRun
 from student_program.core import (
@@ -15,34 +15,19 @@ db.init_app(app)
 # -- Startup: create tables & seed defaults --
 with app.app_context():
     db.create_all()
-
     if not User.query.first():
-        db.session.add(
-            User(username='trevor', email='trevor@example.com', pw_hash='password-placeholder')
-        )
-
+        db.session.add(User(username='trevor', email='trevor@example.com', pw_hash='password-placeholder'))
     if not Store.query.first():
-        db.session.add_all([
-            Store(name='Walmart'),
-            Store(name="Sam's Club"),
-        ])
-
+        db.session.add_all([Store(name='Walmart'), Store(name="Sam's Club")])
     if not Category.query.first():
-        db.session.add_all([
-            Category(name='Cereal'),
-            Category(name='Drinks'),
-            Category(name='Cans'),
-        ])
-
+        db.session.add_all([Category(name='Cereal'), Category(name='Drinks'), Category(name='Cans')])
     if not Location.query.filter_by(user_id=1).first():
         db.session.add_all([
             Location(user_id=1, name='Pantry'),
             Location(user_id=1, name='Storage Room'),
             Location(user_id=1, name='Cabinet'),
         ])
-
     db.session.commit()
-
 
 # -- Routes ----------------------------------------------------
 
@@ -58,19 +43,20 @@ def add_food():
     locations  = Location.query.filter_by(user_id=1).all()
 
     if request.method == 'POST':
-        names           = request.form.getlist('name[]')
-        quantities      = request.form.getlist('quantity[]')
-        expirations     = request.form.getlist('expires[]')
-        prices          = request.form.getlist('purchase_price[]')
-        store_ids       = request.form.getlist('store_id[]')
-        new_stores      = request.form.getlist('new_store[]')
-        category_ids    = request.form.getlist('category_id[]')
-        new_categories  = request.form.getlist('new_category[]')
-        location_ids    = request.form.getlist('location_id[]')
-        new_locations   = request.form.getlist('new_location[]')
+        # grab all parallel lists
+        names        = request.form.getlist('name[]')
+        quantities   = request.form.getlist('quantity[]')
+        expirations  = request.form.getlist('expires[]')
+        prices       = request.form.getlist('purchase_price[]')
+        store_ids    = request.form.getlist('store_id[]')
+        new_stores   = request.form.getlist('new_store[]')
+        cat_ids      = request.form.getlist('category_id[]')
+        new_cats     = request.form.getlist('new_category[]')
+        loc_ids      = request.form.getlist('location_id[]')
+        new_locs     = request.form.getlist('new_location[]')
 
-        for i, name in enumerate(names):
-            # 1) determine or create Store
+        for i, nm in enumerate(names):
+            # store
             sid = store_ids[i]
             if new_stores[i].strip():
                 s = Store(name=new_stores[i].strip())
@@ -79,31 +65,31 @@ def add_food():
                 sid = s.store_id
             sid = int(sid) if sid else None
 
-            # 2) determine or create Category
-            cid = category_ids[i]
-            if new_categories[i].strip():
-                c = Category(name=new_categories[i].strip())
+            # category
+            cid = cat_ids[i]
+            if new_cats[i].strip():
+                c = Category(name=new_cats[i].strip())
                 db.session.add(c)
                 db.session.flush()
                 cid = c.category_id
             cid = int(cid) if cid else None
 
-            # 3) determine or create Location
-            lid = location_ids[i]
-            if new_locations[i].strip():
-                l = Location(user_id=1, name=new_locations[i].strip(), parent_id=None)
+            # location
+            lid = loc_ids[i]
+            if new_locs[i].strip():
+                l = Location(user_id=1, name=new_locs[i].strip())
                 db.session.add(l)
                 db.session.flush()
                 lid = l.location_id
             lid = int(lid) if lid else None
 
-            # 4) create the Item
+            # item
             item = Item(
                 user_id        = 1,
-                name           = name.strip(),
+                name           = nm.strip(),
                 quantity       = int(quantities[i] or 0),
                 expires        = expirations[i] or None,
-                purchase_price = prices[i] or None,
+                purchase_price = (float(prices[i]) if prices[i] else None),
                 store_id       = sid,
                 category_id    = cid,
                 location_id    = lid,
@@ -113,8 +99,7 @@ def add_food():
         db.session.commit()
         return redirect(url_for('storage'))
 
-    return render_template(
-        'add.html',
+    return render_template('add.html',
         stores=stores,
         categories=categories,
         locations=locations
@@ -123,16 +108,16 @@ def add_food():
 
 @app.route('/storage')
 def storage():
-    items = Item.query.filter_by(user_id=1).order_by(Item.expires).all()
-    return render_template('storage.html', items=items)
-
-
-@app.route('/delete/<int:item_id>', methods=['POST'])
-def delete_item(item_id):
-    item = Item.query.get_or_404(item_id)
-    db.session.delete(item)
-    db.session.commit()
-    return redirect(url_for('storage'))
+    items      = Item.query.filter_by(user_id=1).order_by(Item.expires).all()
+    stores     = { s.store_id: s.name for s in Store.query.all() }
+    categories = { c.category_id: c.name for c in Category.query.all() }
+    locations  = { l.location_id: l.name for l in Location.query.filter_by(user_id=1).all() }
+    return render_template('storage.html',
+        items=items,
+        stores=stores,
+        categories=categories,
+        locations=locations
+    )
 
 
 @app.route('/edit-item/<int:item_id>', methods=['POST'])
@@ -141,21 +126,33 @@ def edit_item(item_id):
     field = request.form.get('field')
     value = request.form.get('value') or None
 
-    if field not in {'name', 'quantity', 'expires'}:
+    # mapping of allowed fields → setter lambda
+    setters = {
+        'name':        lambda v: setattr(item, 'name', v),
+        'quantity':    lambda v: setattr(item, 'quantity', int(v)),
+        'expires':     lambda v: setattr(item, 'expires', v),
+        'store_id':    lambda v: setattr(item, 'store_id',  int(v) if v else None),
+        'category_id': lambda v: setattr(item, 'category_id', int(v) if v else None),
+        'location_id': lambda v: setattr(item, 'location_id', int(v) if v else None),
+    }
+
+    if field not in setters:
         return jsonify(error='Invalid field'), 400
 
-    if field == 'quantity':
-        try:
-            item.quantity = int(value)
-        except ValueError:
-            return jsonify(error='Quantity must be a number'), 400
-    elif field == 'expires':
-        item.expires = value
-    else:  # name
-        item.name = value
+    try:
+        setters[field](value)
+        db.session.commit()
+        return jsonify(success=True)
+    except ValueError:
+        return jsonify(error=f'Bad value for {field}'), 400
 
+
+@app.route('/delete/<int:item_id>', methods=['POST'])
+def delete_item(item_id):
+    item = Item.query.get_or_404(item_id)
+    db.session.delete(item)
     db.session.commit()
-    return jsonify(success=True)
+    return redirect(url_for('storage'))
 
 
 @app.route('/program', methods=['GET', 'POST'])
