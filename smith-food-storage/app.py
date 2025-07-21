@@ -1,5 +1,4 @@
-from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from config import Config
 from models import db, User, Store, Category, Location, Item, ProgramRun
 from student_program.core import (
@@ -18,11 +17,9 @@ with app.app_context():
     db.create_all()
 
     if not User.query.first():
-        db.session.add(User(
-            username='trevor',
-            email='trevor@example.com',
-            pw_hash='password-placeholder'
-        ))
+        db.session.add(
+            User(username='trevor', email='trevor@example.com', pw_hash='password-placeholder')
+        )
 
     if not Store.query.first():
         db.session.add_all([
@@ -61,7 +58,6 @@ def add_food():
     locations  = Location.query.filter_by(user_id=1).all()
 
     if request.method == 'POST':
-        # Pull every column in parallel lists
         names           = request.form.getlist('name[]')
         quantities      = request.form.getlist('quantity[]')
         expirations     = request.form.getlist('expires[]')
@@ -74,11 +70,7 @@ def add_food():
         new_locations   = request.form.getlist('new_location[]')
 
         for i, name in enumerate(names):
-            name = name.strip()
-            if not name:
-                continue
-
-            # — Store —
+            # 1) determine or create Store
             sid = store_ids[i]
             if new_stores[i].strip():
                 s = Store(name=new_stores[i].strip())
@@ -87,7 +79,7 @@ def add_food():
                 sid = s.store_id
             sid = int(sid) if sid else None
 
-            # — Category —
+            # 2) determine or create Category
             cid = category_ids[i]
             if new_categories[i].strip():
                 c = Category(name=new_categories[i].strip())
@@ -96,19 +88,19 @@ def add_food():
                 cid = c.category_id
             cid = int(cid) if cid else None
 
-            # — Location —
+            # 3) determine or create Location
             lid = location_ids[i]
             if new_locations[i].strip():
-                l = Location(user_id=1, name=new_locations[i].strip())
+                l = Location(user_id=1, name=new_locations[i].strip(), parent_id=None)
                 db.session.add(l)
                 db.session.flush()
                 lid = l.location_id
             lid = int(lid) if lid else None
 
-            # — Finally: create the Item —
-            it = Item(
+            # 4) create the Item
+            item = Item(
                 user_id        = 1,
-                name           = name,
+                name           = name.strip(),
                 quantity       = int(quantities[i] or 0),
                 expires        = expirations[i] or None,
                 purchase_price = prices[i] or None,
@@ -116,7 +108,7 @@ def add_food():
                 category_id    = cid,
                 location_id    = lid,
             )
-            db.session.add(it)
+            db.session.add(item)
 
         db.session.commit()
         return redirect(url_for('storage'))
@@ -147,25 +139,20 @@ def delete_item(item_id):
 def edit_item(item_id):
     item = Item.query.get_or_404(item_id)
     field = request.form.get('field')
-    value = request.form.get('value', '').strip()
+    value = request.form.get('value') or None
 
-    if field == 'name':
-        item.name = value or item.name
-    elif field == 'quantity':
+    if field not in {'name', 'quantity', 'expires'}:
+        return jsonify(error='Invalid field'), 400
+
+    if field == 'quantity':
         try:
             item.quantity = int(value)
         except ValueError:
-            return jsonify(error="Quantity must be an integer"), 400
+            return jsonify(error='Quantity must be a number'), 400
     elif field == 'expires':
-        if value:
-            try:
-                item.expires = datetime.strptime(value, '%Y-%m-%d').date()
-            except ValueError:
-                return jsonify(error="Invalid date"), 400
-        else:
-            item.expires = None
-    else:
-        return jsonify(error="Unknown field"), 400
+        item.expires = value
+    else:  # name
+        item.name = value
 
     db.session.commit()
     return jsonify(success=True)
