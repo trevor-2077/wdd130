@@ -16,32 +16,17 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-    # 1) Seed a default user so user_id=1 exists
     if not User.query.first():
         db.session.add(
-            User(
-                username='trevor',
-                email='trevor@example.com',
-                pw_hash='password-placeholder'
-            )
+            User(username='trevor', email='trevor@example.com', pw_hash='password-placeholder')
         )
 
-    # 2) Seed Store
     if not Store.query.first():
-        db.session.add_all([
-            Store(name='Walmart'),
-            Store(name="Sam's Club"),
-        ])
+        db.session.add_all([Store(name='Walmart'), Store(name="Sam's Club")])
 
-    # 3) Seed Category
     if not Category.query.first():
-        db.session.add_all([
-            Category(name='Cereal'),
-            Category(name='Drinks'),
-            Category(name='Cans'),
-        ])
+        db.session.add_all([Category(name='Cereal'), Category(name='Drinks'), Category(name='Cans')])
 
-    # 4) Seed Location for user_id=1
     if not Location.query.filter_by(user_id=1).first():
         db.session.add_all([
             Location(user_id=1, name='Pantry'),
@@ -56,30 +41,79 @@ with app.app_context():
 
 @app.route('/')
 def home():
-    # render the index.html landing page
+    # your index.html landing page
     return render_template('index.html')
 
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_food():
-    if request.method == 'POST':
-        item = Item(
-            user_id        = 1,
-            name           = request.form['name'],
-            quantity       = int(request.form['quantity']),
-            expires        = request.form.get('expires') or None,
-            purchase_price = request.form.get('purchase_price') or None,
-            store_id       = request.form.get('store_id') or None,
-            category_id    = request.form.get('category_id') or None,
-            location_id    = request.form.get('location_id') or None
-        )
-        db.session.add(item)
-        db.session.commit()
-        return redirect(url_for('storage'))
-
     stores     = Store.query.all()
     categories = Category.query.all()
     locations  = Location.query.filter_by(user_id=1).all()
+
+    if request.method == 'POST':
+        # Grab all columns as parallel lists
+        names           = request.form.getlist('name[]')
+        quantities      = request.form.getlist('quantity[]')
+        expirations     = request.form.getlist('expires[]')
+        prices          = request.form.getlist('purchase_price[]')
+        store_ids       = request.form.getlist('store_id[]')
+        new_stores      = request.form.getlist('new_store[]')
+        category_ids    = request.form.getlist('category_id[]')
+        new_categories  = request.form.getlist('new_category[]')
+        location_ids    = request.form.getlist('location_id[]')
+        new_locations   = request.form.getlist('new_location[]')
+        location_details= request.form.getlist('location_detail[]')
+
+        for i, name in enumerate(names):
+            # 1) determine or create Store
+            sid = store_ids[i]
+            if new_stores[i].strip():
+                s = Store(name=new_stores[i].strip())
+                db.session.add(s)
+                db.session.flush()          # assign s.store_id
+                sid = s.store_id
+            sid = int(sid) if sid else None
+
+            # 2) determine or create Category
+            cid = category_ids[i]
+            if new_categories[i].strip():
+                c = Category(name=new_categories[i].strip())
+                db.session.add(c)
+                db.session.flush()
+                cid = c.category_id
+            cid = int(cid) if cid else None
+
+            # 3) determine or create Location
+            lid = location_ids[i]
+            if new_locations[i].strip():
+                l = Location(
+                    user_id=1,
+                    name=new_locations[i].strip(),
+                    parent_id=None
+                )
+                db.session.add(l)
+                db.session.flush()
+                lid = l.location_id
+            lid = int(lid) if lid else None
+
+            # 4) create the Item
+            item = Item(
+                user_id        = 1,
+                name           = name.strip(),
+                quantity       = int(quantities[i] or 0),
+                expires        = expirations[i] or None,
+                purchase_price = prices[i] or None,
+                store_id       = sid,
+                category_id    = cid,
+                location_id    = lid,
+                location_detail= location_details[i].strip() or None
+            )
+            db.session.add(item)
+
+        db.session.commit()
+        return redirect(url_for('storage'))
+
     return render_template(
         'add.html',
         stores=stores,
@@ -109,12 +143,9 @@ def run_program():
         days = int(request.form['x'])
         data = get_expiring_items(days)
         result = format_report(data)
-
-        # Log each run
         run = ProgramRun(input=str(days), output=result)
         db.session.add(run)
         db.session.commit()
-
     return render_template('program.html', result=result)
 
 

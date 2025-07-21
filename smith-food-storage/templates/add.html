@@ -1,136 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Smith Food Storage | Add Food</title>
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
+    rel="stylesheet"
+  >
+  <!-- Your CSS -->
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/style.css') }}"
+  >
+
+  <style>
+    /* Quick inline tweaks for the table form */
+    table { width: 100%; border-collapse: collapse; margin: 1em 0; }
+    th, td { border: 1px solid #444; padding: 0.5em; }
+    th { background: #f4e042; }
+    .btn { padding: 0.5em 1em; margin: 0.5em; }
+    .remove-row { color: red; cursor: pointer; font-weight: bold; }
+    .small-input { width: 4em; }
+    .full-width { width: 100%; box-sizing: border-box; }
+    .sub-input { margin-top: 0.25em; font-size: 0.9em; }
+  </style>
 </head>
 <body>
-<div id="content">
-  <!-- Header -->
-<header>
-  <div class="nav-icons">
-    <a href="{{ url_for('home') }}">
-      <img class="logo"src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"alt="Smith Food Storage">
-    </a>
-    <a href="{{ url_for('add_food') }}">
-      <img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food">
-    </a>
-    <a href="{{ url_for('storage') }}">
-      <img class="logo" src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}" alt="My Storage">
-    </a>
+  <div id="content">
+    <header>
+      <h1>Add Food</h1>
+      <p>Use this form to record new items. You can pick an existing Store/Category/Location or enter a new one below.</p>
+    </header>
+
+    <form method="post" action="{{ url_for('add_food') }}">
+      <table id="items-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Expires</th>
+            <th>Price</th>
+            <th>Store</th>
+            <th>New Store</th>
+            <th>Category</th>
+            <th>New Category</th>
+            <th>Location</th>
+            <th>New Location</th>
+            <th>Shelf/Bin</th>
+            <th>Del</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="item-row">
+            <!-- NAME -->
+            <td>
+              <input type="text" name="name[]" class="full-width" required>
+            </td>
+            <!-- QUANTITY -->
+            <td>
+              <input type="number" name="quantity[]" class="small-input" min="1" value="1" required>
+            </td>
+            <!-- EXPIRES -->
+            <td>
+              <input type="date" name="expires[]" class="full-width">
+            </td>
+            <!-- PRICE -->
+            <td>
+              <input type="number" step="0.01" name="purchase_price[]" class="small-input">
+            </td>
+            <!-- STORE SELECT -->
+            <td>
+              <select name="store_id[]">
+                <option value="">— pick —</option>
+                {% for s in stores %}
+                  <option value="{{ s.store_id }}">{{ s.name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+            <!-- NEW STORE -->
+            <td>
+              <input
+                type="text"
+                name="new_store[]"
+                class="full-width sub-input"
+                placeholder="Or new…">
+            </td>
+            <!-- CATEGORY SELECT -->
+            <td>
+              <select name="category_id[]">
+                <option value="">— pick —</option>
+                {% for c in categories %}
+                  <option value="{{ c.category_id }}">{{ c.name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+            <!-- NEW CATEGORY -->
+            <td>
+              <input
+                type="text"
+                name="new_category[]"
+                class="full-width sub-input"
+                placeholder="Or new…">
+            </td>
+            <!-- LOCATION SELECT -->
+            <td>
+              <select name="location_id[]">
+                <option value="">— pick —</option>
+                {% for l in locations %}
+                  <option value="{{ l.location_id }}">{{ l.name }}</option>
+                {% endfor %}
+              </select>
+            </td>
+            <!-- NEW LOCATION -->
+            <td>
+              <input
+                type="text"
+                name="new_location[]"
+                class="full-width sub-input"
+                placeholder="Or new…">
+            </td>
+            <!-- SHELF/BIN DETAIL -->
+            <td>
+              <input
+                type="text"
+                name="location_detail[]"
+                class="full-width sub-input"
+                placeholder="Shelf/bin…">
+            </td>
+            <!-- DELETE ROW -->
+            <td class="remove-row">&times;</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button type="button" class="btn" id="add-row">+ Add Row</button>
+      <button type="submit" class="btn">Submit All Items</button>
+    </form>
   </div>
-</header>
 
-    <main>
-      <h2>Add Food</h2>
-      <p class="overlay-msg">
-        Use this form to record a new item: name, quantity, expiration date (if any),
-        purchase price, plus choose the store, category, and storage location.
-      </p>
-
-      <form action="{{ url_for('add_food') }}" method="post" class="add-form">
-        <div class="form-row">
-          <label for="name">Item Name</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-
-        <div class="form-row">
-          <label for="quantity">Quantity</label>
-          <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-        </div>
-
-        <div class="form-row">
-          <label for="expires">Expires On</label>
-          <input type="date" id="expires" name="expires">
-        </div>
-
-        <div class="form-row">
-          <label for="purchase_price">Purchase Price</label>
-          <input type="number"
-                 id="purchase_price"
-                 name="purchase_price"
-                 min="0" step="0.01"
-                 placeholder="0.00">
-        </div>
-
-        <div class="form-row">
-          <label for="store_id">Store</label>
-          <select id="store_id" name="store_id">
-            <option value="" disabled selected>-- pick a store --</option>
-            {% for s in stores %}
-              <option value="{{ s.store_id }}">{{ s.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label for="category_id">Category</label>
-          <select id="category_id" name="category_id">
-            <option value="" disabled selected>-- pick a category --</option>
-            {% for c in categories %}
-              <option value="{{ c.category_id }}">{{ c.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label for="location_id">Location</label>
-          <select id="location_id" name="location_id">
-            <option value="" disabled selected>-- pick a location --</option>
-            {% for l in locations %}
-              <option value="{{ l.location_id }}">{{ l.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="form-row">
-          <button type="submit" class="btn">Add Item</button>
-        </div>
-      </form>
-    </main>
-
-    <!-- Footer -->
-    <footer>
-      <div class="footer-left">
-        Smith Food Storage &copy; 2025 – Trevor Smith
-      </div>
-      <div class="footer-center">
-        <a href="{{ url_for('site_plan') }}">Site Plan</a>
-      </div>
-      <div class="footer-right">
-        <a href="{{ url_for('contact_us') }}">Contact Us</a>
-      </div>
-      <div class="footer-right">
-        <a href="{{ url_for('run_program') }}">Analysis</a>
-      </div>
-      <div class="social">
-        <a href="https://facebook.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/facebook.png') }}"
-            alt="Facebook"
-          >
-        </a>
-        <a href="https://twitter.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/twitter.png') }}"
-            alt="Twitter"
-          >
-        </a>
-        <a href="https://instagram.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/instagram.png') }}"
-            alt="Instagram"
-          >
-        </a>
-      </div>
-    </footer>
-
-  </div>
+  <script>
+    // Clone & remove rows
+    const table = document.getElementById('items-table').querySelector('tbody');
+    document.getElementById('add-row').addEventListener('click', () => {
+      const newRow = table.querySelector('.item-row').cloneNode(true);
+      // clear inputs
+      newRow.querySelectorAll('input').forEach(i => i.value = '');
+      newRow.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+      table.appendChild(newRow);
+    });
+    table.addEventListener('click', e => {
+      if (e.target.classList.contains('remove-row')) {
+        const rows = table.querySelectorAll('.item-row');
+        if (rows.length > 1) {
+          e.target.closest('.item-row').remove();
+        }
+      }
+    });
+  </script>
 </body>
 </html>
