@@ -6,28 +6,24 @@
   <title>Smith Food Storage | My Storage</title>
 
   <!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
 
-<!-- DataTables -->
+  <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
   <style>
-    /* inline-edit styling */
-    input.inline-edit,
-    select.inline-edit {
+    .sort-select { margin: 1em 0; }
+    input.inline-edit, select.inline-edit {
       border: 1px solid transparent;
-      transition: border-color 0.2s;
-      width: 100%; box-sizing: border-box;
+      transition: border-color .2s;
+      width: 100%;
+      box-sizing: border-box;
     }
-    input.inline-edit:hover,
-    select.inline-edit:hover {
+    input.inline-edit:hover, select.inline-edit:hover {
       border-color: #aaa;
     }
-    input.inline-edit:focus,
-    select.inline-edit:focus {
+    input.inline-edit:focus, select.inline-edit:focus {
       border-color: #333;
       outline: none;
     }
@@ -38,6 +34,7 @@
       font-size: 1.2em;
       cursor: pointer;
     }
+    table.dataTable { width: 100% !important; }
   </style>
 
 </head>
@@ -79,17 +76,18 @@
     </section>
   </div>
 
+  <!-- Question -->
   <select id="sortBy" class="sort-select">
-    <option value="0">Name</option>
-    <option value="1">Qty</option>
-    <option value="2">Expires</option>
-    <option value="4">Store</option>
-    <option value="5">Category</option>
-    <option value="6">Location</option>
+    <option value="0">Name (A→Z)</option>
+    <option value="1">Qty (high→low)</option>
+    <option value="2">Expires (soonest→latest)</option>
+    <option value="4">Store (A→Z)</option>
+    <option value="5">Category (A→Z)</option>
+    <option value="6">Location (A→Z)</option>
   </select>
 
 
-  <!-- Table -->
+  <!-- Storage Table -->
   <main>
     {% if items %}
     <table id="storage-table" class="display">
@@ -108,24 +106,9 @@
       <tbody>
         {% for i in items %}
         <tr data-item-id="{{ i.item_id }}">
-          <td>
-            <input type="text"
-                    class="inline-edit"
-                    data-field="name"
-                    value="{{ i.name }}">
-          </td>
-          <td>
-            <input type="number"
-                    class="inline-edit"
-                    data-field="quantity"
-                    value="{{ i.quantity }}">
-          </td>
-          <td>
-            <input type="date"
-                    class="inline-edit"
-                    data-field="expires"
-                    value="{{ i.expires or '' }}">
-          </td>
+          <td><input type="text" class="inline-edit" data-field="name"  value="{{ i.name }}"></td>
+          <td><input type="number" class="inline-edit" data-field="quantity" value="{{ i.quantity }}"></td>
+          <td><input type="date" class="inline-edit" data-field="expires" value="{{ i.expires or '' }}"></td>
           <td>
             {% if i.purchase_price %}
               ${{ '%.2f'|format(i.purchase_price) }}
@@ -133,39 +116,19 @@
               &ndash;
             {% endif %}
           </td>
-          <td>
-            <select class="inline-edit" data-field="store_id">
-              <option value="">—</option>
-              {% for id, name in stores.items() %}
-              <option value="{{ id }}"
-                {% if id == i.store_id %}selected{% endif %}>
-                {{ name }}
-              </option>
-              {% endfor %}
-            </select>
-          </td>
-          <td>
-            <select class="inline-edit" data-field="category_id">
-              <option value="">—</option>
-              {% for id, name in categories.items() %}
-              <option value="{{ id }}"
-                {% if id == i.category_id %}selected{% endif %}>
-                {{ name }}
-              </option>
-              {% endfor %}
-            </select>
-          </td>
-          <td>
-            <select class="inline-edit" data-field="location_id">
-              <option value="">—</option>
-              {% for id, name in locations.items() %}
-              <option value="{{ id }}"
-                {% if id == i.location_id %}selected{% endif %}>
-                {{ name }}
-              </option>
-              {% endfor %}
-            </select>
-          </td>
+          <td>{{ i.store.name if i.store else '—' }}</td>
+          <td><select class="inline-edit" data-field="category_id">
+            <option value="">—</option>
+            {% for id,name in categories.items() %}
+              <option value="{{ id }}" {% if id==i.category_id %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select></td>
+          <td><select class="inline-edit" data-field="location_id">
+            <option value="">—</option>
+            {% for id,name in locations.items() %}
+              <option value="{{ id }}" {% if id==i.location_id %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select></td>
           <td>
             <form action="{{ url_for('delete_item', item_id=i.item_id) }}"
                   method="post" style="display:inline">
@@ -180,8 +143,6 @@
       <p>No items yet. <a href="{{ url_for('add_food') }}">Add some.</a></p>
     {% endif %}
   </main>
-
-
 
   <!-- Footer -->
   <footer>
@@ -201,11 +162,39 @@
     </div>
   </footer>
 
+  <!-- DataTables JS dependencies -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
+  <script>
+    $(document).ready(function(){
+      // Initialize DataTables on your storage table
+      const table = $('#storage-table').DataTable({
+        paging:    false,
+        info:      false,
+        searching: false,
+        ordering:  true,
+        order:     [[ 2, 'asc' ]]  // default: sort Expires ascending
+      });
 
+      // Re-sort when the dropdown changes
+      $('#sortBy').on('change', function(){
+        const colIndex = parseInt(this.value, 10);
+        let dir = 'asc';
+        // For Quantity, we want high→low
+        if (colIndex === 1) dir = 'desc';
+        table.order([ colIndex, dir ]).draw();
+      });
 
-
-
-
+      // Inline edits: POST back to /edit-item/<id>
+      $('.inline-edit').on('change', function(){
+        const row = $(this).closest('tr'),
+              id  = row.data('item-id'),
+              field = $(this).data('field'),
+              value = $(this).val();
+        $.post(`/edit-item/${id}`, { field, value });
+      });
+    });
+  </script>
 </body>
 </html>
