@@ -7,16 +7,9 @@
   <title>Contact Us | Smith Food Storage</title>
 
   <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
-    rel="stylesheet"
-  >
-  <!-- your own styles -->
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/style.css') }}"
-  >
-
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  
   <style>
     body {
       /* Center the form on the page */
@@ -79,28 +72,13 @@
     <header>
       <div class="nav-icons">
         <a href="{{ url_for('home') }}">
-          Home
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
-            alt="Smith Food Storage"
-          >
+          <img class="logo"src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"alt="Smith Food Storage">
         </a>
         <a href="{{ url_for('add_food') }}">
-          Add Food
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
-            alt="Add Food"
-          >
+          <img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food">
         </a>
         <a href="{{ url_for('storage') }}">
-          My Storage
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
-            alt="My Storage"
-          >
+          <img class="logo" src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}" alt="My Storage">
         </a>
       </div>
     </header>
@@ -127,43 +105,20 @@
       </form>
     </main>
 
-    <!-- Footer -->
-    <footer>
-      <div class="footer-left">
-        Smith Food Storage &copy; 2025 – Trevor Smith
-      </div>
-      <div class="footer-center">
-        <a href="{{ url_for('site_plan') }}">Site Plan</a>
-      </div>
-      <div class="footer-right">
-        <a href="{{ url_for('contact_us') }}">Contact Us</a>
-      </div>
-      <div class="footer-right">
-        <a href="{{ url_for('run_program') }}">Analysis</a>
-      </div>
-      <div class="social">
-        <a href="https://facebook.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/facebook.png') }}"
-            alt="Facebook icon"
-          >
-        </a>
-        <a href="https://twitter.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/twitter.png') }}"
-            alt="Twitter icon"
-          >
-        </a>
-        <a href="https://instagram.com" target="_blank">
-          <img
-            src="{{ url_for('static', filename='images/instagram.png') }}"
-            alt="Instagram icon"
-          >
-        </a>
-      </div>
-    </footer>
-  </div>
-
+  <!-- Footer -->
+  <footer>
+    <div class="footer-left">Smith Food Storage &copy; 2025 - Trevor Smith</div>
+    <div class="footer-center"><a href="{{ url_for('site_plan') }}">Site Plan</a></div>
+    <div class="footer-right"><a href="{{ url_for('contact_us') }}">Contact Us</a></div>
+    <div class="footer-right"><a href="{{ url_for('run_program') }}">Storage Tools</a></div>
+    
+    <div class="social">
+      <a href="https://facebook.com" target="_blank"><img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook icon"></a>
+      <a href="https://twitter.com" target="_blank"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter icon"></a>
+      <a href="https://instagram.com" target="_blank"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram icon"></a>
+    </div>
+  </footer>
+  
   <script>
     const feedbackElement = document.getElementById('feedback');
     const formElement = document.forms[0];
