@@ -100,8 +100,8 @@ header{
 
 #hero-msg a {
   display: inline-block;
-  background-color: #e2b01f; 
-  color: #1f487e;             
+  background-color: #E7C24F; 
+  color: #333;             
   font-family: 'Rock Salt', cursive; 
   font-size: 1.25em;
   padding: 0.75em 1.5em;
@@ -112,7 +112,7 @@ header{
 }
 
 #hero-msg a:hover {
-  background-color: #d4a81b;         /* slightly darker gold */
+  background-color: #9a9394;
 }
 
 /* Image */
