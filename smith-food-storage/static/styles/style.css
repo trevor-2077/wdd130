@@ -71,8 +71,16 @@ header{
 }
 
 /* Hero Section */
-#hero { position: relative; text-align: center; }
-#hero-box img { width: 100%; height: auto; display: block; }
+#hero {
+  position: relative;
+  text-align: center;
+  color: #333;
+}
+#hero-box img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 #hero-msg {
   position: absolute;
   top: 20%;
@@ -83,7 +91,7 @@ header{
   border-radius: 10px;
   font-family: 'Rock Salt', cursive;
   font-size: 1.5em;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* ----------------------- Overlay Text ----------------------- */
