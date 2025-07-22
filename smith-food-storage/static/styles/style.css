@@ -94,13 +94,14 @@ header{
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* ----------------------- Overlay Text ----------------------- */
+/* Overlay section */
 .overlay-msg {
   padding: 20px;
   max-width: 900px;
   margin: 0 auto;
   text-align: left;
   font-family: 'Roboto', sans-serif;
+  margin-bottom: 40px;
 }
 
 /* ----------------------- Add‐Food Form ----------------------- */
