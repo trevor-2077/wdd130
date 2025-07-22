@@ -141,7 +141,8 @@ def edit_item(item_id):
     field = request.form.get('field')
     value = request.form.get('value') or None
 
-    if field not in {'name', 'quantity', 'expires'}:
+    # allow name, quantity, expires, and now location
+    if field not in {'name', 'quantity', 'expires', 'location'}:
         return jsonify(error='Invalid field'), 400
 
     if field == 'quantity':
@@ -149,8 +150,20 @@ def edit_item(item_id):
             item.quantity = int(value)
         except ValueError:
             return jsonify(error='Quantity must be a number'), 400
+
     elif field == 'expires':
         item.expires = value
+
+    elif field == 'location':
+        # rename shared Location or create a new one
+        if item.location:
+            item.location.name = value
+        else:
+            new_loc = Location(user_id=1, name=value)
+            db.session.add(new_loc)
+            db.session.flush()
+            item.location_id = new_loc.location_id
+
     else:  # name
         item.name = value
 
