@@ -83,19 +83,22 @@ header{
 }
 #hero-msg {
   position: absolute;
-  top: 20%;
+  max-width: 300px;
+  width: 100%;
+  padding: 1rem;
+  top: 25%;
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
   padding: 15px;
   border-radius: 10px;
   font-family: 'Rock Salt', cursive;
-  font-size: 1.5em;
+  font-size: 1.25em;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 #hero-msg a {
@@ -103,8 +106,8 @@ header{
   background-color: #E7C24F; 
   color: #333;             
   font-family: 'Rock Salt', cursive; 
-  font-size: 1.25em;
-  padding: 0.75em 1.5em;
+  font-size: 1.1em;
+  padding: 0.5em 1em;
   border-radius: 0.5em;
   text-decoration: none;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
