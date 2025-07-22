@@ -1,20 +1,16 @@
-/* Base Styles */
+/* ----------------------- Base Styles ----------------------- */
 body {
   background-color: #1f487e;
-  font-family: 'Roboto', sans-serif, 'Trebuchet MS';
+  font-family: 'Roboto', sans-serif;
   font-size: 22px;
   margin: 0;
   padding: 0;
   color: white;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Rock Salt', Arial, sans-serif;
-  font-size: 2em;
-  margin: 0;
-}
-
 h2 {
+  font-family: 'Rock Salt', cursive;
+  font-size: 2em;
   text-align: center;
   margin: 20px 0;
 }
@@ -24,12 +20,11 @@ h2 {
   margin: 0 auto;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr;
   min-height: 100vh;
 }
 
-/* Header */
-header{
+/* ----------------------- Header ----------------------- */
+header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,209 +47,208 @@ header{
 
 .logo {
   height: 60px;
-  width: auto;
-  border: 2px solid #1f487e;
-  border-radius: 10px;
   padding: 5px;
   background-color: white;
-  transition: transform 0.2s ease;
-}
-
-.logo:hover {
-  transform: scale(1.05);
+  border: 2px solid #1f487e;
+  border-radius: 10px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .nav-icons a:hover .logo {
-  background-color: #9a9394;
   transform: scale(1.05);
+  background-color: #9a9394;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* Hero Section */
-#hero {
-  position: relative;
-  text-align: center;
-  color: #333;
-}
-#hero-box img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+/* ----------------------- Hero ----------------------- */
+#hero { position: relative; text-align: center; }
+#hero-box img { width: 100%; height: auto; display: block; }
 #hero-msg {
   position: absolute;
   top: 20%;
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
-  padding: 15px 20px;
+  padding: 15px;
   border-radius: 10px;
   font-family: 'Rock Salt', cursive;
-  font-size: 1.6em;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  max-width: 420px;
-  width: auto;
-  line-height: 1.2;
-  text-align: center;
+  font-size: 1.5em;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-/* Image */
-.scenery-img {
-  float: right;
-  width: 300px;
-  margin: 0 0 1em 1em;
-  border-radius: 8px;
-}
-
-.overlay-msg h2 {
-  text-align: center;
-}
-
+/* ----------------------- Overlay Text ----------------------- */
 .overlay-msg {
-  font-family: 'Roboto', sans-serif;
-  text-align: left;
   padding: 20px;
   max-width: 900px;
   margin: 0 auto;
-  margin-bottom: 40px;
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
 }
 
-.data-container {
-  width: 100%;
-  background: white;
-  padding: 20px;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
-  box-sizing: border-box;
-  margin-bottom: 20px;
-}
-
-.data-container input[type="text"],
-.data-container input[type="number"],
-.data-container input[type="date"],
-.data-container select {
-  background: #fff;
-  color: #333;
-  border: 1px solid #ccc;
-  padding: 6px 8px;
-  font-size: 1em;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.data-container table {
+/* ----------------------- Add‐Food Form ----------------------- */
+table#add-items-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
+  margin: 1em 0;
 }
-
-.data-container th {
-  background-color: #1f487e;
-  color: #fff;
-  padding: 8px;
-  text-align: left;
+#add-items-table th {
+  background: #E7C24F;
+  border: 1px solid #444;
+  padding: 0.5em;
 }
-
-.data-container td {
-  padding: 8px;
-  border-bottom: 1px solid #eee;
-  color: #1f487e;
+#add-items-table td {
+  border: 1px solid #444;
+  padding: 0.5em;
 }
-
-.data-container td .delete-btn {
-  background: transparent;
-  border: none;
-  font-size: 1.2em;
-  color: #a42212;
-  cursor: pointer;
-}
-
-/* buttons/links */
-.book {
+.full-width { width: 100%; box-sizing: border-box; }
+.small-input { width: 4em; }
+.sub-input { margin-top: 0.25em; font-size: 0.9em; }
+.btn {
   background-color: #E7C24F;
   color: black;
-  text-decoration: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: all 0.3s ease;
+  border: none;
+  padding: 0.5em 1em;
+  margin: 0.5em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
-
-.book:hover {
+.btn:hover {
   background-color: #9a9394;
   color: white;
   transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+.remove-row {
+  color: red;
+  cursor: pointer;
+  font-weight: bold;
 }
 
+/* ----------------------- DataTables Overrides ----------------------- */
+table.dataTable { width: 100% !important; }
 
-/* Footer */
+/* hide the built‑in sort arrows until hover */
+table.dataTable thead th.sorting:before,
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:before,
+table.dataTable thead th.sorting_desc:after {
+  opacity: 0 !important;
+}
+table.dataTable thead th:hover.sorting:before,
+table.dataTable thead th:hover.sorting:after,
+table.dataTable thead th:hover.sorting_asc:before,
+table.dataTable thead th:hover.sorting_desc:after {
+  opacity: 0.4 !important;
+}
+
+/* ----------------------- Storage Table ----------------------- */
+/* fixed table header + scrollable body */
+#storage-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1em;
+}
+#storage-table thead {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+#storage-table thead th {
+  background: white;
+  color: #1e3d73;
+  font-weight: bold;
+  padding: 0.75em;
+  border: none;
+  border-bottom: 3px solid #f2c94c;
+  cursor: pointer;
+}
+#storage-table tbody {
+  display: block;
+  max-height: 50vh;     /* tweak if you need taller/shorter */
+  overflow-y: auto;
+  width: 100%;
+}
+#storage-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  background: #1e3d73;
+  color: white;
+}
+#storage-table tbody td {
+  padding: 0.75em;
+  border: none;
+}
+#storage-table tbody tr:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* sort dropdown */
+.sort-select {
+  background: white;
+  color: #1e3d73;
+  border: 1px solid #ccc;
+  padding: 0.5em;
+  font-size: 1em;
+  margin: 1em 0;
+}
+
+/* inline inputs only highlight on hover/focus */
+input.inline-edit, select.inline-edit {
+  border: 1px solid transparent;
+  transition: border 0.2s;
+}
+input.inline-edit:hover, select.inline-edit:hover {
+  border-color: #aaa;
+}
+input.inline-edit:focus, select.inline-edit:focus {
+  border-color: #333;
+  outline: none;
+}
+
+/* Delete button */
+.btn-delete {
+  background: transparent;
+  border: none;
+  color: #e74c3c;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+/* ----------------------- Footer ----------------------- */
 footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
   background-color: #FFE07C;
   border: 2px solid #A42212;
   padding: 10px 20px;
   font-family: 'Rock Salt', cursive;
-  flex-wrap: nowrap;
 }
-
-.footer-left,
-.footer-center,
-.footer-right {
-  color: #000;
-  margin: 0 20px;
-}
-
 footer a {
-  text-decoration: none;
-  color: #000;
+  color: black;
   font-weight: bold;
+  text-decoration: none;
 }
-
 footer a:hover {
   text-decoration: underline;
 }
-
 .social {
   display: flex;
-  align-items: center;
   gap: 10px;
-  margin-left: auto;
 }
-
-.social a img {
+.social img {
   height: 30px;
   width: 30px;
   display: block;
 }
 
-
+/* ----------------------- Responsive ----------------------- */
 @media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    height: auto;
-    padding: 20px;
-  }
-
-  .nav-icons {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  #hero-msg {
-    font-size: 1.2em;
-    padding: 10px;
-  }
-
-  footer {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .social {
-    margin-left: 0;
-    margin-top: 10px;
-  }
+  header { flex-direction: column; height: auto; padding: 20px; }
+  .nav-icons { flex-direction: column; gap: 15px; }
+  #hero-msg { font-size: 1.2em; padding: 10px; }
+  footer { flex-direction: column; align-items: flex-start; }
+  .social { margin-top: 10px; }
 }
