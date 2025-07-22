@@ -1,71 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
+    rel="stylesheet"
+  >
+  <!-- your own styles -->
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='styles/style.css') }}"
+  >
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smith Food Storage | My Storage</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-
-  <!-- DataTables -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+  <style>
+    table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+    th, td { border: 1px solid #ddd; padding: 0.5em; text-align: left; }
+    th { background: #E7C24F; }
+    .btn-delete {
+      background: transparent;
+      border: none;
+      color: red;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    .editable { cursor: pointer; }
+    .editable:hover { background: #eef; }
+    #sortSelect { margin-top: 1em; padding: 0.25em; }
+  </style>
 </head>
 <body>
   <div id="content">
 
-
     <!-- Header -->
     <header>
       <div class="nav-icons">
-        <a href="{{ url_for('home') }}">
-          <img class="logo"src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"alt="Smith Food Storage">
-        </a>
-        <a href="{{ url_for('add_food') }}">
-          <img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food">
-        </a>
-        <a href="{{ url_for('storage') }}">
-          <img class="logo" src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}" alt="My Storage">
-        </a>
+        <a href="{{ url_for('home') }}"><img class="logo" src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}" alt="Home"></a>
+        <a href="{{ url_for('add_food') }}"><img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food"></a>
+        <a href="{{ url_for('storage') }}"><img class="logo" src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}" alt="My Storage"></a>
       </div>
     </header>
 
-    <!-- Text -->
+    <!-- Page Intro -->
     <section id="scenery-overlay">
+      <h2>My Storage</h2>
       <div class="overlay-msg">
-        <h2>My Storage</h2>
-        <p>This is where you can see all of the food you added from the Add Food page. There is a sort bar to help with organization, so that when an item is used up etc. you can easily update the list. You can also order the items by which expiration dates are coming up sooner so that the food can be used up and swapped out.</p>
+        <p>
+          Below is everything you’ve added. Use “×” to delete, click a Name / Qty / Expires cell to edit inline, or pick a sort order below:
+        </p>
       </div>
-    </section>
-
-  <!-- Hero Section-->
-  <div id="hero">
-    <div id="hero-box">
-      <img id="hero-img" src="{{ url_for('static', filename='images/mystoragecan.jpg') }}" alt="Add Food">
-    </div>
-    <section id="hero-msg">
-      <h1 class="home-title">Storage Calculations</h1>
-      <div class="button-box">
-        <a class="book" href="{{ url_for('run_program') }}">Storage Tools</a>
-      </div>
-    </section>
-  </div>
-
-  <select id="sortBy" class="sort-select">
-        <option value="0">Name (A→Z)</option>
-        <option value="1">Qty (high→low)</option>
-        <option value="2">Expires (soonest→latest)</option>
-        <option value="4">Store (A→Z)</option>
-        <option value="5">Category (A→Z)</option>
-        <option value="6">Location (A→Z)</option>
+      <label for="sortSelect">Sort by:</label>
+      <select id="sortSelect">
+        <option value="0">Name</option>
+        <option value="1">Qty</option>
+        <option value="2">Expires</option>
+        <option value="3">Price</option>
+        <option value="4">Store</option>
+        <option value="5">Category</option>
+        <option value="6">Location</option>
       </select>
     </section>
 
     <!-- Storage Table -->
     <main>
       {% if items %}
-      <table id="storage-table" class="display">
+      <table id="storageTable">
         <thead>
           <tr>
             <th>Name</th>
@@ -81,18 +83,16 @@
         <tbody>
           {% for i in items %}
           <tr data-item-id="{{ i.item_id }}">
-            <td><input type="text" class="inline-edit" data-field="name" value="{{ i.name }}"></td>
-            <td><input type="number" class="inline-edit" data-field="quantity" value="{{ i.quantity }}"></td>
-            <td><input type="date" class="inline-edit" data-field="expires" value="{{ i.expires or '' }}"></td>
+            <td class="editable" data-field="name">{{ i.name }}</td>
+            <td class="editable" data-field="quantity">{{ i.quantity }}</td>
+            <td class="editable" data-field="expires">{{ i.expires or '—' }}</td>
+            <td>${{ '%.2f'|format(i.purchase_price) if i.purchase_price else '—' }}</td>
+            <td>{{ i.store.name if i.store else '—' }}</td>
+            <td>{{ i.category.name if i.category else '—' }}</td>
+            <td>{{ i.location.name if i.location else '—' }}</td>
             <td>
-              {% if i.purchase_price %}${{ '%.2f'|format(i.purchase_price) }}{% else %}&ndash;{% endif %}
-            </td>
-            <td>{{ stores[i.store_id]   if i.store_id   else '—' }}</td>
-            <td>{{ categories[i.category_id] if i.category_id else '—' }}</td>
-            <td>{{ locations[i.location_id]  if i.location_id else '—' }}</td>
-            <td>
-              <form action="{{ url_for('delete_item', item_id=i.item_id) }}" method="post" style="display:inline">
-                <button type="submit" class="btn-delete">&times;</button>
+              <form action="{{ url_for('delete_item', item_id=i.item_id) }}" method="post">
+                <button type="submit" class="btn-delete" title="Delete">&times;</button>
               </form>
             </td>
           </tr>
@@ -104,49 +104,107 @@
       {% endif %}
     </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-left">Smith Food Storage &copy; 2025 - Trevor Smith</div>
-    <div class="footer-center"><a href="{{ url_for('site_plan') }}">Site Plan</a></div>
-    <div class="footer-right"><a href="{{ url_for('contact_us') }}">Contact Us</a></div>
-    <div class="footer-right"><a href="{{ url_for('run_program') }}">Storage Tools</a></div>
-    
-    <div class="social">
-      <a href="https://facebook.com" target="_blank"><img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook"></a>
-      <a href="https://twitter.com" target="_blank"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter"></a>
-      <a href="https://instagram.com" target="_blank"><img src="{{ url_for('static', filename= 'images/instagram.png') }}" alt="Instagram"></a>
-    </div>
-  </footer>
+    <!-- Footer -->
+    <footer>
+      <div class="footer-left">Smith Food Storage &copy; 2025 – Trevor Smith</div>
+      <div class="footer-links">
+        <a href="{{ url_for('site_plan') }}">Site Plan</a>
+        <a href="{{ url_for('contact_us') }}">Contact Us</a>
+        <a href="{{ url_for('run_program') }}">Analysis</a>
+      </div>
+      <div class="social">
+        <a href="https://facebook.com"><img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook"></a>
+        <a href="https://twitter.com"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter"></a>
+        <a href="https://instagram.com"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram"></a>
+      </div>
+    </footer>
 
-</div>
-
-  <!-- jQuery & DataTables JS -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+  </div>
 
   <script>
-    $(document).ready(function(){
-      const table = $('#storage-table').DataTable({
-        paging:    false,
-        info:      false,
-        searching: false,
-        ordering:  true,
-        order:     [[2,'asc']]
+    // — Inline‐edit handler —
+    document.querySelectorAll('td.editable').forEach(cell => {
+      cell.addEventListener('click', () => {
+        if (cell.querySelector('input')) return;  // already editing
+
+        const field = cell.dataset.field;
+        const tr    = cell.closest('tr');
+        const id    = tr.dataset.itemId;
+        const old   = cell.textContent.trim();
+        let inp;
+
+        if (field === 'expires') {
+          inp = document.createElement('input');
+          inp.type = 'date';
+          inp.value = (old === '—' ? '' : old);
+        } else {
+          inp = document.createElement('input');
+          inp.type = field === 'quantity' ? 'number' : 'text';
+          inp.value = old;
+        }
+
+        inp.style.width = '100%';
+        cell.textContent = '';
+        cell.appendChild(inp);
+        inp.focus();
+
+        function save() {
+          const val = inp.value.trim();
+          fetch(`/edit-item/${id}`, {
+            method: 'POST',
+            headers: { 'Content-Type':'application/x-www-form-urlencoded' },
+            body: `field=${field}&value=${encodeURIComponent(val)}`
+          })
+          .then(r => {
+            if (!r.ok) return r.json().then(j=>Promise.reject(j.error));
+            return r.json();
+          })
+          .then(_ => {
+            cell.textContent = val || '—';
+          })
+          .catch(err => {
+            alert('Error: ' + err);
+            cell.textContent = old;
+          });
+        }
+
+        inp.addEventListener('blur', save);
+        inp.addEventListener('keydown', e => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            inp.blur();
+          }
+          if (e.key === 'Escape') {
+            cell.textContent = old;
+          }
+        });
+      });
+    });
+
+    // — Sort functionality —
+    const table = document.getElementById('storageTable');
+    const tbody = table.querySelector('tbody');
+    document.getElementById('sortSelect').addEventListener('change', e => {
+      const col = +e.target.value;
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+
+      rows.sort((a, b) => {
+        const t1 = a.children[col].textContent.trim();
+        const t2 = b.children[col].textContent.trim();
+
+        // numeric?
+        if (col === 1) return (+t1) - (+t2);
+        // date?
+        if (col === 2) {
+          const d1 = t1==='—'?0:Date.parse(t1);
+          const d2 = t2==='—'?0:Date.parse(t2);
+          return d1 - d2;
+        }
+        // fallback string
+        return t1.localeCompare(t2, undefined, { numeric:true });
       });
 
-      $('#sortBy').on('change', function(){
-        const c = parseInt(this.value,10),
-              dir = c===1?'desc':'asc';
-        table.order([c,dir]).draw();
-      });
-
-      $('.inline-edit').on('change', function(){
-        const row   = $(this).closest('tr'),
-              id    = row.data('item-id'),
-              field = $(this).data('field'),
-              val   = $(this).val();
-        $.post(`/edit-item/${id}`, { field, value: val });
-      });
+      rows.forEach(r => tbody.appendChild(r));
     });
   </script>
 </body>
