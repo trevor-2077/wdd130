@@ -1,16 +1,20 @@
-/* ----------------------- Base Styles ----------------------- */
+/* Base Styles */
 body {
   background-color: #1f487e;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', sans-serif, 'Trebuchet MS';
   font-size: 22px;
   margin: 0;
   padding: 0;
   color: white;
 }
 
-h2 {
-  font-family: 'Rock Salt', cursive;
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Rock Salt', Arial, sans-serif;
   font-size: 2em;
+  margin: 0;
+}
+
+h2 {
   text-align: center;
   margin: 20px 0;
 }
@@ -20,11 +24,12 @@ h2 {
   margin: 0 auto;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
   min-height: 100vh;
 }
 
-/* ----------------------- Header ----------------------- */
-header {
+/* Header */
+header{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,20 +52,25 @@ header {
 
 .logo {
   height: 60px;
-  padding: 5px;
-  background-color: white;
+  width: auto;
   border: 2px solid #1f487e;
   border-radius: 10px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  padding: 5px;
+  background-color: white;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
 }
 
 .nav-icons a:hover .logo {
-  transform: scale(1.05);
   background-color: #9a9394;
+  transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* ----------------------- Hero ----------------------- */
+/* Hero Section */
 #hero { position: relative; text-align: center; }
 #hero-box img { width: 100%; height: auto; display: block; }
 #hero-msg {
@@ -125,7 +135,7 @@ table#add-items-table {
   font-weight: bold;
 }
 
-/* ----------------------- DataTables Overrides ----------------------- */
+/* ----------------------- DataTables Overrides ----------------------- *
 table.dataTable { width: 100% !important; }
 
 /* hide the built‑in sort arrows until hover */
@@ -243,6 +253,49 @@ footer a:hover {
   width: 30px;
   display: block;
 }
+
+/* — Storage Table Styles — */
+#storageTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1em;
+}
+
+#storageTable th,
+#storageTable td {
+  border: 1px solid #ddd;
+  padding: 0.5em;
+  text-align: left;
+}
+
+#storageTable th {
+  background: #E7C24F;
+}
+
+/* — Delete Button — */
+.btn-delete {
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+/* — Inline‑edit Hover State — */
+.editable {
+  cursor: pointer;
+}
+
+.editable:hover {
+  background: #eef;
+}
+
+/* — Sort‑by Selector — */
+#sortSelect {
+  margin-top: 1em;
+  padding: 0.25em;
+}
+
 
 /* ----------------------- Responsive ----------------------- */
 @media (max-width: 768px) {
