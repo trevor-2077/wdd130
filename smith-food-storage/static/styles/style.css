@@ -94,6 +94,14 @@ header{
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* Image */
+.scenery-img {
+  float: right;
+  width: 300px;
+  margin: 0 0 1em 1em;
+  border-radius: 8px;
+}
+
 /* Overlay section */
 .overlay-msg {
   padding: 20px;
