@@ -87,14 +87,15 @@ header{
   left: 50%;
   transform: translateX(-50%);
   background-color: white;
-  padding: 20px 30px;
+  padding: 15px 20px;
   border-radius: 10px;
   font-family: 'Rock Salt', cursive;
-  font-size: 2em;
+  font-size: 1.6em;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  max-width: 600px;
-  width: 90%;
+  max-width: 420px;
+  width: auto;
   line-height: 1.2;
+  text-align: center;
 }
 
 /* Image */
@@ -115,6 +116,7 @@ header{
   padding: 20px;
   max-width: 900px;
   margin: 0 auto;
+  margin-bottom: 40px;
 }
 
 .data-container {
