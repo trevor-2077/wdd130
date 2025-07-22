@@ -1,20 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
-    rel="stylesheet"
-  >
-  <!-- your own styles -->
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/style.css') }}"
-  >
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smith Food Storage | My Storage</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
 
 </head>
 <body>
@@ -31,12 +24,25 @@
 
     <!-- Page Intro -->
     <section id="scenery-overlay">
-      <h2>My Storage</h2>
       <div class="overlay-msg">
-        <p>
-          Below is everything you’ve added. Use “×” to delete, click a Name / Qty / Expires cell to edit inline, or pick a sort order below:
-        </p>
+        <h2>My Storage</h2>
+        <p>This is where you can see all of the food you added from the Add Food page. There is a sort bar to help with organization, so that when an item is used up etc. you can easily update the list. You can also order the items by which expiration dates are coming up sooner so that the food can be used up and swapped out. It also can go by category and alphabetically.</p>
       </div>
+    </section>
+
+    <!-- Hero Section-->
+    <div id="hero">
+      <div id="hero-box">
+        <img id="hero-img" src="{{ url_for('static', filename='images/mystoragecan.jpg') }}" alt="My Storage">
+      </div>
+      <section id="hero-msg">
+        <h1 class="home-title">Storage Calculations</h1>
+        <div class="button-box">
+          <a class="book" href="{{ url_for('program') }}">Storage Tools</a>
+        </div>
+      </section>
+    </div>
+
       <label for="sortSelect">Sort by:</label>
       <select id="sortSelect">
         <option value="0">Name</option>
@@ -91,16 +97,15 @@
 
     <!-- Footer -->
     <footer>
-      <div class="footer-left">Smith Food Storage &copy; 2025 – Trevor Smith</div>
-      <div class="footer-links">
-        <a href="{{ url_for('site_plan') }}">Site Plan</a>
-        <a href="{{ url_for('contact_us') }}">Contact Us</a>
-        <a href="{{ url_for('run_program') }}">Analysis</a>
-      </div>
+      <div class="footer-left">Smith Food Storage &copy; 2025 - Trevor Smith</div>
+      <div class="footer-center"><a href="{{ url_for('site_plan') }}">Site Plan</a></div>
+      <div class="footer-right"><a href="{{ url_for('contact_us') }}">Contact Us</a></div>
+      <div class="footer-right"><a href="{{ url_for('run_program') }}">Storage Tools</a></div>
+      
       <div class="social">
-        <a href="https://facebook.com"><img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook"></a>
-        <a href="https://twitter.com"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter"></a>
-        <a href="https://instagram.com"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram"></a>
+        <a href="https://facebook.com" target="_blank"><img src="{{ url_for('static', filename= 'images/facebook.png') }}" alt="Facebook"></a>
+        <a href="https://twitter.com" target="_blank"><img src="{{ url_for('static', filename= 'images/twitter.png') }}" alt="Twitter"></a>
+        <a href="https://instagram.com" target="_blank"><img src="{{ url_for('static', filename= 'images/instagram.png') }}" alt="Instagram"></a>
       </div>
     </footer>
 
