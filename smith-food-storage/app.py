@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from config import Config
 from models import db, User, Store, Category, Location, Item, ProgramRun
@@ -32,34 +33,81 @@ with app.app_context():
         ])
     db.session.commit()
 
-
 @app.route('/')
 def home():
     return render_template('index.html')
-
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_food():
     stores     = Store.query.all()
     categories = Category.query.all()
     locations  = Location.query.filter_by(user_id=1).all()
+
     if request.method == 'POST':
-        item = Item(
-            user_id        = 1,
-            name           = request.form['name'],
-            quantity       = int(request.form['quantity']),
-            expires        = request.form.get('expires') or None,
-            purchase_price = request.form.get('purchase_price') or None,
-            store_id       = request.form.get('store_id') or None,
-            category_id    = request.form.get('category_id') or None,
-            location_id    = request.form.get('location_id') or None,
-        )
-        db.session.add(item)
+        names          = request.form.getlist('name[]')
+        quantities     = request.form.getlist('quantity[]')
+        expirations    = request.form.getlist('expires[]')
+        prices         = request.form.getlist('purchase_price[]')
+        store_ids      = request.form.getlist('store_id[]')
+        new_stores     = request.form.getlist('new_store[]')
+        category_ids   = request.form.getlist('category_id[]')
+        new_categories = request.form.getlist('new_category[]')
+        location_ids   = request.form.getlist('location_id[]')
+        new_locations  = request.form.getlist('new_location[]')
+
+        for i, name in enumerate(names):
+            name = name.strip()
+            if not name:
+                continue
+
+            # — Store —
+            sid = store_ids[i]
+            if new_stores[i].strip():
+                s = Store(name=new_stores[i].strip())
+                db.session.add(s)
+                db.session.flush()
+                sid = s.store_id
+            sid = int(sid) if sid else None
+
+            # — Category —
+            cid = category_ids[i]
+            if new_categories[i].strip():
+                c = Category(name=new_categories[i].strip())
+                db.session.add(c)
+                db.session.flush()
+                cid = c.category_id
+            cid = int(cid) if cid else None
+
+            # — Location —
+            lid = location_ids[i]
+            if new_locations[i].strip():
+                l = Location(user_id=1, name=new_locations[i].strip())
+                db.session.add(l)
+                db.session.flush()
+                lid = l.location_id
+            lid = int(lid) if lid else None
+
+            # — Finally: create the Item —
+            it = Item(
+                user_id        = 1,
+                name           = name,
+                quantity       = int(quantities[i] or 0),
+                expires        = expirations[i] or None,
+                purchase_price = prices[i] or None,
+                store_id       = sid,
+                category_id    = cid,
+                location_id    = lid,
+            )
+            db.session.add(it)
+
         db.session.commit()
         return redirect(url_for('storage'))
 
-    return render_template('add.html', stores=stores, categories=categories, locations=locations)
-
+    return render_template('add.html',
+        stores=stores,
+        categories=categories,
+        locations=locations
+    )
 
 @app.route('/storage')
 def storage():
@@ -74,7 +122,6 @@ def storage():
         locations=locations
     )
 
-
 @app.route('/delete/<int:item_id>', methods=['POST'])
 def delete_item(item_id):
     item = Item.query.get_or_404(item_id)
@@ -82,22 +129,21 @@ def delete_item(item_id):
     db.session.commit()
     return redirect(url_for('storage'))
 
-
 @app.route('/edit-item/<int:item_id>', methods=['POST'])
 def edit_item(item_id):
-    item = Item.query.get_or_404(item_id)
+    item  = Item.query.get_or_404(item_id)
     field = request.form.get('field')
     val   = request.form.get('value', '').strip()
     try:
-        # cast types
         if field in ('quantity', 'store_id', 'category_id', 'location_id'):
             val = int(val) if val else None
+        elif field == 'expires':
+            val = datetime.strptime(val, '%Y-%m-%d').date() if val else None
         setattr(item, field, val)
         db.session.commit()
         return jsonify(success=True)
     except Exception as e:
-        return jsonify(success=False, error=str(e))
-
+        return jsonify(success=False, error=str(e)), 400
 
 @app.route('/program', methods=['GET', 'POST'])
 def run_program():
@@ -111,16 +157,13 @@ def run_program():
         db.session.commit()
     return render_template('program.html', result=result)
 
-
 @app.route('/site-plan')
 def site_plan():
     return render_template('site-plan.html')
 
-
 @app.route('/contact-us')
 def contact_us():
     return render_template('contactus.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)

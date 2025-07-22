@@ -11,33 +11,11 @@
 
   <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-
-  <style>
-    /* Quick inline tweaks */
-    #storage-table { width: 100%; border-collapse: collapse; margin-top: 1em; }
-    #storage-table th, #storage-table td {
-      border: 1px solid #ddd; padding: 0.5em; text-align: left;
-    }
-    #storage-table th { background: #fff; cursor: pointer; }
-    .btn-delete {
-      background: transparent; border: none; color: red;
-      font-size: 1.2em; cursor: pointer;
-    }
-    .sort-select { margin-bottom: 1em; }
-
-    /* These two classes only apply if you ever switch to <span class="editable"> inline‐edit mode: */
-    .editable, .editable-date {
-      display: inline-block; min-width: 2ch;
-      padding: 2px 4px; border-radius: 3px;
-    }
-    .editable:hover, .editable-date:hover {
-      background: rgba(255,255,255,0.2);
-    }
-  </style>
-
 </head>
 <body>
   <div id="content">
+
+
     <!-- Header -->
     <header>
       <div class="nav-icons">
@@ -74,73 +52,57 @@
     </section>
   </div>
 
-  <!-- Question -->
   <select id="sortBy" class="sort-select">
-    <option value="0">Name (A→Z)</option>
-    <option value="1">Qty (high→low)</option>
-    <option value="2">Expires (soonest→latest)</option>
-    <option value="4">Store (A→Z)</option>
-    <option value="5">Category (A→Z)</option>
-    <option value="6">Location (A→Z)</option>
-  </select>
+        <option value="0">Name (A→Z)</option>
+        <option value="1">Qty (high→low)</option>
+        <option value="2">Expires (soonest→latest)</option>
+        <option value="4">Store (A→Z)</option>
+        <option value="5">Category (A→Z)</option>
+        <option value="6">Location (A→Z)</option>
+      </select>
+    </section>
 
-
-  <!-- Storage Table -->
-  <main>
-    {% if items %}
-    <table id="storage-table" class="display">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Qty</th>
-          <th>Expires</th>
-          <th>Price</th>
-          <th>Store</th>
-          <th>Category</th>
-          <th>Location</th>
-          <th>Del</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for i in items %}
-        <tr data-item-id="{{ i.item_id }}">
-          <td><input type="text" class="inline-edit" data-field="name"  value="{{ i.name }}"></td>
-          <td><input type="number" class="inline-edit" data-field="quantity" value="{{ i.quantity }}"></td>
-          <td><input type="date" class="inline-edit" data-field="expires" value="{{ i.expires or '' }}"></td>
-          <td>
-            {% if i.purchase_price %}
-              ${{ '%.2f'|format(i.purchase_price) }}
-            {% else %}
-              &ndash;
-            {% endif %}
-          </td>
-          <td>{{ i.store.name if i.store else '—' }}</td>
-          <td><select class="inline-edit" data-field="category_id">
-            <option value="">—</option>
-            {% for id,name in categories.items() %}
-              <option value="{{ id }}" {% if id==i.category_id %}selected{% endif %}>{{ name }}</option>
-            {% endfor %}
-          </select></td>
-          <td><select class="inline-edit" data-field="location_id">
-            <option value="">—</option>
-            {% for id,name in locations.items() %}
-              <option value="{{ id }}" {% if id==i.location_id %}selected{% endif %}>{{ name }}</option>
-            {% endfor %}
-          </select></td>
-          <td>
-            <form action="{{ url_for('delete_item', item_id=i.item_id) }}"
-                  method="post" style="display:inline">
-              <button type="submit" class="btn-delete">&times;</button>
-            </form>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    {% else %}
-      <p>No items yet. <a href="{{ url_for('add_food') }}">Add some.</a></p>
-    {% endif %}
-  </main>
+    <!-- Storage Table -->
+    <main>
+      {% if items %}
+      <table id="storage-table" class="display">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Expires</th>
+            <th>Price</th>
+            <th>Store</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Del</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in items %}
+          <tr data-item-id="{{ i.item_id }}">
+            <td><input type="text" class="inline-edit" data-field="name" value="{{ i.name }}"></td>
+            <td><input type="number" class="inline-edit" data-field="quantity" value="{{ i.quantity }}"></td>
+            <td><input type="date" class="inline-edit" data-field="expires" value="{{ i.expires or '' }}"></td>
+            <td>
+              {% if i.purchase_price %}${{ '%.2f'|format(i.purchase_price) }}{% else %}&ndash;{% endif %}
+            </td>
+            <td>{{ stores[i.store_id]   if i.store_id   else '—' }}</td>
+            <td>{{ categories[i.category_id] if i.category_id else '—' }}</td>
+            <td>{{ locations[i.location_id]  if i.location_id else '—' }}</td>
+            <td>
+              <form action="{{ url_for('delete_item', item_id=i.item_id) }}" method="post" style="display:inline">
+                <button type="submit" class="btn-delete">&times;</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <p>No items in storage yet. <a href="{{ url_for('add_food') }}">Add some.</a></p>
+      {% endif %}
+    </main>
 
   <!-- Footer -->
   <footer>
@@ -148,49 +110,42 @@
     <div class="footer-center"><a href="{{ url_for('site_plan') }}">Site Plan</a></div>
     <div class="footer-right"><a href="{{ url_for('contact_us') }}">Contact Us</a></div>
     <div class="footer-right"><a href="{{ url_for('run_program') }}">Storage Tools</a></div>
-  
+    
     <div class="social">
-      <a href="https://facebook.com" target="_blank">
-        <img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook icon">
-      </a>
-      <a href="https://twitter.com" target="_blank"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter icon">
-      </a>
-      <a href="https://instagram.com" target="_blank"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram icon">
-      </a>
+      <a href="https://facebook.com" target="_blank"><img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook"></a>
+      <a href="https://twitter.com" target="_blank"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter"></a>
+      <a href="https://instagram.com" target="_blank"><img src="{{ url_for('static', filename= 'images/instagram.png') }}" alt="Instagram"></a>
     </div>
   </footer>
 
-  <!-- DataTables JS dependencies -->
+</div>
+
+  <!-- jQuery & DataTables JS -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
   <script>
     $(document).ready(function(){
-      // Initialize DataTables on your storage table
       const table = $('#storage-table').DataTable({
         paging:    false,
         info:      false,
         searching: false,
         ordering:  true,
-        order:     [[ 2, 'asc' ]]  // default: sort Expires ascending
+        order:     [[2,'asc']]
       });
 
-      // Re-sort when the dropdown changes
       $('#sortBy').on('change', function(){
-        const colIndex = parseInt(this.value, 10);
-        let dir = 'asc';
-        // For Quantity, we want high→low
-        if (colIndex === 1) dir = 'desc';
-        table.order([ colIndex, dir ]).draw();
+        const c = parseInt(this.value,10),
+              dir = c===1?'desc':'asc';
+        table.order([c,dir]).draw();
       });
 
-      // Inline edits: POST back to /edit-item/<id>
       $('.inline-edit').on('change', function(){
-        const row = $(this).closest('tr'),
-              id  = row.data('item-id'),
+        const row   = $(this).closest('tr'),
+              id    = row.data('item-id'),
               field = $(this).data('field'),
-              value = $(this).val();
-        $.post(`/edit-item/${id}`, { field, value });
+              val   = $(this).val();
+        $.post(`/edit-item/${id}`, { field, value: val });
       });
     });
   </script>
