@@ -244,6 +244,49 @@ footer a:hover {
   display: block;
 }
 
+/* — Storage Table Styles — */
+#storageTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1em;
+}
+
+#storageTable th,
+#storageTable td {
+  border: 1px solid #ddd;
+  padding: 0.5em;
+  text-align: left;
+}
+
+#storageTable th {
+  background: #E7C24F;
+}
+
+/* — Delete Button — */
+.btn-delete {
+  background: transparent;
+  border: none;
+  color: red;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+/* — Inline‑edit Hover State — */
+.editable {
+  cursor: pointer;
+}
+
+.editable:hover {
+  background: #eef;
+}
+
+/* — Sort‑by Selector — */
+#sortSelect {
+  margin-top: 1em;
+  padding: 0.25em;
+}
+
+
 /* ----------------------- Responsive ----------------------- */
 @media (max-width: 768px) {
   header { flex-direction: column; height: auto; padding: 20px; }
