@@ -13,28 +13,26 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 
   <style>
-    .sort-select { margin: 1em 0; }
-    input.inline-edit, select.inline-edit {
-      border: 1px solid transparent;
-      transition: border-color .2s;
-      width: 100%;
-      box-sizing: border-box;
+    /* Quick inline tweaks */
+    #storage-table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+    #storage-table th, #storage-table td {
+      border: 1px solid #ddd; padding: 0.5em; text-align: left;
     }
-    input.inline-edit:hover, select.inline-edit:hover {
-      border-color: #aaa;
-    }
-    input.inline-edit:focus, select.inline-edit:focus {
-      border-color: #333;
-      outline: none;
-    }
+    #storage-table th { background: #fff; cursor: pointer; }
     .btn-delete {
-      background: transparent;
-      border: none;
-      color: red;
-      font-size: 1.2em;
-      cursor: pointer;
+      background: transparent; border: none; color: red;
+      font-size: 1.2em; cursor: pointer;
     }
-    table.dataTable { width: 100% !important; }
+    .sort-select { margin-bottom: 1em; }
+
+    /* These two classes only apply if you ever switch to <span class="editable"> inline‐edit mode: */
+    .editable, .editable-date {
+      display: inline-block; min-width: 2ch;
+      padding: 2px 4px; border-radius: 3px;
+    }
+    .editable:hover, .editable-date:hover {
+      background: rgba(255,255,255,0.2);
+    }
   </style>
 
 </head>
