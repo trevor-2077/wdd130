@@ -92,6 +92,27 @@ header{
   font-family: 'Rock Salt', cursive;
   font-size: 1.5em;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+#hero-msg a {
+  display: inline-block;
+  background-color: #e2b01f; 
+  color: #1f487e;             
+  font-family: 'Rock Salt', cursive; 
+  font-size: 1.25em;
+  padding: 0.75em 1.5em;
+  border-radius: 0.5em;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+#hero-msg a:hover {
+  background-color: #d4a81b;         /* slightly darker gold */
 }
 
 /* Image */
