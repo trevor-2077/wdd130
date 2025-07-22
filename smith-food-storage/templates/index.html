@@ -17,7 +17,7 @@
   <header>
     <div class="nav-icons">
       <a href="{{ url_for('home') }}">
-        <img class="logo" src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"alt="Smith Food Storage">
+        <img class="logo"src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"alt="Smith Food Storage">
       </a>
       <a href="{{ url_for('add_food') }}">
         <img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food">
@@ -29,17 +29,17 @@
   </header>
 
   <!-- Hero Section -->
-  <section id="hero">
+  <div id="hero">
     <div id="hero-box">
       <img id="hero-img" src="{{ url_for('static', filename='images/home-pagekitchen.jpg') }}" alt="Kitchen">
     </div>
-    <div id="hero-msg">
+    <section id="hero-msg">
       <h1 class="home-title">Kickstart Your Food Storage</h1>
       <div class="button-box">
         <a class="book" href="{{ url_for('add_food') }}">Add Food</a>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 
   <section id="scenery-overlay">
     <div class="overlay-msg">
