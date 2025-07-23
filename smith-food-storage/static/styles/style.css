@@ -141,6 +141,13 @@ header{
 }
 
 
+
+/* center everything inside the form */
+#content > form {
+  margin: auto;
+  text-align: center;
+}
+
 /* push the “Add Food” title down a bit from the header */
 #content > h2:first-of-type {
   margin-top: 2em;
