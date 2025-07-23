@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from config import Config
 from models import db, User, Store, Category, Location, Item, ProgramRun
@@ -195,4 +196,5 @@ def contact_us():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.enviro.get("PORT, 5000"))
+    app.run(host="0.0.0.0", port=5000, debug=True)
