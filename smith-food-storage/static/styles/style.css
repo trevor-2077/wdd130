@@ -410,3 +410,25 @@ form.add-items-form {
 form.add-items-form .btn {
   margin: 0.25rem;             
 }
+
+/* Center the table + buttons side‑by‑side, vertically in the form */
+main > form:not(.expiring-days-form) {
+  display: flex;
+  flex-wrap: wrap;           /* allow wrapping to a second row */
+  justify-content: center;    /* center items horizontally */
+  align-content: center;      /* center the two rows vertically */
+  min-height: 40vh;           /* height to center within */
+  gap: 1rem;                  /* space between rows & items */
+  padding: 1rem;              /* optional breathing room */
+}
+
+/* Make the table span the full first row */
+#add-items-table {
+  flex: 1 0 100%;             /* take 100% of width on its row */
+}
+
+/* Keep both .btn items auto‑sized & side by side */
+main > form:not(.expiring-days-form) .btn {
+  flex: 0 0 auto;             /* shrink‑to‑fit */
+  margin: 0.5rem;             /* small gutter around each button */
+}
