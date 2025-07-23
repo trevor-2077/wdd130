@@ -140,7 +140,9 @@ header{
   margin-bottom: 40px;
 }
 
-
+.expiring-days-form {
+  text-align: center; 
+}
 
 /* push the “Add Food” title down a bit from the header */
 #content > h2:first-of-type {
