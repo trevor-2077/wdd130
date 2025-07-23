@@ -368,7 +368,6 @@ footer a:hover {
   .social { margin-top: 10px; }
 }
 
-/* center the run‑program form under the paragraph */
 main > form:not(.expiring-days-form) {
   margin: 2rem auto 1rem;     
   display: flex;               
@@ -377,7 +376,6 @@ main > form:not(.expiring-days-form) {
   gap: 0.5rem;                
 }
 
-/* optional: stack on very narrow screens */
 @media (max-width: 480px) {
   main > form:not(.expiring-days-form) {
     flex-direction: column;
@@ -387,28 +385,26 @@ main > form:not(.expiring-days-form) {
 
 /* center the result section and its contents */
 #analysis-result {
-  text-align: center;      /* center h3 + pre text */
-  margin: 2rem auto;       /* give it some breathing room */
-  max-width: 800px;        /* optional: constrain its width */
+  text-align: center;  
+  margin: 2rem auto;       
+  max-width: 800px;        
 }
 
 #analysis-result pre {
-  /* to make sure multi‑line output is also centered */
   display: inline-block;
-  text-align: left;        /* keep each line’s text left‑aligned */
+  text-align: left;       
 }
 
-/* ── Tighten up Add‑Food form, button grouping ── */
 form.add-items-form {
   display: flex;
   flex-direction: column;
-  align-items: center;   /* center buttons under the table */
-  gap: 0;                 /* no big gap between table & buttons */
+  align-items: center;  
+  gap: 0;                
 }
 
 .button-group {
   display: flex;
-  gap: 1rem;             /* spacing between the two buttons */
-  margin-top: 0.5rem;    /* small breathing room under the table */
+  gap: 1rem;            
+  margin-top: 0.5rem;  
   justify-content: center;
 }
