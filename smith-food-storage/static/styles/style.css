@@ -398,16 +398,17 @@ main > form:not(.expiring-days-form) {
   text-align: left;        /* keep each line’s text left‑aligned */
 }
 
+/* ── Tighten up Add‑Food form, button grouping ── */
 form.add-items-form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: 40vh;         
-  gap: 2rem;                
+  align-items: center;   /* center buttons under the table */
+  gap: 0;                 /* no big gap between table & buttons */
 }
 
 .button-group {
   display: flex;
-  gap: 1rem;               
-  justify-content: center;  
+  gap: 1rem;             /* spacing between the two buttons */
+  margin-top: 0.5rem;    /* small breathing room under the table */
+  justify-content: center;
 }
