@@ -5,137 +5,163 @@
   <title>Site Plan | Smith Food Storage</title>
 
   <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap"
-    rel="stylesheet"
-  >
-  <!-- your own styles -->
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='styles/style.css') }}"
-  >
-</head>
+  <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/site-plan.css') }}">
 
+</head>
 <body>
   <div id="content">
 
     <!-- Header -->
-    <header>
+     <header>
       <div class="nav-icons">
         <a href="{{ url_for('home') }}">
-          Home
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/updated_smith_food_storage_logo_full_picture.png') }}"
-            alt="Smith Food Storage Logo"
-          >
+          <img class="logo"src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"alt="Smith Food Storage">
         </a>
         <a href="{{ url_for('add_food') }}">
-          Add Food
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
-            alt="Add Food"
-          >
+          <img class="logo" src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}" alt="Add Food">
         </a>
         <a href="{{ url_for('storage') }}">
-          My Storage
-          <img
-            class="logo"
-            src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
-            alt="My Storage"
-          >
+          <img class="logo" src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}" alt="My Storage">
         </a>
       </div>
-    </header>
 
-    <main>
-      <hr>
-      <h2>Overview</h2>
-      <h3>Purpose</h3>
-      <p>We are here to help you keep track of your food storage…</p>
+    <h1>Smith Food Storage Site Plan</h1>
+    <h2>Trevor Smith</h2>
+    <h2>WDD 130-1</h2>
+  </header>
+  <main>
+    <hr>
+    <h2>Overview</h2>
+    <h3>Purpose</h3>
+    <p>We are here to help you keep track of your food storage. You can easily scan in what food you have, insert expiration dates, and we'll send reminders helping you to know when to rotate it so you're always prepared.</p>
+    <h3>Audience</h3>
+    <p>We live in a crazy ever changing world and being self reliant is crucial. Especially when a natural disater, disease, hard times, etc. comes. We want to help everyone to be ready through food storage.</p>
+    <hr>
 
-      <h3>Audience</h3>
-      <p>We live in a crazy ever changing world…</p>
 
-      <hr>
-      <h2>Branding</h2>
-      <h3>Website Logo</h3>
-      <img
-        src="{{ url_for('static', filename='images/updated_smith_food_storage_logo_full_picture.png') }}"
-        alt="Smith Food Storage Logo"
-        class="logo"
-      >
+    <h2>Branding</h2>
+    <h3>Website Logo</h3>
+    <a href="{{ url_for('home') }}"><img class="logo" src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}" alt="Home"></a>
+    <hr>
 
-      <hr>
-      <h2>Style Guide</h2>
-      <h3>Color Palette</h3>
-      <table class="colors">
-        <tr><th>primary</th><th>secondary</th><th>accent1</th><th>accent2</th></tr>
-        <tr><td class="primary"></td><td class="secondary"></td>
-            <td class="accent1"></td><td class="accent2"></td></tr>
-      </table>
+    <h2>
+      Style Guide
+    </h2>
 
-      <h3>Typography</h3>
-      <h4>Heading Font: Rock Salt</h4>
-      <h4>Paragraph Font: Roboto</h4>
 
-      <hr>
-      <h3>Navigation</h3>
-      <nav>
-        <a href="{{ url_for('home') }}">Home</a>
-        <a href="{{ url_for('add_food') }}">Add Food</a>
-        <a href="{{ url_for('storage') }}">My Storage</a>
-      </nav>
+    <h3>
+      Color Palette
+    </h3>
+    <table class="colors">
+      <tr><th>primary</th><th>secondary</th><th>accent1</th><th>accent2</th></tr>
+      <tr><td class="primary"></td><td class="secondary"></td><td class="accent1"></td><td class="accent2"></td></tr>
+    </table>
 
-      <hr>
-      <h2>Site Map</h2>
-      <div class="sitemap">
-        <div class="sm-home">Home</div>
-        <div class="sm-page2">Add Food</div>
-        <div class="sm-page3">My Storage</div>
-        <div class="top">&nbsp;</div>
-        <div class="left">&nbsp;</div>
-        <div class="right">&nbsp;</div>
+    <h3>
+      Typography
+    </h3>
+    <h4>
+      Heading Font: Rock salt 
+    </h4>
+    <h4>
+      Paragraph Font: Robotto 
+    </h4>
+    <h3>
+      Normal paragraph example
+    </h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do e
+    </p>
+    <h3>
+      Colored paragraph example
+    </h3>
+    <p class="colored">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do e
+    </p>
+
+    <h3>
+      Navigation
+    </h3>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('add_food') }}">Add Food</a>
+      <a href="{{ url_for('storage') }}">My Storage</a>
+    </nav>
+    <hr>
+
+    <h2>
+      Site Map
+    </h2>
+    <div class="sitemap">
+      <div class="sm-home">
+        Home
+      </div>
+      <div class="sm-page2">
+        Add Food
+      </div>
+      <div class="sm-page3">
+        My Storage
       </div>
 
-      <hr>
-      <h2>Content</h2>
-      <!-- Home page content omitted for brevity… -->
-      
-      <p>Images for the Home page</p>
-      <img
-        src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
-        alt="Home page logo"
-      >
-      <img
-        src="{{ url_for('static', filename='images/home-pagekitchen.jpg') }}"
-        alt="Home page kitchen"
-      >
+      <div class="top">
+        &nbsp;
+      </div>
+      <div class="left">
+        &nbsp;
+      </div>
+      <div class="right">
+        &nbsp;
+      </div>
+
+    </div>
+
+    <hr>
+    <h2>
+      Content
+    </h2>
+    <h3>Home page</h3>
+    <p>
+      Website layout description and design:
+      Smith Food Storage is a simple website split into 3 parts. The purpose is to help you keep track of the food that you buy with a special focus on food storage and being prepared. The home page is an overview that gives helpful suggestions about how to start as well as what should be included in your food storage supply. The second page will be: Add Food, which is a place where you can enter in the food you buy, along with other details. The third page: My Storage will be a place where you can see a list of the food that you have added, and the list can easily be updated and adjusted. 
+    <p>
+      Inspiration behind Smith Food Storage:
+      A couple weeks ago, I got a notification on my phone that a water main had broken and in an attempt to repair it the water was contaminated. As a college student I realized that I was completely unprepared for this. Thankfully the problem was resolved quickly, but in that moment I realized that food storage is not about waiting until you have enough money because they can occur when we least expect it. The key to food storage is incorporating it into your weekly shopping in simple ways. This website is designed to help you work smarter and not harder, so that when something comes your way, as rare as we hope that is, you are ready.
+    </p>
+    <p>
+      Our commitment to our clients:
+      A key focus is for navigation on our website to make sense. Everyone needs to have food storage therefore we need our website to have a small learning curve, so that from young to old and everywhere in-between it can be understood and used effectively.
+    </p>
+    <p>
+      Essentials needed to start your food storage:
+      To begin, it is crucial that you come up with a disaster response plan, and are aware of the disasters that are most likely to impact you. You do not need to go out and break the bank to feel secure, but we recommend that you start off by making a 3-day pack for you and anyone else in your family with essentials that will not go bad for a long time. Every family is different so their food storage will reflect that. But at the top of the list of things to get should include water bottles and items with a long shelf life, in a place when they can be accessed.
+    </p>
+
+    <p>Images for the Home page</p>
+    <img
+      src="{{ url_for('static', filename='images/updated_smith_food_storage_logo.jpg') }}"
+      alt="Home page logo">
+    <img
+      src="{{ url_for('static', filename='images/home-pagekitchen.jpg') }}"
+      alt="Home page kitchen">
 
       <h3>Add Food</h3>
-      <!-- …description… -->
       <p>Images for the Add Food page</p>
       <img
         src="{{ url_for('static', filename='images/addfoodlogo.jpg') }}"
-        alt="Add food logo"
-      >
+        alt="Add food logo">
       <img
         src="{{ url_for('static', filename='images/addfoodshelf.jpg') }}"
-        alt="Add food shelf"
-      >
+        alt="Add food shelf">
 
       <h3>My Storage</h3>
-      <!-- …description… -->
       <p>Images for the My Storage page</p>
       <img
         src="{{ url_for('static', filename='images/mystoragelogo.jpg') }}"
-        alt="My Storage logo"
-      >
+        alt="My Storage logo">
       <img
         src="{{ url_for('static', filename='images/mystoragecan.jpg') }}"
-        alt="My Storage cans"
-      >
+        alt="My Storage cans">
 
       <hr>
       <h2>Wireframes</h2>
@@ -156,20 +182,17 @@
       >
     </main>
 
-    <!-- Footer (optional) -->
-    <footer>
-      <div class="footer-left">Smith Food Storage &copy; 2025 – Trevor Smith</div>
-      <div class="footer-center">
-        <a href="{{ url_for('site_plan') }}">Site Plan</a>
-      </div>
-      <div class="footer-right">
-        <a href="{{ url_for('contact_us') }}">Contact Us</a>
-      </div>
-      <div class="footer-right">
-        <a href="{{ url_for('run_program') }}">Analysis</a>
-      </div>
-    </footer>
+  <footer>
+    <div class="footer-left">Smith Food Storage &copy; 2025 - Trevor Smith</div>
+    <div class="footer-center"><a href="{{ url_for('site_plan') }}">Site Plan</a></div>
+    <div class="footer-right"><a href="{{ url_for('contact_us') }}">Contact Us</a></div>
+    <div class="footer-right"><a href="{{ url_for('run_program') }}">Storage Tools</a></div>
 
-  </div>
+    <div class="social">
+      <a href="https://facebook.com" target="_blank"><img src="{{ url_for('static', filename='images/facebook.png') }}" alt="Facebook icon"></a>
+      <a href="https://twitter.com" target="_blank"><img src="{{ url_for('static', filename='images/twitter.png') }}" alt="Twitter icon"></a>
+      <a href="https://instagram.com" target="_blank"><img src="{{ url_for('static', filename='images/instagram.png') }}" alt="Instagram icon"></a>
+    </div>
+  </footer>
 </body>
 </html>
