@@ -141,10 +141,16 @@ header{
 }
 
 
+/* push the “Add Food” title down a bit from the header */
+#content > h2:first-of-type {
+  margin-top: 2em;
+}
 
-/* prevent content from touching the viewport edges */
-#content {
-  padding: 0 20px;
+/* center & constrain all paragraphs */
+#content p {
+  max-width: 900px;
+  margin: 1em auto;
+  line-height: 1.5;
 }
 
 /* ----------------------- Add‐Food Form ----------------------- */
