@@ -20,6 +20,31 @@
       border: 1px solid #ccc;
       border-radius: 1em;
     }
+    main form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0;   
+    border: none;   
+    }
+
+    main form label {
+      width: 100%;
+      text-align: center;
+    }
+
+    main form input,
+    main form textarea {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    main form button {
+      margin: auto;
+    }
     p + p {
       margin-top: 1em;
     }
@@ -51,7 +76,7 @@
       margin-left: 0.5em;
     }
     #feedback {
-      background-color: #FFE07C;
+      background-color: #E7C24F;
       position: absolute;
       top: 0;
       left: 0;
