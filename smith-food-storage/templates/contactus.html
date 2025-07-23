@@ -66,15 +66,20 @@
   
   <script>
     const feedbackElement = document.getElementById('feedback');
-    const formElement = document.forms[0];
+    const formElement = document.querySelector('.contact-form');
+
     formElement.addEventListener('submit', function(e) {
       e.preventDefault();
+
       feedbackElement.innerHTML =
-        'Hello ' + formElement.user_name.value +
+        'Hello ' + formElement.name.value +
         '! Thank you for your message. We will get back with you as soon as possible!';
       feedbackElement.style.display = "block";
       document.body.classList.toggle('moveDown');
+
+      formElement.submit();
     });
   </script>
+
 </body>
 </html>
