@@ -140,20 +140,7 @@ header{
   margin-bottom: 40px;
 }
 
-#content > form {
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5em; /* adjust spacing between elements if you like */
-}
 
-
-/* center everything inside the form */
-#content > form {
-  margin: auto;
-  text-align: center;
-}
 
 /* push the “Add Food” title down a bit from the header */
 #content > h2:first-of-type {
