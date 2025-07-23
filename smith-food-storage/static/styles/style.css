@@ -397,3 +397,18 @@ main > form:not(.expiring-days-form) {
   display: inline-block;
   text-align: left;        /* keep each line’s text left‑aligned */
 }
+
+/* Vertically center the buttons under the add‑items table */
+main > form:not(.expiring-days-form) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical centering */
+  min-height: 40vh;        /* adjust this to taste */
+  gap: 2rem;               /* space between table and buttons */
+  /* remove align-items so buttons keep their natural flow */
+}
+
+/* Reset any horizontal centering on the buttons */
+main > form:not(.expiring-days-form) .btn {
+  margin: 0 0.5em;         /* just a little side‑by‑side spacing */
+}
