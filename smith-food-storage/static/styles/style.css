@@ -398,3 +398,10 @@ main > form:not(.expiring-days-form) {
   text-align: left;        /* keep each line’s text left‑aligned */
 }
 
+/* center the + Add Row and Submit All Items buttons under the table */
+#add-items-table ~ .btn {
+  display: inline-block;    /* make them shrink‑to‑fit so margin auto works */
+  margin: 1rem auto;        /* vertical spacing + horizontal center */
+}
+
+
