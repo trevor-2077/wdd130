@@ -11,70 +11,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
   
   <style>
-    body {
-      text-align: center;
-    }
-    form {
-      display: inline-block;
-      padding: 1em;
-      border: 1px solid #ccc;
-      border-radius: 1em;
-    }
-    form.contact-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 0;   
-      border: none;   
-    }
-
-    form.contact-form label {
-      width: 100%;
-      text-align: center;
-    }
-
-    form.contact-form input,
-    form.contact-form textarea{
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    form.contact-form button {
-      margin: auto;
-    }
-    p + p {
-      margin-top: 1em;
-    }
-    label {
-      display: inline-block;
-      min-width: 90px;
-      text-align: right;
-    }
-    input,
-    textarea {
-      font: 1em sans-serif;
-      width: 300px;
-      box-sizing: border-box;
-      border: 1px solid #999
-    }
-    input:focus,
-    textarea:focus {
-      outline-style: solid;
-      outline-color: #000;
-    }
-    textarea {
-      vertical-align: top;
-      height: 5em;
-    }
-    .button {
-      padding-left: 90px;
-    }
-    button {
-      margin-left: 0.5em;
-    }
     #feedback {
       background-color: #E7C24F;
       position: absolute;
@@ -87,47 +23,43 @@
     .moveDown {
       margin-top: 3em;
     }
-    .contact-form {
+
+    main form {
       display: flex;
       flex-direction: column;
-      gap: 1rem;             
-      max-width: 600px;     
-      margin: 2rem auto; 
-      align-items: center;    
-    } 
-    .contact-form label {
-      display: block;
-      font-weight: bold;
+      align-items: center;
+      gap: 1rem;
+      max-width: 600px;
+      margin: 2rem auto;
+      border: 2px solid white;
+      border-radius: 10px;
+      padding: 2rem;
+    }
+
+    main form label {
+      width: 100%;
       text-align: center;
-    } 
-    .contact-form input,
-    .contact-form textarea {
+      font-weight: bold;
+    }
+
+    main form input,
+    main form textarea {
       width: 100%;
       box-sizing: border-box;
       padding: 0.5rem;
-      font-size: 1rem;
-    } 
-    .contact-form button {
-      align-self: center;
-      padding: 0.5em 1em;
-    }
-    form.contact-form {
-      border: 2px solid white;
-      border-radius: 10px;
-      padding: 2rem;   
+      font: 1em sans-serif;
+      border: 1px solid #999;
     }
 
-    form.contact-form button {
+    main form button {
       background-color: #E7C24F;
       color: black;
       border: none;
-      align-self: center;     
       padding: 0.5em 1em;
       cursor: pointer;
       transition: background-color 0.2s ease;
     }
-
-    form.contact-form button:hover {
+    main form button:hover {
       background-color: gray;
       color: white;
     }
