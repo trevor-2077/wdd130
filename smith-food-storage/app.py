@@ -4,8 +4,6 @@ from config import Config
 from models import db, User, Store, Category, Location, Item, ProgramRun
 from student_program.core import (
     get_expiring_items,
-    total_inventory_value,
-    count_by_location,
     format_report
 )
 
