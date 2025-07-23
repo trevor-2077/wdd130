@@ -140,6 +140,13 @@ header{
   margin-bottom: 40px;
 }
 
+#content > form {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em; /* adjust spacing between elements if you like */
+}
 
 
 /* center everything inside the form */
