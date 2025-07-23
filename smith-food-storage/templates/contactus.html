@@ -70,16 +70,27 @@
 
     formElement.addEventListener('submit', function(e) {
       e.preventDefault();
-
+      
+      // grab the values by ID instead of using form.name (which is the form's own name property)
+      const userName  = document.getElementById('name').value;
+      const userEmail = document.getElementById('email').value;
+      const userMsg   = document.getElementById('message').value;
+      
+      // show the banner
       feedbackElement.innerHTML =
-        'Hello ' + formElement.name.value +
-        '! Thank you for your message. We will get back with you as soon as possible!';
+        `Hello ${userName}! Thank you for your message. We will get back with you as soon as possible!`;
       feedbackElement.style.display = "block";
-      document.body.classList.toggle('moveDown');
-
+      document.body.classList.add('moveDown');
+      
+      // finally submit the form
       formElement.submit();
     });
   </script>
+
+
+
+
+
 
 </body>
 </html>
