@@ -1,4 +1,6 @@
-Flask
+Flask==2.3.2
 Flask-SQLAlchemy
-pymysql
+pymysql==1.0.3
 pytest
+python-dotenv==1.0.0
+SQLAlchemy==2.0.21
